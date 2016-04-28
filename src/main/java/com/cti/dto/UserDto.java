@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.cti.annotation.PasswordMatches;
 import com.cti.annotation.ValidEmail;
+import com.google.common.base.MoreObjects;
 
 @PasswordMatches
 public class UserDto {
@@ -85,7 +86,15 @@ public class UserDto {
 		this.isActive = isActive;
 	}
 	
-	
+	public String toString() {
+		return MoreObjects.toStringHelper(UserDto.class)
+                            .add("username", username)
+                            .add("email", email)
+                            .add("college", college)
+                            .add("dateJoined", dateJoined)
+                            .add("accountActive?", isActive)
+                            .toString();
+	}
 	
 	
 }

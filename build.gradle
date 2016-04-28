@@ -23,7 +23,7 @@ jettyRunWar {
 }
 
 run {
-	mainClassName = "com.cti.user.App"
+	mainClassName = "com.cti.App"
 	applicationDefaultJvmArgs = ["-Dport=8080"]
 }
 
@@ -39,7 +39,6 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'javax.json:javax.json-api:1.0'
     compile 'javax.validation:validation-api:1.1.0.Final'
-    
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'org.mongodb:mongo-java-driver:3.2.2'
     compile 'org.slf4j:slf4j-api:1.7.14'

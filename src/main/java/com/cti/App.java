@@ -2,6 +2,9 @@ package com.cti;
 
 import java.util.Set;
 
+import com.cti.config.ControllerModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -26,10 +29,16 @@ public class App {
 	public App(int port) throws Exception {
 		Spark.port(port);
 		Spark.staticFileLocation("/views");
-		initializeGuiceContainer();
 		initializeControllers();
 	}
 
+	/**
+	 * Find all controller classes annotated with the {@code Controller} annotation
+     * and use Guice dependency injection framework to instantiate them and
+     * automatically inject dependencies
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+     */
 	private void initializeControllers() throws InstantiationException, IllegalAccessException {
 		Reflections reflections = new Reflections(new ConfigurationBuilder()
 				.setUrls(ClasspathHelper.forPackage("com.cti.controller"))
@@ -39,12 +48,10 @@ public class App {
 		Set<Class<?>> controllers = reflections
 				.getTypesAnnotatedWith(com.cti.annotation.Controller.class);
 		
-		
+		Injector injector = Guice.createInjector(new ControllerModule());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
-			clazz.newInstance();
+			injector.getInstance(clazz);
 		}
 	}
-	
-	private void initializeGuiceContainer() {}
 }

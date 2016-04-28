@@ -4,6 +4,7 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
+	private String sessionID;
 	private String isActive;
 	
 	public String getUsername() {
@@ -30,6 +31,12 @@ public class User {
 	public void setIsActive(String isActive) {
 		this.isActive = isActive;
 	}
-	
-	
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
+    }
 }
