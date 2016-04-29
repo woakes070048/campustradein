@@ -7,6 +7,9 @@ import com.cti.exception.UsernameExistsException;
 import com.cti.model.User;
 
 public interface UserService {
-	User registerNewUserAccount(UserDto accountDto) throws UsernameExistsException, 
-														   EmailExistsException;
+	User registerNewUserAccount(UserDto userDto);
+	
+	boolean isUsernameAlreadyTaken(String username);
+	
+	boolean isEmailAlreadyTaken(String email);
 }

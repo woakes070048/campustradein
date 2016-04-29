@@ -10,10 +10,11 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import com.cti.validator.EmailValidator;
+import com.cti.validator.PasswordMatchesValidator;
 
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = PasswordMatchesValidator.class)
 @Documented
 public @interface PasswordMatches {
 	String message() default "Passwords do not match";

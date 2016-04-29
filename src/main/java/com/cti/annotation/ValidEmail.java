@@ -16,7 +16,7 @@ import com.cti.validator.EmailValidator;
 @Constraint(validatedBy = EmailValidator.class)
 @Documented
 public @interface ValidEmail {
-	String message() default "Invalid email";
+	String message() default "Email is not valid";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 }

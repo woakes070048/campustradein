@@ -1,4 +1,4 @@
-package com.cti.user.config;
+package com.cti.config;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
