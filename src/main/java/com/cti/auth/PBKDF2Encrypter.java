@@ -6,6 +6,8 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import com.cti.exception.EncryptionException;
+
 public class PBKDF2Encrypter implements Encrypter {
 	@Override
 	public String getAlgorithmName() {
@@ -14,10 +16,16 @@ public class PBKDF2Encrypter implements Encrypter {
 
 	@Override
 	public byte[] encrypt(char[] password, byte[] salt, int iterations, int hashSize) 
-														throws NoSuchAlgorithmException, InvalidKeySpecException {
-		PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterations, hashSize * 8);
-		SecretKeyFactory skf = SecretKeyFactory.getInstance(getAlgorithmName());
-		return skf.generateSecret(keySpec).getEncoded();
+																throws EncryptionException {
+		try {
+			PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterations, hashSize * 8);
+			SecretKeyFactory skf = SecretKeyFactory.getInstance(getAlgorithmName());
+			return skf.generateSecret(keySpec).getEncoded();
+		} catch (NoSuchAlgorithmException e) {
+			throw new EncryptionException(e);
+		} catch (InvalidKeySpecException e) {
+			throw new EncryptionException(e);
+		}
 	}
 
 }

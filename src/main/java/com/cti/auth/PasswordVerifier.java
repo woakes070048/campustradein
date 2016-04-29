@@ -6,13 +6,16 @@ import java.text.ParseException;
 
 import javax.naming.AuthenticationException;
 
+import org.apache.commons.codec.binary.Base64;
+
+import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordMismatchException;
+import com.cti.exception.PasswordParseException;
 
 public class PasswordVerifier {
-	private String storedPassword;
-	private String testPassword;
+	private Encrypter encrypter = EncrypterFactory.getEncrypter(algoName);
 	
-	public PasswordVerifier(String storedPassword, String testPassword) {
+	PasswordVerifier() {
 		this.storedPassword = storedPassword;
 		this.testPassword = testPassword;
 	}
@@ -20,31 +23,29 @@ public class PasswordVerifier {
 	/**
 	 * Compute hash of the provided password using the same salt, hash
 	 * and hash length of the stored password
+	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException 
 	 * @throws AuthenticationException
 	 */
-	public void verify() throws PasswordMismatchException {
-		try {
-			PasswordParser parser = new PasswordParser(storedPassword, PasswordFormat.DELIMITER);
-			parser.parse();
-			String algoName = parser.getAlgorithmName();
-			int iterations = parser.getIterations();
-			byte[] salt = parser.getSalt();
-			byte[] hash = parser.getHash();
-			
-			// generate hash for supplied password using the same parameters that
-			// generated the original password
-			Encrypter encrypter = EncrypterFactory.getEncrypter(algoName);
-			byte[] testHash = encrypter.encrypt(testPassword.toCharArray(), salt, iterations, hash.length);
-			
-			if(!isEqual(hash, testHash)) {
-				throw new PasswordMismatchException("Passwords do not match");
-			}
-			
-		} catch(ParseException | NumberFormatException e) {
-			throw new PasswordMismatchException("Failed to parse stored password", e);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			throw new PasswordMismatchException("Failed to generate ahash for the test passwod", e);
-		} 
+	public void verify(String storedPassword, String testPassword) 
+						throws PasswordMismatchException, PasswordParseException, EncryptionException {
+		PasswordParser parser = new PasswordParser(storedPassword,
+				PasswordFormat.DELIMITER);
+		parser.parse();
+		String algoName = parser.getAlgorithmName();
+		int iterations = parser.getIterations();
+		byte[] salt = parser.getSalt();
+		byte[] hash = parser.getHash();
+
+		// generate hash for supplied password using the same parameters that
+		// generated the original password
+		
+		byte[] testHash = encrypter.encrypt(testPassword.toCharArray(), salt,
+				iterations, hash.length);
+
+		if (!isEqual(hash, testHash)) {
+			throw new PasswordMismatchException("Passwords do not match");
+		}
 	}
 	
 	/**

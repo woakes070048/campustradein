@@ -27,6 +27,12 @@ run {
 	applicationDefaultJvmArgs = ["-Dport=8080"]
 }
 
+test {
+	testLogging {
+		events 'passed', 'failed'
+	}
+}
+
 dependencies {
     compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
     compile 'org.reflections:reflections:0.9.10'

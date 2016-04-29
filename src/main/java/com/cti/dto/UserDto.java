@@ -38,17 +38,6 @@ public class UserDto {
 	@NotNull
 	private String college;
 	
-	@NotNull
-	private AccountType accountType;
-	
-	@NotNull
-	private LocalDateTime dateJoined;
-	
-	public UserDto() {
-		accountType = AccountType.NEW;
-		dateJoined = LocalDateTime.now();
-	}
-	
 	public String getUsername() {
 		return username;
 	}
@@ -89,31 +78,11 @@ public class UserDto {
 		this.college = college;
 	}
 	
-	public LocalDateTime getDateJoined() {
-		return dateJoined;
-	}
-	
-	public void setDateJoined(LocalDateTime dateJoined) {
-		this.dateJoined = dateJoined;
-	}
-
-	public AccountType getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(AccountType type) {
-		this.accountType = type;
-	}
-	
 	public String toString() {
 		return MoreObjects.toStringHelper(UserDto.class)
                             .add("username", username)
                             .add("email", email)
                             .add("college", college)
-                            .add("dateJoined", dateJoined)
-                            .add("accountType", accountType)
                             .toString();
 	}
-	
-	
 }

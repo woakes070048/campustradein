@@ -5,19 +5,23 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
 
 public class InMemoryUserRepository implements UserRepository {
 	private Map<String, User> users = new HashMap<>();
 	
+	private String createNewKey(User user) {
+		return user.getUsername() + user.getPassword();
+	}
+	
 	@Override
-	public boolean save(User user) {
-		if(!users.containsKey(user.getUsername())) {
-			users.put(user.getUsername(), user);
-			return true;
-		} else {
-			return false;
+	public void save(User user) throws UserAlreadyExistsException {
+		if(users.containsKey(user.getUsername())) {
+			throw new UserAlreadyExistsException("");
 		}
+		String uniqueKey = createNewKey(user);
+		users.put(uniqueKey, user);
 	}
 
 	@Override

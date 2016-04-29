@@ -2,7 +2,7 @@ package com.cti;
 
 import java.util.Set;
 
-import com.cti.config.ControllerModule;
+import com.cti.config.ApplicationModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.reflections.Reflections;
@@ -48,7 +48,7 @@ public class App {
 		Set<Class<?>> controllers = reflections
 				.getTypesAnnotatedWith(com.cti.annotation.Controller.class);
 		
-		Injector injector = Guice.createInjector(new ControllerModule());
+		Injector injector = Guice.createInjector(new ApplicationModule());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
 			injector.getInstance(clazz);
