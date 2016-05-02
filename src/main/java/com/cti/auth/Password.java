@@ -1,14 +1,11 @@
 package com.cti.auth;
 
-import java.security.SecureRandom;
-import java.text.MessageFormat;
-import java.util.Arrays;
-
-import javax.inject.Inject;
-import javax.xml.bind.DatatypeConverter;
-
 import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordParseException;
+
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
+import java.text.MessageFormat;
 
 public class Password {
 	public static final String DELIMITER = ":";
@@ -16,6 +13,8 @@ public class Password {
 	private byte[] hash;
 	private byte[] salt;
 	private int iterations;
+
+    public Password() {}
 	
 	public Password(PasswordBuilder builder) {
 		this.salt = builder.salt;
@@ -23,15 +22,24 @@ public class Password {
 		this.hash = builder.hash;
 		this.encrypter = builder.encrypter;
 	}
-	
-	public Password(PasswordParser parser) {
-		this.salt = parser.salt;
-		this.hash = parser.hash;
-		this.iterations = iterations;
-		this.encrypter = encrypter;
-	}
-	
-	public byte[] getHash() {
+
+    public void setEncrypter(Encrypter encrypter) {
+        this.encrypter = encrypter;
+    }
+
+    public void setHash(byte[] hash) {
+        this.hash = hash;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+    }
+
+    public byte[] getHash() {
 		return hash;
 	}
 	
@@ -53,7 +61,26 @@ public class Password {
 	
 	@Override
 	public boolean equals(Object obj) {
-		// implement slow equals
+        if(obj == this) {
+            return true;
+        }
+        if(!(obj instanceof Password)) {
+            return false;
+        }
+        Password matchingPassword = (Password)obj;
+        // TODO: make sure other fields match
+        if((iterations != matchingPassword.iterations) &&
+                (salt.length != matchingPassword.salt.length)
+                    && (hash.length != matchingPassword.hash.length)
+                    && (encrypter.getAlgorithmName()
+                            != matchingPassword.encrypter.getAlgorithmName())){
+            return false;
+        }
+		// perform slow equals
+        int diff = hash.length ^ matchingPassword.hash.length;
+        for(int i = 0; i < hash.length && i < matchingPassword.hash.length; i++)
+            diff |= hash[i] ^ matchingPassword.hash[i];
+        return diff == 0;
 	}
 
 	public String toString() {
@@ -71,56 +98,68 @@ public class Password {
 	}
 	
 	public static class PasswordBuilder {
-		@Inject
 		private Encrypter encrypter;
 		private int iterations = PasswordFormat.ITERATIONS;
 		private int hashSize = PasswordFormat.HASH_BYTE_SIZE;
 		private int saltSize = PasswordFormat.SALT_BYTE_SIZE;
+        private String password;
 		private byte[] salt;
 		private byte[] hash;
+        private boolean saltProvided = false;
 		
 		public PasswordBuilder iterations(int iter) {
 			this.iterations = iter;
 			return this;
 		}
+
+        public PasswordBuilder plainTextPassword(String password) {
+            this.password = password;
+            return this;
+        }
 		
 		public PasswordBuilder hashSize(int size) {
 			this.hashSize = size;
 			return this;
 		}
+
+		public PasswordBuilder useEncrypter(Encrypter encrypter) {
+            this.encrypter = encrypter;
+            return this;
+        }
 		
 		public PasswordBuilder saltSize(int size) {
 			this.saltSize = size;
 			return this;
 		}
 		
-		public PasswordBuilder salted() {
+		private void generateSalt() {
 			SecureRandom secureRandom = new SecureRandom();
 			salt = new byte[saltSize];
 			secureRandom.nextBytes(salt);
-			return this;
 		}
 		
-		public PasswordBuilder hashed(String password) throws EncryptionException {
+		public Password hash() throws EncryptionException {
+            if(!saltProvided) {
+                generateSalt();
+            }
 			hash = encrypter.encrypt(password.toCharArray(), salt, iterations, hashSize);
-			return this;
+			return new Password(this);
 		}
 		
 		public Password build() {
 			return new Password(this);
 		}
-	}
+
+        public PasswordBuilder useSalt(byte[] salt) {
+            this.salt = salt;
+            this.saltSize = salt.length;
+            saltProvided = true;
+            return this;
+        }
+    }
 	
 	public static class PasswordParser {
-		@Inject
-		private EncrypterFactory encrypterFactory;
-		
-		@Inject
-		public PasswordParser(EncrypterFactory encrypterFactory) {
-			this.encrypterFactory = encrypterFactory;
-		}
-
-		public Password parse(String encryptedPassword)
+		public static Password parse(String encryptedPassword)
 										throws PasswordParseException {
 			String[] parts = encryptedPassword.split(PasswordFormat.DELIMITER);
 			if (parts.length != PasswordFormat.HASH_SECTIONS) {
@@ -131,6 +170,7 @@ public class Password {
 			}
 
 			String algorithmName = parts[PasswordFormat.HASH_ALGORITHM_INDEX];
+            Encrypter encrypter = EncrypterFactory.getEncrypter(algorithmName);
 
 			int iterations = Integer.parseInt(parts[PasswordFormat.ITERATION_INDEX]);
 			if(iterations < 1) {
@@ -138,9 +178,9 @@ public class Password {
 						"Number of iterations must be >= 1");
 			}
 
-			salt = DatatypeConverter
+			byte[] salt = DatatypeConverter
 					.parseBase64Binary(parts[PasswordFormat.SALT_INDEX]);
-			hash = DatatypeConverter
+			byte[] hash = DatatypeConverter
 					.parseBase64Binary(parts[PasswordFormat.HASH_INDEX]);
 
 			int storedHashSize = Integer
@@ -152,7 +192,12 @@ public class Password {
 						hash.length);
 				throw new PasswordParseException(errorMessage);
 			}
+            Password password = new Password();
+            password.setEncrypter(encrypter);
+            password.setHash(hash);
+            password.setSalt(salt);
+            password.setIterations(iterations);
+            return password;
 		}
-
 	}
 }

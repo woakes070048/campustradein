@@ -1,36 +1,32 @@
 package com.cti.repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
-
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
 
+import javax.inject.Singleton;
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
+
+@Singleton
 public class InMemoryUserRepository implements UserRepository {
-	private Map<String, User> users = new HashMap<>();
-	
-	private String createNewKey(User user) {
-		return user.getUsername() + user.getPassword();
-	}
-	
+	private Map<String, User> usernameIndex = new HashMap<>();
+    private Map<String, User> emailIndex = new HashMap<>();
+	private Map<String, String> sessionDB = new HashMap<>();
+
 	@Override
 	public void save(User user) throws UserAlreadyExistsException {
-		if(users.containsKey(user.getUsername())) {
-			throw new UserAlreadyExistsException("");
+		if(usernameIndex.containsKey(user.getUsername())
+                || emailIndex.containsKey(user.getEmail())) {
+			throw new UserAlreadyExistsException("Username or Email already exists");
 		}
-		String uniqueKey = createNewKey(user);
-		users.put(uniqueKey, user);
-	}
+		usernameIndex.put(user.getUsername(), user);
+        emailIndex.put(user.getEmail(), user);
+    }
 
 	@Override
 	public User findByUsername(@NotNull String username) {
-		if(users.containsKey(username)) {
-			return users.get(username);
-		} else {
-			return null;
-		}
+		return null;
 	}
 	
 	@Override

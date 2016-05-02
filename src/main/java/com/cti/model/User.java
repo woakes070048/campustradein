@@ -1,8 +1,8 @@
 package com.cti.model;
 
-import java.time.LocalDateTime;
-
 import com.google.common.base.MoreObjects;
+
+import java.time.LocalDateTime;
 
 public class User {
 	private String username;
@@ -11,8 +11,9 @@ public class User {
 	private String college;
 	private LocalDateTime dateJoined;
 	private boolean isActive;
-	
-	public User() {
+    private String sessionId;
+
+    public User() {
 		dateJoined = LocalDateTime.now();
 		isActive = false;
 	}
@@ -75,4 +76,8 @@ public class User {
 					.add("isActive?", isActive)
 					.toString();
 	}
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 }

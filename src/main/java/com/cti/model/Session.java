@@ -1,19 +1,16 @@
 package com.cti.model;
 
+import org.apache.commons.codec.binary.Base64;
+
+import java.security.SecureRandom;
+
 public class Session {
-	private String sessionId;
-	private String username;
-	
-	public static Session forUser(String username) {
-		// TODO: generate session id
-		return new Session();
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	public String getSessionId() {
-		return sessionId;
+    public static final int BYTE_SIZE = 32;
+
+	public static String generate() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] randomBytes = new byte[BYTE_SIZE];
+        secureRandom.nextBytes(randomBytes);
+        return new String(Base64.encodeBase64(randomBytes));
 	}
 }
