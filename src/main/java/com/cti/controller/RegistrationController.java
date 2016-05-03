@@ -1,25 +1,5 @@
 package com.cti.controller;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.metadata.ConstraintDescriptor;
-
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import spark.ModelAndView;
-import spark.Spark;
-
 import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
 import com.cti.auth.AuthenticationToken;
@@ -29,6 +9,23 @@ import com.cti.exception.InvalidTokenException;
 import com.cti.model.User;
 import com.cti.service.EmailService;
 import com.cti.service.UserService;
+import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import spark.ModelAndView;
+import spark.Spark;
+
+import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.metadata.ConstraintDescriptor;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 
 
@@ -83,7 +80,7 @@ public class RegistrationController {
 				AuthenticationToken sessionToken = userService.startSession(user);
 				Map<String, String> model = new HashMap<>();
 				model.put("username", username);
-				model.put("registrationComplete", "yes"); // put anything, doesn't matter
+				model.put("needsActivation", "true"); // put anything, doesn't matter
 				response.cookie("session", sessionToken.getToken(), 3600, true);
 				return new ModelAndView(model, "welcome.ftl");
 			} catch(ValidationException e) {

@@ -121,4 +121,7 @@ public class UserService {
 		sessionRepository.delete(sessionID);
 	}
 
+	public User findUserBySessionID(String sessionID) {
+		return sessionRepository.findBySessionID(sessionID);
+	}
 }

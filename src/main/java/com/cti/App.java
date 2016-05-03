@@ -1,8 +1,9 @@
 package com.cti;
 
-import java.lang.reflect.Method;
-import java.util.Set;
-
+import com.cti.annotation.Route;
+import com.cti.config.ApplicationModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -10,13 +11,11 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import spark.Spark;
 
-import com.cti.annotation.Route;
-import com.cti.config.ApplicationModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Set;
 
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
@@ -42,7 +41,7 @@ public class App {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
      */
-	private void initializeControllers() throws InstantiationException, IllegalAccessException {
+	private void initializeControllers() throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		Reflections reflections = new Reflections(new ConfigurationBuilder()
 				.setUrls(ClasspathHelper.forPackage("com.cti.controller"))
 				.setScanners(new SubTypesScanner(),
@@ -54,12 +53,13 @@ public class App {
 		Injector injector = Guice.createInjector(new ApplicationModule());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
-			
-			Method[] methods = injector.getInstance(clazz).getClass().getMethods();
+
+			Object controller = injector.getInstance(clazz);
+			Method[] methods = controller.getClass().getMethods();
 			for(Method method : methods) {
-//				if(method.isAnnotationPresent(Route.class)) {
-//					method.invoke(obj, args)
-//				}
+				if(method.isAnnotationPresent(Route.class)) {
+					method.invoke(controller);
+				}
 			}
 		}
 	}
