@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by ifeify on 4/30/16.
+ * @author ifeify
+ * Note that all emails are implicitly HTML formatted
  */
 public class Email {
     private String subject;
@@ -42,4 +43,9 @@ public class Email {
     public void setBody(String body) {
         this.body = body;
     }
+
+	public void setFrom(String from) {
+		this.from = from;
+		
+	}
 }

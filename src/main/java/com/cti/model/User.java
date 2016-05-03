@@ -11,7 +11,6 @@ public class User {
 	private String college;
 	private LocalDateTime dateJoined;
 	private boolean isActive;
-    private String sessionId;
 
     public User() {
 		dateJoined = LocalDateTime.now();
@@ -76,8 +75,4 @@ public class User {
 					.add("isActive?", isActive)
 					.toString();
 	}
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
 }

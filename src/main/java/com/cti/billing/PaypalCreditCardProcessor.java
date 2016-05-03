@@ -1,5 +1,7 @@
 package com.cti.billing;
 
+import javax.inject.Inject;
+
 import com.google.inject.name.Named;
 
 /**
@@ -7,7 +9,8 @@ import com.google.inject.name.Named;
  */
 public class PaypalCreditCardProcessor implements CreditCardProcessor {
     private final String apiKey;
-
+    
+    @Inject
     public PaypalCreditCardProcessor(@Named("PayPal API Key")String apiKey) {
         this.apiKey = apiKey;
     }

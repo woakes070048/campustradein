@@ -1,18 +1,26 @@
 package com.cti.smtp;
 
-import com.cti.annotation.Gmail;
+import java.util.Properties;
 
-import javax.mail.*;
+import javax.inject.Inject;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
+
+import com.cti.annotation.Gmail;
 
 /**
  * Created by ifeify on 5/1/16.
  */
 public class GmailSMTPMailer implements Mailer {
     private Properties properties;
-
+    
+    @Inject
     public GmailSMTPMailer(@Gmail Properties properties) {
         this.properties = properties;
     }
@@ -20,10 +28,9 @@ public class GmailSMTPMailer implements Mailer {
     @Override
     public void mail(Email email) throws SMTPMailException {
         try {
-            String username = properties.getProperty("username");
-            String password = properties.getProperty("password");
-            properties.remove("username");
-            properties.remove("password");
+            String username = System.getProperty("mail.username");
+            String password = System.getProperty("mail.password");
+            
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -34,7 +41,7 @@ public class GmailSMTPMailer implements Mailer {
             message.setFrom(new InternetAddress(email.getFrom()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.getTo()));
             message.setSubject(email.getSubject());
-            message.setText(email.getBody());
+            message.setContent(email.getBody(), "text/html");
             Transport.send(message);
         } catch(MessagingException e) {
             throw new SMTPMailException("Failed to send email to " + email.getTo(), e);

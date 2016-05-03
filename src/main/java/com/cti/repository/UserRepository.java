@@ -12,6 +12,8 @@ public interface UserRepository extends IRepository<User> {
 	 */
 	public void save(@NotNull User user) throws UserAlreadyExistsException;
 	
+	public void update(@NotNull User user);
+	
 	public User findByUsername(@NotNull String username);
 	
 	public User findByEmail(@NotNull String email);

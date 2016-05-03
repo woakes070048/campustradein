@@ -1,10 +1,8 @@
 package com.cti;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 
-import com.cti.config.ApplicationModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -14,6 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import spark.Spark;
+
+import com.cti.annotation.Route;
+import com.cti.config.ApplicationModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
@@ -28,7 +31,7 @@ public class App {
 	
 	public App(int port) throws Exception {
 		Spark.port(port);
-		Spark.staticFileLocation("/views");
+		Spark.staticFileLocation("/html");
 		initializeControllers();
 	}
 
@@ -51,7 +54,13 @@ public class App {
 		Injector injector = Guice.createInjector(new ApplicationModule());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
-			injector.getInstance(clazz);
+			
+			Method[] methods = injector.getInstance(clazz).getClass().getMethods();
+			for(Method method : methods) {
+//				if(method.isAnnotationPresent(Route.class)) {
+//					method.invoke(obj, args)
+//				}
+			}
 		}
 	}
 }

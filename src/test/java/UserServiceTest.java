@@ -28,7 +28,7 @@ public class UserServiceTest {
         userDto.setPassword("iAmNumber10");
         userDto.setMatchingPassword("iAmNumber10");
         userDto.setCollege("Arsenal Football Club");
-        User user = userService.createUserAccount(userDto);
+        User user = userService.createNewUserAccount(userDto);
         logger.info("First user added: {}", user);
 	}
 
@@ -40,6 +40,6 @@ public class UserServiceTest {
         userDto.setPassword("justGotBackFromInjuryBoy");
         userDto.setMatchingPassword("justGotBackFromInjuryBoy");
         userDto.setCollege("Arsenal Football Club");
-        User user = userService.createUserAccount(userDto);
+        User user = userService.createNewUserAccount(userDto);
     }
 }

@@ -1,3 +1,11 @@
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cti.auth.Encrypter;
 import com.cti.auth.Password;
 import com.cti.auth.Password.PasswordBuilder;
@@ -7,12 +15,6 @@ import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordParseException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 
 public class AuthenticationTest {

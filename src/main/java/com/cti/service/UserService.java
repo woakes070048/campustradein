@@ -1,63 +1,58 @@
 package com.cti.service;
 
-import com.cti.annotation.encrypter.PBKDF2;
-import com.cti.auth.Encrypter;
-import com.cti.auth.Password;
-import com.cti.auth.VerificationToken;
-import com.cti.dto.UserDto;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.model.Session;
-import com.cti.model.User;
-import com.cti.repository.UserRepository;
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
-import javax.validation.*;
+import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
-import javax.validation.metadata.ConstraintDescriptor;
-import java.text.MessageFormat;
-import java.util.Set;
+
+import com.cti.annotation.encrypter.PBKDF2;
+import com.cti.auth.AuthenticationToken;
+import com.cti.auth.Encrypter;
+import com.cti.auth.Password;
+import com.cti.dto.UserDto;
+import com.cti.exception.DuplicateTokenException;
+import com.cti.exception.EncryptionException;
+import com.cti.exception.InvalidTokenException;
+import com.cti.exception.UserAlreadyExistsException;
+import com.cti.model.User;
+import com.cti.repository.SessionRepository;
+import com.cti.repository.TokenRepository;
+import com.cti.repository.UserRepository;
 
 public class UserService {
 	@Inject
 	private UserRepository userRepository;
+	
+	@Inject
+	private TokenRepository tokenRepository;
+	
+	@Inject
+	private SessionRepository sessionRepository;
+	
 	@Inject
     @PBKDF2
 	private Encrypter encrypter;
-    private Validator validator;
+    
+//	@Inject
+//	public UserService(UserRepository userRepository, 
+//						TokenRepository tokenRepository,
+//						SessionRepository sessionRepository) {
+//		this.userRepository = userRepository;
+//		this.tokenRepository = tokenRepository;
+//		this.sessionRepository = sessionRepository;
+//	}
 
-    public UserService() {
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        this.validator = validatorFactory.getValidator();
-    }
-
-	@Inject
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        this.validator = validatorFactory.getValidator();
-	}
-
-	public User createUserAccount(UserDto userDto)
+	public User createNewUserAccount(UserDto userDto)
 							throws ValidationException, UserAlreadyExistsException {
 		try {
-            Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
-            if(violations.size() > 0) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for(ConstraintViolation<UserDto> violation : violations) {
-                    ConstraintDescriptor desc = violation.getConstraintDescriptor();
-                    stringBuilder.append(desc.getMessageTemplate());
-                    stringBuilder.append(".");
-                }
-                throw new ValidationException(stringBuilder.toString());
-            }
+            
             Password encryptedPassword = encrypt(userDto.getPassword());
 			User user = new User();
 			user.setUsername(userDto.getUsername());
 			user.setPassword(encryptedPassword.toString());
 			user.setEmail(userDto.getEmail());
 			user.setCollege(userDto.getCollege());
-            user.setSessionId(Session.generate());
 			userRepository.save(user);
 			return user;
 		} catch (Exception e) {
@@ -66,13 +61,21 @@ public class UserService {
 					userDto.getUsername(), userDto.getEmail()), e);
 		}
 	}
+	
+	public void activateUser(User user, String token) {
+		user.activate();
+		userRepository.update(user);
+		tokenRepository.delete(token);
+	}
 
-	public void createVerificationToken(User user, String token) {
-
+	public AuthenticationToken createVerificationToken(User user) throws DuplicateTokenException {
+		AuthenticationToken token = new AuthenticationToken(user);
+		tokenRepository.save(token);
+		return token;
     }
 
-    public VerificationToken getVerificationToken(String token) {
-        return null;
+    public AuthenticationToken getVerificationToken(String token) throws InvalidTokenException {
+        return tokenRepository.findByTokenId(token);
     }
 
 	public boolean isUsernameAlreadyTaken(@NotNull String username) {
@@ -84,8 +87,11 @@ public class UserService {
 	}
 
 	public boolean isEmailAlreadyTaken(String email) {
-		// TODO Auto-generated method stub
-		return false;
+		User user = userRepository.findByEmail(email);
+		if(user == null) {
+			return false;
+		}
+		return true;
 	}
 
     private Password encrypt(String plainTextPassword) throws EncryptionException {
@@ -104,5 +110,15 @@ public class UserService {
                 .useEncrypter(template.getEncrypter())
                 .hash();
     }
+
+	public AuthenticationToken startSession(User user) throws DuplicateTokenException {
+		AuthenticationToken sessionToken = new AuthenticationToken(user);
+		sessionRepository.save(sessionToken);
+		return sessionToken;
+	}
+	
+	public void endSession(String sessionID) throws InvalidTokenException {
+		sessionRepository.delete(sessionID);
+	}
 
 }
