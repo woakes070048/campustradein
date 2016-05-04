@@ -30,15 +30,12 @@ public class MailgunMailer implements Mailer {
 
     private final String host;
     private final String apiKey;
-    private final String sender;
 
     @Inject
     public MailgunMailer(@Named("mailgun.apikey") String apiKey,
-                         @Named("mailgun.url") String host,
-                         @Named("mailgun.sender") String sender) {
+                         @Named("mailgun.url") String host) {
         this.apiKey = apiKey;
         this.host = host;
-        this.sender = sender;
     }
 
     @Override
@@ -47,7 +44,7 @@ public class MailgunMailer implements Mailer {
         client.register(HttpAuthenticationFeature.basic("api", apiKey));
         WebTarget target = client.target(host);
         MultivaluedMap formData = new MultivaluedMapImpl();
-        formData.add("from", sender);
+        formData.add("from", email.getFrom());
         formData.add("to", email.getTo());
         formData.add("subject", email.getSubject());
         formData.add("html", email.getBody());

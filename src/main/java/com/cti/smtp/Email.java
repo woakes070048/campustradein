@@ -1,5 +1,7 @@
 package com.cti.smtp;
 
+import com.google.inject.name.Named;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +10,10 @@ import java.util.Map;
  * Note that all emails are implicitly HTML formatted
  */
 public class Email {
-    private String subject;
+    private String from; // by default, all emails to user is from campustradein.com
     private String to;
-    private String from;
+    private String subject;
+
     private List<String> cc;
     private List<String> bcc;
     private Map<String, String> attachments;

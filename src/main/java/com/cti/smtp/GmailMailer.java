@@ -13,24 +13,27 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.cti.annotation.Gmail;
+import com.google.inject.name.Named;
 
 /**
  * Created by ifeify on 5/1/16.
  */
 public class GmailMailer implements Mailer {
-    private Properties properties;
-    
     @Inject
-    public GmailMailer(@Gmail Properties properties) {
-        this.properties = properties;
-    }
+    @Gmail
+    private Properties properties;
+
+    @Inject
+    @Named("gmail.username")
+    private String username;
+
+    @Inject
+    @Named("gmail.password")
+    private String password;
 
     @Override
     public void mail(Email email) throws SMTPMailException {
         try {
-            String username = System.getProperty("mail.username");
-            String password = System.getProperty("mail.password");
-            
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {

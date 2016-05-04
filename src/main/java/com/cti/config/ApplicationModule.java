@@ -39,6 +39,8 @@ public class ApplicationModule extends AbstractModule {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 		bind(Properties.class).annotatedWith(Gmail.class).toInstance(props);
+		bind(String.class).annotatedWith(Names.named("gmail.username")).toInstance("campustradein@gmail.com");
+		bind(String.class).annotatedWith(Names.named("gmail.password")).toInstance("SysAdm1n");
 	}
 
     private void setupMailgun() {
@@ -59,15 +61,10 @@ public class ApplicationModule extends AbstractModule {
 		bind(String.class).annotatedWith(Names.named("PayPal API Key"))
 				.toInstance(payPalAPIKey);
 	}
-	
-	private void setupEnv() {
-		System.setProperty("mail.username", "campustradein@gmail.com");
-		System.setProperty("mail.password", "SysAdm1n");
-	}
 
 	@Override
 	protected void configure() {
-		setupEnv();
+        bind(String.class).annotatedWith(Names.named("default.email.sender")).toInstance("noreply@campustradein.com");
         setupMailgun();
 		setupAPIKeys();
 		setupGmailSSLConfig();
@@ -82,7 +79,7 @@ public class ApplicationModule extends AbstractModule {
 		bind(CreditCardProcessor.class).annotatedWith(PayPal.class).to(
 				PaypalCreditCardProcessor.class);
 
-		bind(Mailer.class).to(MailgunMailer.class);
+		bind(Mailer.class).to(GmailMailer.class);
 		
 		bind(ValidatorFactory.class).toInstance(Validation.buildDefaultValidatorFactory());
 

@@ -27,8 +27,6 @@ import java.util.Set;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
-
-
 @Controller
 public class RegistrationController {
     private final static Logger logger = LoggerFactory.getLogger(RegistrationController.class);

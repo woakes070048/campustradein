@@ -10,7 +10,7 @@ import com.google.inject.BindingAnnotation;
 /**
  * Created by ifeify on 5/1/16.
  */
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @BindingAnnotation
 public @interface Gmail {
