@@ -74,7 +74,7 @@ public class RegistrationController {
 				User user = userService.createNewUserAccount(userDto);
 				AuthenticationToken verificationToken = userService.createVerificationToken(user);
 				// TODO on another thread
-				authenticationService.sendActivationEmail(verificationToken);
+				//authenticationService.sendActivationEmail(verificationToken);
 				
 				// generate session cookie
 				AuthenticationToken sessionToken = userService.startSession(user);

@@ -21,32 +21,12 @@ public class EmailService {
     @Inject
     private Mailer mailer;
 
-    @Inject
-    public EmailService(Mailer mailer) {
-        this.mailer = mailer;
-    }
-
-    public void sendActivationEmail(AuthenticationToken verificationToken)
-                                                                throws SMTPMailException, UnknownHostException {
-        String ipAddress = InetAddress.getLocalHost().getHostAddress();
-        String confirmationUrl = new StringBuilder()
-                                        .append(ipAddress)
-                                        .append(Routes.activate)
-                                        .append("?q=")
-                                        .append(verificationToken.getToken())
-                                        .toString();
-        
+    public void sendActivationEmail(User user, String htmlBody) throws SMTPMailException {
         Email email = new Email();
-        email.setTo(verificationToken.getUser().getEmail());
+        email.setTo(user.getEmail());
         email.setFrom(System.getProperty("mail.username"));
-        email.setSubject("Campustradein Registration Confirmation");
-        // TODO create several html reusable templates
-        String body = html().with(
-                h1("Please click on the url to start using campustradein"),
-                a(confirmationUrl)
-        ).render();
-
-        email.setBody(body);
+        email.setSubject("Please verify your email address");
+        email.setBody(htmlBody);
         mailer.mail(email);
     }
 

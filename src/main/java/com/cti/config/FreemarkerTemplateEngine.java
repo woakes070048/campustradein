@@ -16,19 +16,19 @@ import java.io.StringWriter;
  */
 public class FreemarkerTemplateEngine extends TemplateEngine {
     @Inject
-    @Singleton
-    private Configuration configuration;
+    private FreemarkerConfig freemarkerConfig;
 
     @Inject
-    private FreemarkerTemplateEngine(Configuration configuration) {
-        this.configuration = configuration;
+    private FreemarkerTemplateEngine(FreemarkerConfig freemarkerConfig) {
+        super();
+        this.freemarkerConfig = freemarkerConfig;
     }
 
     @Override
     public String render(ModelAndView modelAndView) {
         try {
             StringWriter writer = new StringWriter();
-            Template template = configuration.getTemplate(modelAndView.getViewName());
+            Template template = freemarkerConfig.getConfig().getTemplate(modelAndView.getViewName());
             template.process(modelAndView.getModel(), writer);
             return writer.toString();
         } catch(IOException e) {

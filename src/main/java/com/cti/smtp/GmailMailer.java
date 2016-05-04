@@ -17,11 +17,11 @@ import com.cti.annotation.Gmail;
 /**
  * Created by ifeify on 5/1/16.
  */
-public class GmailSMTPMailer implements Mailer {
+public class GmailMailer implements Mailer {
     private Properties properties;
     
     @Inject
-    public GmailSMTPMailer(@Gmail Properties properties) {
+    public GmailMailer(@Gmail Properties properties) {
         this.properties = properties;
     }
 

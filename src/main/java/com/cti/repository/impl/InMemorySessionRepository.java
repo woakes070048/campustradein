@@ -41,4 +41,9 @@ public class InMemorySessionRepository implements SessionRepository {
 		}
 		sessions.remove(token);
 	}
+
+	@Override
+	public User findBySessionID(String sessionID) {
+		return null;
+	}
 }

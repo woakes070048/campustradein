@@ -53,9 +53,11 @@ dependencies {
     compile 'org.hibernate:hibernate-validator-annotation-processor:5.2.4.Final'
     compile 'com.sendgrid:sendgrid-java:2.2.1'
     compile 'javax.mail:mail:1.4.7'
-    compile 'com.sun.jersey:jersey-core:1.19.1'
+    compile 'javax.ws.rs:jsr311-api:1.1'
+    compile 'org.glassfish.jersey.core:jersey-server:2.22.2'
     compile 'org.glassfish.jersey.core:jersey-client:2.22.2'
-    compile 'com.sun.jersey.contribs:jersey-multipart:1.19.1'
+    compile 'org.glassfish.jersey.core:jersey-common:2.22.2'
+    compile 'com.sun.jersey:jersey-core:1.19.1'
     compile 'org.slf4j:slf4j-api:1.7.14'
     testCompile 'junit:junit:4.12'
 }

@@ -1,5 +1,9 @@
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.cti.config.FreemarkerTemplateEngine;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,26 +15,30 @@ import com.cti.service.EmailService;
 import com.cti.smtp.SMTPMailException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import spark.ModelAndView;
 
 
 public class EmailServiceTest {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
 	private EmailService emailService;
+	private FreemarkerTemplateEngine templateEngine;
 	
 	public EmailServiceTest() {
 		Injector injector = Guice.createInjector(new ApplicationModule());
 		emailService = injector.getInstance(EmailService.class);
+        templateEngine = injector.getInstance(FreemarkerTemplateEngine.class);
 	}
 	
 	@Test
-	public void testSendActivationEmail() throws SMTPMailException, UnknownHostException {
-		User user = new User();
-		user.setUsername("jwilshere");
-		user.setEmail("ifeify92@gmail.com");
-		user.setCollege("Arsenal FC");
-		AuthenticationToken verificationToken = new AuthenticationToken(user);
-		emailService.sendActivationEmail(verificationToken);
-		logger.info(verificationToken.toString());
+	public void testSendActivationEmail() throws SMTPMailException {
+        User user = new User();
+        user.setUsername("jackwilshere");
+        user.setEmail("ifeify92@gmail.com");
+        Map<String, String> model = new HashMap<>();
+        model.put("activation_url", "http://www.campustradein.com");
+        model.put("username", user.getUsername());
+        String emailBody = templateEngine.render(new ModelAndView(model, "activation_email.html"));
+        emailService.sendActivationEmail(user, emailBody);
 	}
 
 }

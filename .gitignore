@@ -4,6 +4,8 @@
 
 .gradle
 build
+.classpath
+.project
 
 # IntelliJ project files
 .idea
