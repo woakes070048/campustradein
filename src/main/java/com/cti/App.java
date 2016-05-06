@@ -32,6 +32,7 @@ public class App {
 		Spark.port(port);
 		Spark.staticFileLocation("/html");
 		initializeControllers();
+        Spark.awaitInitialization();
 	}
 
 	/**
@@ -58,6 +59,7 @@ public class App {
 			Method[] methods = controller.getClass().getMethods();
 			for(Method method : methods) {
 				if(method.isAnnotationPresent(Route.class)) {
+					logger.info("Calling {}", method.getName());
 					method.invoke(controller);
 				}
 			}

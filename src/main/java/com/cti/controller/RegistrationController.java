@@ -9,7 +9,10 @@ import com.cti.exception.InvalidTokenException;
 import com.cti.model.User;
 import com.cti.service.EmailService;
 import com.cti.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
+import org.apache.tools.ant.taskdefs.condition.Http;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
@@ -35,56 +38,55 @@ public class RegistrationController {
 	private UserService userService;
     
     @Inject 
-    private EmailService authenticationService;
+    private EmailService emailService;
     
     @Inject 
     private ValidatorFactory validatorFactory;
     
     private Validator validator;
 	
-	@Inject
-	public RegistrationController(UserService userService, ValidatorFactory validatorFactory) {
-		this.userService = userService;
-		this.validatorFactory = validatorFactory;
-		this.validator = validatorFactory.getValidator();
-	}
-	
 	@Route
-	private void handleNewRegistration() {
+	public void handleNewRegistration() {
 		Spark.post(Routes.signup, (request, response) -> {
 			try {
-				String username = request.queryParams("username");
-				String email = request.queryParams("email");
-				String password = request.queryParams("password");
-				String password2 = request.queryParams("password2");
-				String college = request.queryParams("college");
-				
-				// validate input
-				UserDto userDto = new UserDto();
-				userDto.setUsername(escapeHtml4(username));
-				userDto.setEmail(escapeHtml4(email));
-				userDto.setPassword(escapeHtml4(password));
-				userDto.setMatchingPassword(escapeHtml4(password2));
-				userDto.setCollege(escapeHtml4(college));
+                if(!request.headers("Accept").equalsIgnoreCase("application/json")) {
+                    response.status(HttpStatus.SC_NOT_ACCEPTABLE);
+                    String error = new JSONObject()
+                                        .put("error", "only json allowed")
+                                        .toString();
+                    return error;
+                }
+                response.type("application/json");
+                ObjectMapper mapper = new ObjectMapper();
+                UserDto userDto = mapper.readValue(request.body(), UserDto.class);
 				validateInput(userDto);
 				
 				// create account and send activation email
 				User user = userService.createNewUserAccount(userDto);
 				AuthenticationToken verificationToken = userService.createVerificationToken(user);
 				// TODO on another thread
-				//authenticationService.sendActivationEmail(verificationToken);
+				//emailService.sendActivationEmail(verificationToken);
 				
 				// generate session cookie
 				AuthenticationToken sessionToken = userService.startSession(user);
-				Map<String, String> model = new HashMap<>();
-				model.put("username", username);
-				model.put("needsActivation", "true"); // put anything, doesn't matter
 				response.cookie("session", sessionToken.getToken(), 3600, true);
-				return new ModelAndView(model, "welcome.ftl");
+                return new JSONObject()
+                                .put("redirect_url", "mmmm")
+                                .toString();
+
 			} catch(ValidationException e) {
-				return e.getMessage();
+                logger.error("Invalid inputs", e);
+                response.status(HttpStatus.SC_BAD_REQUEST);
+                String errors[] = e.getMessage().split(".");
+                return new JSONObject()
+                            .put("errors", errors)
+                            .toString();
 			} catch(Exception e) {
-				return e.getMessage();
+                logger.error("Internal error", e);
+                response.status(HttpStatus.SC_BAD_REQUEST);
+				return new JSONObject()
+                            .put("errors", "Cannot process request")
+                            .toString();
 			}
 		});
 	}
@@ -92,6 +94,7 @@ public class RegistrationController {
 	@Route
 	public void handleCheckIfUsernameOrEmailIsValid() {
 		Spark.post(Routes.formOK, (request, response) -> {
+            logger.info("New connection from {}", request.ip());
 			if(request.queryParams("username") != null) {
 				String username = escapeHtml4(request.queryParams("username"));
 				if(userService.isUsernameAlreadyTaken(username)) {
@@ -99,15 +102,17 @@ public class RegistrationController {
 				} else {
 					response.status(HttpStatus.SC_OK);
 				}
-			} else {
+			} else if(request.queryParams("email") != null){
 				String email = escapeHtml4(request.queryParams("email"));
 				if(userService.isEmailAlreadyTaken(email)) {
 					response.status(HttpStatus.SC_CONFLICT);
 				} else {
 					response.status(HttpStatus.SC_OK);
 				}
-			}
-			return null;
+			} else {
+                response.status(HttpStatus.SC_BAD_REQUEST);
+            }
+			return "{'check complete'}";
 		});
 	}
 	
@@ -141,6 +146,9 @@ public class RegistrationController {
     
     	
 	private void validateInput(UserDto userDto) throws ValidationException {
+		if(validator == null) {
+			validator = validatorFactory.getValidator();
+		}
 		Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
         if(violations.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();

@@ -24,7 +24,7 @@ jettyRunWar {
 
 run {
 	mainClassName = "com.cti.App"
-	applicationDefaultJvmArgs = ["-Dport=8080 -DappURL=localhost:8080"]
+	applicationDefaultJvmArgs = ["-Dport=8080", "-DappURL=localhost:8080"]
 }
 
 test {
