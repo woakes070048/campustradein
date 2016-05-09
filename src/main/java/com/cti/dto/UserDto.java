@@ -1,16 +1,13 @@
 package com.cti.dto;
 
-import java.time.LocalDateTime;
+import com.cti.annotation.PasswordMatches;
+import com.cti.annotation.ValidEmail;
+import com.google.common.base.MoreObjects;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.cti.annotation.PasswordMatches;
-import com.cti.annotation.ValidEmail;
-import com.google.common.base.MoreObjects;
 
 @PasswordMatches
 public class UserDto {
@@ -33,7 +30,7 @@ public class UserDto {
 	@NotNull
 	@NotBlank(message = "Second password not specified")
 	@Size(min = 8)
-	private String password2;
+	private String matchingPassword;
 	
 	@NotNull
 	private String college;
@@ -63,11 +60,11 @@ public class UserDto {
 	}
 	
 	public String getMatchingPassword() {
-		return password2;
+		return matchingPassword;
 	}
 	
 	public void setMatchingPassword(String password2) {
-		this.password2 = password2;
+		this.matchingPassword = password2;
 	}
 	
 	public String getCollege() {

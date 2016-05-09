@@ -3,15 +3,16 @@ package com.cti.controller;
 import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
 import com.cti.auth.AuthenticationToken;
+import com.cti.config.FreemarkerTemplateEngine;
 import com.cti.config.Routes;
 import com.cti.dto.UserDto;
 import com.cti.exception.InvalidTokenException;
+import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
 import com.cti.service.EmailService;
 import com.cti.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +43,18 @@ public class RegistrationController {
     
     @Inject 
     private ValidatorFactory validatorFactory;
-    
+
+    @Inject
+    private FreemarkerTemplateEngine templateEngine;
+
     private Validator validator;
 	
 	@Route
 	public void handleNewRegistration() {
-		Spark.post(Routes.signup, (request, response) -> {
+		Spark.post(Routes.SIGNUP, (request, response) -> {
 			try {
                 if(!request.headers("Accept").equalsIgnoreCase("application/json")) {
-                    response.status(HttpStatus.SC_NOT_ACCEPTABLE);
+                    response.status(HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
                     String error = new JSONObject()
                                         .put("error", "only json allowed")
                                         .toString();
@@ -70,9 +74,9 @@ public class RegistrationController {
 				// generate session cookie
 				AuthenticationToken sessionToken = userService.startSession(user);
 				response.cookie("session", sessionToken.getToken(), 3600, true);
-                return new JSONObject()
-                                .put("redirect_url", "mmmm")
-                                .toString();
+                response.status(HttpStatus.SC_TEMPORARY_REDIRECT);
+                response.redirect("/");
+                return null;
 
 			} catch(ValidationException e) {
                 logger.error("Invalid inputs", e);
@@ -80,12 +84,14 @@ public class RegistrationController {
                 String errors[] = e.getMessage().split(".");
                 return new JSONObject()
                             .put("errors", errors)
+                            .put("status", "invalid inputs")
                             .toString();
-			} catch(Exception e) {
-                logger.error("Internal error", e);
-                response.status(HttpStatus.SC_BAD_REQUEST);
+			} catch(UserAlreadyExistsException e) {
+                logger.error("Duplicate user", e);
+                response.status(HttpStatus.SC_CONFLICT);
 				return new JSONObject()
                             .put("errors", "Cannot process request")
+							.put("status", "User is already registered")
                             .toString();
 			}
 		});
@@ -93,12 +99,12 @@ public class RegistrationController {
 	
 	@Route
 	public void handleCheckIfUsernameOrEmailIsValid() {
-		Spark.post(Routes.formOK, (request, response) -> {
-            logger.info("New connection from {}", request.ip());
+		Spark.post(Routes.FORM_OK, (request, response) -> {
 			if(request.queryParams("username") != null) {
 				String username = escapeHtml4(request.queryParams("username"));
 				if(userService.isUsernameAlreadyTaken(username)) {
 					response.status(HttpStatus.SC_CONFLICT);
+                    response.body("Please pick another username");
 				} else {
 					response.status(HttpStatus.SC_OK);
 				}
@@ -106,20 +112,22 @@ public class RegistrationController {
 				String email = escapeHtml4(request.queryParams("email"));
 				if(userService.isEmailAlreadyTaken(email)) {
 					response.status(HttpStatus.SC_CONFLICT);
+                    response.body("Please use another email address");
 				} else {
 					response.status(HttpStatus.SC_OK);
 				}
 			} else {
                 response.status(HttpStatus.SC_BAD_REQUEST);
+                response.body("Invalid use of api");
             }
-			return "{'check complete'}";
+			return null;
 		});
 	}
 	
 	// e.g localhost/register/validate?token=xhssySGGshhnx)
 	@Route
     public void handleConfirmRegistration() {
-    	Spark.get(Routes.activate, (request, response) -> {
+    	Spark.get(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
     		try {
 				String token = escapeHtml4(request.queryParams("q"));
 				AuthenticationToken verificationToken = userService.getVerificationToken(token);
@@ -143,6 +151,16 @@ public class RegistrationController {
 	public void handleResendConfirmationLink() {
 		
 	}
+
+    @Route
+    public void renderRegistrationPage() {
+        Spark.get(Routes.SIGNUP, (request, response) -> {
+            Map<String, String> model = new HashMap<>();
+            model.put("login_url", Routes.LOGIN);
+            model.put("forgotpassword_url", Routes.RESET_PASSWORD);
+            return templateEngine.render(new ModelAndView(model, "signup.ftl"));
+        });
+    }
     
     	
 	private void validateInput(UserDto userDto) throws ValidationException {

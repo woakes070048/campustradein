@@ -4,29 +4,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <#-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>campustradein - the college marketplace</title>
 
-    <!-- Bootstrap -->
+    <#-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/master.css" rel="stylesheet">
-    <link href="css/register.css" rel="stylesheet">
+    <link href="css/signup.css" rel="stylesheet">
 
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+    <#-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <#-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <#--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <#[endif]-->
 </head>
 <body>
-    <!--
-    you can substitue the span of reauth email for a input with the email and
-    include the remember me checkbox
--->
 
-<!-- navigation -->
+<#-- navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 
     <div class="container">
@@ -47,31 +43,31 @@
             <ul class="nav navbar-nav">
                 <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div><#--/.nav-collapse -->
     </div>
 </nav>
 
 
-<!-- login modal form -->
+<#-- login modal form -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="loginmodal-container">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h1>Login to Your Account</h1><br>
-            <form method="post" action="/login">
+            <form method="post" action="${login_url}">
                 <input type="text" name="username" placeholder="Username">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" name="login" class="login loginmodal-submit" value="Login">
             </form>
 
             <div class="login-help">
-                <a href="/register">Register</a> - <a href="#">Forgot Password</a>
+                <a href="${forgotpassword_url}">Forgot Password</a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- end navigation -->
+<#-- end navigation -->
 
 <div class="container">
     <div class="row centered-form">
@@ -87,9 +83,10 @@
                                 <div class="form-group">
                                     <label for="username">Pick a username (at least 3 characters)</label>
                                     <input type="text" name="username" id="username"
-                                          data-minLength="3" data-error="Please pick a username"
+                                          data-minLength="3"
                                            class="form-control" placeholder="username"
                                            data-remote="/signup/formok" required>
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -98,9 +95,10 @@
                                     <label for="email">Email address</label>
                                     <input type="email" name="email" id="email"
                                            class="form-control" pattern="^.+\@.+\..+$"
-                                           data-error="Please enter a valid email address"
+
                                            placeholder="email address"
                                            data-remote="/signup/formok" required>
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     <div class="help-block with-errors"></div>
                                 </div>
 
@@ -117,8 +115,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password2">Confirm password</label>
-                            <input type="password" name="password2" id="password2"
+                            <label for="matchingPassword">Confirm password</label>
+                            <input type="password" name="matchingPassword" id="matchingPassword"
                                  data-error="Please re-enter your password"
                                 data-match="#password" data-match-error="Password does not match"
                                 class="form-control input-sm" placeholder="Confirm Password" required>
@@ -141,16 +139,16 @@
                                 and <a href="#">privacy policy</a>
                             </label>
                         </div>
-                        <input type="submit" id="register" value="Register" class="btn btn-info btn-block">
+                        <input type="submit" id="register" value="Signup" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<#-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
+<#-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/validator.min.js"></script>
 <script src="js/register.js"></script>

@@ -21,13 +21,16 @@
 </head>
 <body>
 
-<#if registrationComplete??>
+<#if user_active??>
+<#if user_active == "false">
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <strong>Welcome! An email has to been sent to you. Please click on the link to activate your account</strong>
+    <strong>Success! An email has been sent to you. Please verify your email to complete your registration
+    </strong>
 </div>
+</#if>
 </#if>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -41,16 +44,16 @@
             <a class="navbar-brand" href="/">campustradein</a>
         </div>
 
-        <#if username??>
+        <#if user_name??>
         <p class="navbar-text navbar-right">Welcome
-            <a href="#" class="navbar-link">${username}</a>
-            <a href="/logout" class="navbar-link">Logout</a>
+            <a href="#" class="navbar-link">${user_name}</a>
+            <a href="${logout_url}" class="navbar-link">Logout</a>
         </p>
         <#else>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                <li><a href="/signup">Register</a></li>
+                <li><a href="${signup_url}">Signup</a></li>
             </ul>
         </div>
         </#if>
@@ -63,14 +66,14 @@
         <div class="loginmodal-container">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h1>Login to Your Account</h1><br>
-            <form method="post" action="/login">
+            <form method="post" action="${login_url}">
                 <input type="text" name="username" placeholder="Username">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" name="login" class="login loginmodal-submit" value="Login">
             </form>
 
             <div class="login-help">
-                <a href="/signup">Register</a> - <a href="#">Forgot Password</a>
+                <a href="${signup_url}">Signup</a> - <a href="${forgotpassword_url}">Forgot Password</a>
             </div>
         </div>
     </div>

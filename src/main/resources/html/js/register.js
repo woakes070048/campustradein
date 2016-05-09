@@ -13,6 +13,7 @@ $(document).ready(function() {
       var username = $('#username').val();
       var email = $('#email').val();
       var password = $('#password').val();
+      var matchingPassword = $('#matchingPassword').val();
       var college = $('#college').val();
 
       console.log(username);

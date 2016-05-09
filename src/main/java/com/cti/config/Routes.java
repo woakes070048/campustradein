@@ -2,10 +2,10 @@ package com.cti.config;
 
 
 public class Routes {
-	public static final String activate = "/signup/activate";
-	public static final String signup = "/signup";
-	public static final String formOK = "/signup/formok";
-	public static final String home = "/";
-	public static final String resendActivationEmail = "/signup/activate/resend";
-	
+	public static final String ACTIVATE_ACCOUNT = "/signup/activate";
+	public static final String SIGNUP = "/signup";
+	public static final String FORM_OK = "/signup/formok";
+	public static final String RESET_PASSWORD = "/forgot_password";
+    public static final String LOGIN = "/login";
+    public static final String LOGOUT = "/logout";
 }
