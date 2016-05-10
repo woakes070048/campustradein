@@ -28,7 +28,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <strong>An email has been sent to you. Please verify your email to complete your registration!
+    <strong>Please verify your email to complete your registration! An email was sent to you
     </strong>
 </div>
 </#if>

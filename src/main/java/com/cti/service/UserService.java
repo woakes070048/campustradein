@@ -122,8 +122,12 @@ public class UserService {
 		sessionRepository.delete(sessionID);
 	}
 
-	public User findUserBySessionID(String sessionID) throws InvalidTokenException {
-		return sessionRepository.findBySessionID(sessionID);
+	public User findUserBySessionID(String sessionID) {
+		try {
+			return sessionRepository.findBySessionID(sessionID);
+		} catch (InvalidTokenException e) {
+			return null;
+		}
 	}
 
 	public User findByUsername(String uname) {

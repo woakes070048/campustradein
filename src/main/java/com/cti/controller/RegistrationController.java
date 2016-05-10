@@ -150,24 +150,26 @@ public class RegistrationController {
 					response.removeCookie("session");
 					AuthenticationToken sessionToken = userService.startSession(user);
 					response.cookie("session", sessionToken.getToken());
-
+                    response.status(HttpStatus.SC_OK);
+                    response.redirect("/");
+				} else {
+					response.status(HttpStatus.SC_BAD_REQUEST);
+                    response.redirect(Routes.ERROR);
 				}
-				response.status(HttpStatus.SC_OK);
-				response.redirect("/");
-				return null;
 			} catch(InvalidTokenException e) {
-				// TODO bad user
+				logger.error("Invalid token {}", request.queryParams("token"));
 				response.status(HttpStatus.SC_BAD_REQUEST);
-				return e.getMessage();
+				response.redirect(Routes.ERROR);
 			} catch(Exception e) {
 				response.status(HttpStatus.SC_BAD_REQUEST);
-				return e.getMessage();
+				response.redirect(Routes.ERROR);
 			}
+            return null;
     	});
 	}
 
     @Route
-    public void renderRegistrationPage() {
+    public void getRegistrationPage() {
         Spark.get(Routes.SIGNUP, (request, response) -> {
             Map<String, String> model = new HashMap<>();
             model.put("login_url", Routes.LOGIN);

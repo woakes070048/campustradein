@@ -35,12 +35,14 @@ public class HomePageController {
 				System.out.println("Session id: " + sessionID);
 				if(sessionID != null && !sessionID.isEmpty()) {
 				    User user = userService.findUserBySessionID(sessionID);
-				    model.put("user_name", user.getUsername());
-				    if(user.isActivated()) {
-				        model.put("user_active", "true");
-				    } else {
-				        model.put("user_active", "false");
-				    }
+					if(user != null) {
+                        model.put("user_name", user.getUsername());
+                        if(user.isActivated()) {
+                            model.put("user_active", "true");
+                        } else {
+                            model.put("user_active", "false");
+                        }
+                    }
 				}
 			} finally {
 				model.put("signup_url", Routes.SIGNUP);
