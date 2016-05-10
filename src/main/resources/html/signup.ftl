@@ -85,7 +85,7 @@
                                     <input type="text" name="username" id="username"
                                           data-minLength="3"
                                            class="form-control" placeholder="username"
-                                           data-remote="/signup/formok" required>
+                                           required>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     <div class="help-block with-errors"></div>
                                 </div>
@@ -97,7 +97,7 @@
                                            class="form-control" pattern="^.+\@.+\..+$"
 
                                            placeholder="email address"
-                                           data-remote="/signup/formok" required>
+                                           equired>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     <div class="help-block with-errors"></div>
                                 </div>
@@ -151,6 +151,6 @@
 <#-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/validator.min.js"></script>
-<script src="js/register.js"></script>
+<script src="js/signup.js"></script>
 </body>
 </html>

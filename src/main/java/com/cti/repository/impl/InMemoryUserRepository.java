@@ -28,12 +28,17 @@ public class InMemoryUserRepository implements UserRepository {
 
 	@Override
 	public User findByUsername(@NotNull String username) {
+		if(usernameIndex.containsKey(username)) {
+			return usernameIndex.get(username);
+		}
 		return null;
 	}
 	
 	@Override
 	public User findByEmail(@NotNull String email) {
-		
+		if(emailIndex.containsKey(email)) {
+			return emailIndex.get(email);
+		}
 		return null;
 	}
 	
@@ -50,7 +55,12 @@ public class InMemoryUserRepository implements UserRepository {
 
 	@Override
 	public void update(User user) {
-		// TODO Auto-generated method stub
+		if(usernameIndex.containsKey(user.getUsername())) {
+			usernameIndex.put(user.getUsername(), user);
+		}
+		if(emailIndex.containsKey(user.getEmail())) {
+			emailIndex.put(user.getEmail(), user);
+		}
 		
 	}
 

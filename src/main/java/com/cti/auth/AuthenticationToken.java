@@ -2,6 +2,7 @@ package com.cti.auth;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 import org.springframework.format.datetime.joda.LocalDateTimeParser;
@@ -17,7 +18,7 @@ public class AuthenticationToken {
 	private static final int EXPIRATION_TIME = 60 * 24; // 24 hours
 	private User user;
 	private String token;
-	private LocalTime expirationTime;
+	private LocalDateTime expirationTime;
 	private boolean verified;
 	
 	public AuthenticationToken(User user) {
@@ -34,13 +35,13 @@ public class AuthenticationToken {
 		this.verified = false;
 	}
 
-	private LocalTime calculateExpirationDate(long expirationTime) {
-		LocalDateTime now = LocalDateTime.now();
-		return now.plusMinutes(expirationTime).toLocalTime();
+	private LocalDateTime calculateExpirationDate(long expirationTime) {
+		LocalDateTime now = LocalDateTime.now(ZoneId.of("America/Chicago"));
+		return now.plusMinutes(expirationTime);
 	}
 	
 	public boolean hasExpired() {
-		return expirationTime.isBefore(LocalTime.now());
+		return expirationTime.isBefore(LocalDateTime.now());
 	}
 
 	public User getUser() {
@@ -55,11 +56,11 @@ public class AuthenticationToken {
 		return token;
 	}
 	
-	public LocalTime getExpirationTime() {
+	public LocalDateTime getExpirationTime() {
 		return expirationTime;
 	}
 
-	public void setExpirationTime(LocalTime expirationTime) {
+	public void setExpirationTime(LocalDateTime expirationTime) {
 		this.expirationTime = expirationTime;
 	}
 

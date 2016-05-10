@@ -53,14 +53,13 @@ public class RegistrationController {
 	public void handleNewRegistration() {
 		Spark.post(Routes.SIGNUP, (request, response) -> {
 			try {
-                if(!request.headers("Accept").equalsIgnoreCase("application/json")) {
+                if(!request.headers("Accept").contains("application/json")) {
                     response.status(HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
                     String error = new JSONObject()
                                         .put("error", "only json allowed")
                                         .toString();
                     return error;
                 }
-                response.type("application/json");
                 ObjectMapper mapper = new ObjectMapper();
                 UserDto userDto = mapper.readValue(request.body(), UserDto.class);
 				validateInput(userDto);
@@ -68,15 +67,29 @@ public class RegistrationController {
 				// create account and send activation email
 				User user = userService.createNewUserAccount(userDto);
 				AuthenticationToken verificationToken = userService.createVerificationToken(user);
-				// TODO on another thread
-				//emailService.sendActivationEmail(verificationToken);
+				
+				// TODO: on another thread
+				// send activation email
+				StringBuilder sb = new StringBuilder();
+				sb.append(System.getProperty("hostname"));
+				sb.append(Routes.ACTIVATE_ACCOUNT);
+				sb.append("?token=");
+				sb.append(verificationToken.getToken());
+				Map<String, String> model = new HashMap<>();
+				model.put("username", user.getUsername());
+				model.put("activation_url", sb.toString());
+				String body = templateEngine.render(new ModelAndView(model, "activation_email.ftl"));
+				emailService.sendActivationEmail(user, body);
 				
 				// generate session cookie
 				AuthenticationToken sessionToken = userService.startSession(user);
-				response.cookie("session", sessionToken.getToken(), 3600, true);
-                response.status(HttpStatus.SC_TEMPORARY_REDIRECT);
-                response.redirect("/");
-                return null;
+//				response.cookie("session", sessionToken.getToken(), 3600, true);
+				response.cookie("session", sessionToken.getToken());
+                response.status(HttpStatus.SC_OK);
+                
+                return new JSONObject()
+                			.put("redirect", "/")
+                			.toString();
 
 			} catch(ValidationException e) {
                 logger.error("Invalid inputs", e);
@@ -105,8 +118,10 @@ public class RegistrationController {
 				if(userService.isUsernameAlreadyTaken(username)) {
 					response.status(HttpStatus.SC_CONFLICT);
                     response.body("Please pick another username");
+                    System.out.println("Cannot find username");
 				} else {
 					response.status(HttpStatus.SC_OK);
+					System.out.println("Good user");
 				}
 			} else if(request.queryParams("email") != null){
 				String email = escapeHtml4(request.queryParams("email"));
@@ -119,6 +134,7 @@ public class RegistrationController {
 			} else {
                 response.status(HttpStatus.SC_BAD_REQUEST);
                 response.body("Invalid use of api");
+                System.out.println("invalid use of api");
             }
 			return null;
 		});
@@ -129,27 +145,33 @@ public class RegistrationController {
     public void handleConfirmRegistration() {
     	Spark.get(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
     		try {
-				String token = escapeHtml4(request.queryParams("q"));
+				String token = escapeHtml4(request.queryParams("token"));
 				AuthenticationToken verificationToken = userService.getVerificationToken(token);
-				if(verificationToken.hasExpired()) {
-					// TODO token has expired, resend activation link
-					
-					return null;
+				System.out.println(verificationToken);
+				
+				if(verificationToken != null && !verificationToken.hasExpired()) {
+					User user = verificationToken.getUser();
+					System.out.println(user);
+					userService.activateUser(user, verificationToken.getToken());
+					response.removeCookie("session");
+					AuthenticationToken sessionToken = userService.startSession(user);
+					response.cookie("session", sessionToken.getToken());
 				}
-				User user = verificationToken.getUser();
-				userService.activateUser(user, verificationToken.getToken());
-				// TODO set session cookie and redirect
+				System.out.println(verificationToken.getUser());
+				response.status(HttpStatus.SC_OK);
+				response.redirect("/");
 				return null;
 			} catch(InvalidTokenException e) {
 				// TODO bad user
+				response.status(HttpStatus.SC_BAD_REQUEST);
+				System.out.println(e);
+				return e.getMessage();
+			} catch(Exception e) {
+				response.status(HttpStatus.SC_BAD_REQUEST);
+				System.out.println(e);
 				return e.getMessage();
 			}
     	});
-	}
-	
-	@Route
-	public void handleResendConfirmationLink() {
-		
 	}
 
     @Route

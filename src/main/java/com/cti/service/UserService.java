@@ -15,6 +15,7 @@ import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.exception.UserAlreadyExistsException;
+import com.cti.exception.UserNotFoundException;
 import com.cti.model.User;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
@@ -121,7 +122,15 @@ public class UserService {
 		sessionRepository.delete(sessionID);
 	}
 
-	public User findUserBySessionID(String sessionID) {
+	public User findUserBySessionID(String sessionID) throws InvalidTokenException {
 		return sessionRepository.findBySessionID(sessionID);
+	}
+
+	public User findByUsername(String uname) {
+		return userRepository.findByUsername(uname);
+	}
+
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 }

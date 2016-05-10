@@ -7,7 +7,9 @@ import com.cti.auth.AuthenticationToken;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.repository.TokenRepository;
+import com.google.inject.Singleton;
 
+@Singleton
 public class InMemoryTokenRepository implements TokenRepository {
 	
 	private Map<String, AuthenticationToken> dataStore = new HashMap<>();
@@ -31,7 +33,10 @@ public class InMemoryTokenRepository implements TokenRepository {
 
 	@Override
 	public void delete(AuthenticationToken verificationToken) {
-		// TODO Auto-generated method stub
+		String tokenId = verificationToken.getToken();
+		if(dataStore.containsKey(tokenId)) {
+			dataStore.remove(tokenId);
+		}
 		
 	}
 
@@ -43,7 +48,9 @@ public class InMemoryTokenRepository implements TokenRepository {
 
 	@Override
 	public void delete(String tokenId) {
-		// TODO Auto-generated method stub
-		
+		if(dataStore.containsKey(tokenId)) {
+			dataStore.remove(tokenId);
+		}
 	}
+
 }

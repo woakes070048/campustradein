@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.cti.auth.AuthenticationToken;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
+import com.cti.model.User;
 
 public interface TokenRepository extends IRepository<AuthenticationToken> {
 	@Override

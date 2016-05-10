@@ -12,8 +12,6 @@ import java.util.concurrent.Executors;
 
 
 public class EmailService {
-    private ExecutorService executorService = Executors.newWorkStealingPool();
-
     @Inject
     private Mailer mailer;
 

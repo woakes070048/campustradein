@@ -14,5 +14,5 @@ public interface SessionRepository extends IRepository<AuthenticationToken> {
 	
 	public void delete(String token) throws InvalidTokenException;
 
-	public User findBySessionID(String sessionID);
+	public User findBySessionID(String sessionID) throws InvalidTokenException;
 }

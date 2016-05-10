@@ -8,7 +8,9 @@ import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.model.User;
 import com.cti.repository.SessionRepository;
+import com.google.inject.Singleton;
 
+@Singleton
 public class InMemorySessionRepository implements SessionRepository {
 	private Map<String, User> sessions = new HashMap<>();
 	
@@ -43,7 +45,10 @@ public class InMemorySessionRepository implements SessionRepository {
 	}
 
 	@Override
-	public User findBySessionID(String sessionID) {
-		return null;
+	public User findBySessionID(String sessionID) throws InvalidTokenException {
+		if(!sessions.containsKey(sessionID)) {
+			throw new InvalidTokenException();
+		}
+		return sessions.get(sessionID);
 	}
 }

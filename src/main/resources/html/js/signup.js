@@ -16,18 +16,23 @@ $(document).ready(function() {
       var matchingPassword = $('#matchingPassword').val();
       var college = $('#college').val();
 
-      console.log(username);
+      var dto = {'username' : username,
+                    'email' : email,
+                    'password' : password,
+                    'matchingPassword' : matchingPassword,
+                    'college' : college};
 
       $.ajax({
          type: 'POST',
-         url: '/register',
-         data: 'username=' + username + '&email=' + email + '&password=' + password + '&college=' + college,
-         success: function(text) {
-            if(text == 'OK') {
-               window.location.href = '/'
+         url: '/signup',
+         data: JSON.stringify(dto),
+         dataType: 'json',
+         contentType: "application/json",
+         success: function(data, text) {
+            if(data.redirect) {
+                window.location.href = data.redirect;
             } else {
-               // errors will be sent back
-               console.log(text);
+                console.log(data.errors)
             }
          }
       });
