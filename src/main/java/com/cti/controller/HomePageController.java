@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by ifeify on 5/2/16.
  */
 @Controller
-public class HomePageController extends UIController {
+public class HomePageController {
     @Inject
     private UserService userService;
 

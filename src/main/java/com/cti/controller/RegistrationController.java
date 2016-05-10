@@ -115,21 +115,17 @@ public class RegistrationController {
 		Spark.post(Routes.FORM_OK, (request, response) -> {
 			if(request.queryParams("username") != null) {
 				String username = escapeHtml4(request.queryParams("username"));
+				response.status(HttpStatus.SC_OK);
 				if(userService.isUsernameAlreadyTaken(username)) {
 					response.status(HttpStatus.SC_CONFLICT);
                     response.body("Please pick another username");
-                    System.out.println("Cannot find username");
-				} else {
-					response.status(HttpStatus.SC_OK);
-					System.out.println("Good user");
 				}
 			} else if(request.queryParams("email") != null){
 				String email = escapeHtml4(request.queryParams("email"));
+                response.status(HttpStatus.SC_OK);
 				if(userService.isEmailAlreadyTaken(email)) {
 					response.status(HttpStatus.SC_CONFLICT);
                     response.body("Please use another email address");
-				} else {
-					response.status(HttpStatus.SC_OK);
 				}
 			} else {
                 response.status(HttpStatus.SC_BAD_REQUEST);
@@ -147,28 +143,24 @@ public class RegistrationController {
     		try {
 				String token = escapeHtml4(request.queryParams("token"));
 				AuthenticationToken verificationToken = userService.getVerificationToken(token);
-				System.out.println(verificationToken);
-				
+
 				if(verificationToken != null && !verificationToken.hasExpired()) {
 					User user = verificationToken.getUser();
-					System.out.println(user);
 					userService.activateUser(user, verificationToken.getToken());
 					response.removeCookie("session");
 					AuthenticationToken sessionToken = userService.startSession(user);
 					response.cookie("session", sessionToken.getToken());
+
 				}
-				System.out.println(verificationToken.getUser());
 				response.status(HttpStatus.SC_OK);
 				response.redirect("/");
 				return null;
 			} catch(InvalidTokenException e) {
 				// TODO bad user
 				response.status(HttpStatus.SC_BAD_REQUEST);
-				System.out.println(e);
 				return e.getMessage();
 			} catch(Exception e) {
 				response.status(HttpStatus.SC_BAD_REQUEST);
-				System.out.println(e);
 				return e.getMessage();
 			}
     	});

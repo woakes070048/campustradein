@@ -90,7 +90,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h1>Login to Your Account</h1><br>
             <form method="post" action="${login_url}">
-                <input type="text" name="usernameOrEmail" placeholder="Username">
+                <input type="text" name="usernameOrEmail" placeholder="Username or Email">
                 <input type="password" name="password" placeholder="Password">
                 <input type="submit" name="login" class="login loginmodal-submit" value="Login">
             </form>
