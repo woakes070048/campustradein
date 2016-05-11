@@ -36,6 +36,7 @@ public class HomePageController {
         	Map<String, String> model = new HashMap<>();
             try {
 				String sessionID = request.cookie("session");
+                String emailVerified = request.cookie("email_verified");
 
 				if(sessionID != null && !sessionID.isEmpty()) {
 				    User user = userService.findUserBySessionID(sessionID);
@@ -43,6 +44,12 @@ public class HomePageController {
                         model.put("user_name", user.getUsername());
                         if(user.isActivated()) {
                             model.put("user_active", "true");
+                            if(emailVerified != null) {
+                                String message = MessageFormat.format("Hey {0}, thanks for activating your account. " +
+                                        "Welcome to campustradein", user.getUsername());
+                                model.put("important_message", message);
+                                response.removeCookie("email_verified");
+                            }
                         } else {
                             model.put("user_active", "false");
                             String message = MessageFormat.format("Hello {0}, an email was sent to you. Please verify your email address to activate your account",

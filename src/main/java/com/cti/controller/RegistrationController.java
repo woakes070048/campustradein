@@ -21,6 +21,7 @@ import spark.Spark;
 
 import java.text.MessageFormat;
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -147,22 +148,21 @@ public class RegistrationController {
 					User user = verificationToken.getUser();
 					userService.activateUser(user, verificationToken.getToken());
 					response.removeCookie("session");
+                    response.removeCookie("account_activated");
 					AuthenticationToken sessionToken = userService.startSession(user);
-					response.cookie("session", sessionToken.getToken());
+
+                    Cookie sessionCookie = new Cookie("session", sessionToken.getToken());
+                    sessionCookie.setPath("/");
+					response.raw().addCookie(sessionCookie);
+
+                    Cookie accountCookie = new Cookie("email_verified", "true");
+                    accountCookie.setPath("/");
+                    response.raw().addCookie(accountCookie);
                     response.status(HttpStatus.SC_OK);
 
                     Map<String, String> model = new HashMap<>();
-                    String message = MessageFormat.format("Hey {0}, thanks for activating your account. Welcome to campustradein",
-                                                        user.getUsername());
-                    model.put("user_name", user.getUsername());
-                    model.put("user_active", "true");
-                    model.put("important_message", message);
-                    model.put("signup_url", Routes.SIGNUP);
-    				model.put("forgotpassword_url", Routes.RESET_PASSWORD);
-    				model.put("login_url", Routes.LOGIN);
-    				model.put("logout_url", Routes.LOGOUT);
-    				model.put("activate_account_url", Routes.ACTIVATE_ACCOUNT);
-                    return templateEngine.render(new ModelAndView(model, "welcome.ftl"));
+
+                    response.redirect("/");
 				} else {
                     logger.error("Token {} for user {} has expired", verificationToken.getToken(), verificationToken.getUser());
 					response.status(HttpStatus.SC_BAD_REQUEST);
