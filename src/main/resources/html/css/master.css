@@ -122,3 +122,8 @@ h1.jumbo-text, p.jumbo-text {
    -webkit-border-radius: 5px;
    -moz-border-radius: 5px;*/
 }
+
+.alert-success {
+    background-color: #bce8f1;
+    color: #31708f;
+}

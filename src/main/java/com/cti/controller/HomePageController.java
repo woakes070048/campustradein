@@ -13,13 +13,17 @@ import spark.Spark;
 import javax.inject.Inject;
 
 import java.util.HashMap;
+import java.text.MessageFormat;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by ifeify on 5/2/16.
  */
 @Controller
 public class HomePageController {
+    private static final Logger logger = LoggerFactory.getLogger(HomePageController.class);
     @Inject
     private UserService userService;
 
@@ -27,12 +31,12 @@ public class HomePageController {
     private FreemarkerTemplateEngine templateEngine;
 
     @Route
-    public void handleRenderHomepage() {
+    public void renderHomepage() {
         Spark.get("/", (request, response) -> {
         	Map<String, String> model = new HashMap<>();
             try {
 				String sessionID = request.cookie("session");
-				System.out.println("Session id: " + sessionID);
+
 				if(sessionID != null && !sessionID.isEmpty()) {
 				    User user = userService.findUserBySessionID(sessionID);
 					if(user != null) {
@@ -41,19 +45,23 @@ public class HomePageController {
                             model.put("user_active", "true");
                         } else {
                             model.put("user_active", "false");
-                            
+                            String message = MessageFormat.format("Hello {0}, an email was sent to you. Please verify your email address to activate your account",
+                                                                    user.getUsername());
+                            model.put("important_message", message);
                         }
                     }
 				}
-			} finally {
-				model.put("signup_url", Routes.SIGNUP);
+                model.put("signup_url", Routes.SIGNUP);
 				model.put("forgotpassword_url", Routes.RESET_PASSWORD);
 				model.put("login_url", Routes.LOGIN);
 				model.put("logout_url", Routes.LOGOUT);
 				model.put("activate_account_url", Routes.ACTIVATE_ACCOUNT);
-			}
-            System.out.println(model);
-            return templateEngine.render(new ModelAndView(model, "welcome.ftl"));
+                return templateEngine.render(new ModelAndView(model, "welcome.ftl"));
+			} catch(Exception e) {
+                logger.error("Failed to render homepage", e);
+                response.redirect(Routes.ERROR);
+                return null;
+            }
         });
     }
 }

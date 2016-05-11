@@ -22,12 +22,12 @@
 </head>
 <body>
 
-<#if important_msg??>
+<#if important_message??>
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <strong>${important_msg}</strong>
+    <strong>${important_message}</strong>
 </div>
 </#if>
 <nav class="navbar navbar-inverse navbar-fixed-top">

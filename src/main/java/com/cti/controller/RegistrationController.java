@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Spark;
 
+import java.text.MessageFormat;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
@@ -34,21 +35,21 @@ import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 @Controller
 public class RegistrationController {
     private final static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-    
+
     @Inject
 	private UserService userService;
-    
-    @Inject 
+
+    @Inject
     private EmailService emailService;
-    
-    @Inject 
+
+    @Inject
     private ValidatorFactory validatorFactory;
 
     @Inject
     private FreemarkerTemplateEngine templateEngine;
 
     private Validator validator;
-	
+
 	@Route
 	public void handleNewRegistration() {
 		Spark.post(Routes.SIGNUP, (request, response) -> {
@@ -63,11 +64,11 @@ public class RegistrationController {
                 ObjectMapper mapper = new ObjectMapper();
                 UserDto userDto = mapper.readValue(request.body(), UserDto.class);
 				validateInput(userDto);
-				
+
 				// create account and send activation email
 				User user = userService.createNewUserAccount(userDto);
 				AuthenticationToken verificationToken = userService.createVerificationToken(user);
-				
+
 				// TODO: on another thread
 				// send activation email
 				StringBuilder sb = new StringBuilder();
@@ -80,13 +81,13 @@ public class RegistrationController {
 				model.put("activation_url", sb.toString());
 				String body = templateEngine.render(new ModelAndView(model, "activation_email.ftl"));
 				emailService.sendActivationEmail(user, body);
-				
+
 				// generate session cookie
 				AuthenticationToken sessionToken = userService.startSession(user);
 //				response.cookie("session", sessionToken.getToken(), 3600, true);
 				response.cookie("session", sessionToken.getToken());
                 response.status(HttpStatus.SC_OK);
-                
+
                 return new JSONObject()
                 			.put("redirect", "/")
                 			.toString();
@@ -97,19 +98,17 @@ public class RegistrationController {
                 String errors[] = e.getMessage().split(".");
                 return new JSONObject()
                             .put("errors", errors)
-                            .put("status", "invalid inputs")
                             .toString();
 			} catch(UserAlreadyExistsException e) {
                 logger.error("Duplicate user", e);
-                response.status(HttpStatus.SC_CONFLICT);
+                response.status(HttpStatus.SC_BAD_REQUEST);
 				return new JSONObject()
-                            .put("errors", "Cannot process request")
-							.put("status", "User is already registered")
+                            .put("errors", "Please pick another username or email")
                             .toString();
 			}
 		});
 	}
-	
+
 	@Route
 	public void handleCheckIfUsernameOrEmailIsValid() {
 		Spark.post(Routes.FORM_OK, (request, response) -> {
@@ -135,7 +134,7 @@ public class RegistrationController {
 			return null;
 		});
 	}
-	
+
 	// e.g localhost/register/validate?token=xhssySGGshhnx)
 	@Route
     public void handleConfirmRegistration() {
@@ -151,8 +150,21 @@ public class RegistrationController {
 					AuthenticationToken sessionToken = userService.startSession(user);
 					response.cookie("session", sessionToken.getToken());
                     response.status(HttpStatus.SC_OK);
-                    response.redirect("/");
+
+                    Map<String, String> model = new HashMap<>();
+                    String message = MessageFormat.format("Hey {0}, thanks for activating your account. Welcome to campustradein",
+                                                        user.getUsername());
+                    model.put("user_name", user.getUsername());
+                    model.put("user_active", "true");
+                    model.put("important_message", message);
+                    model.put("signup_url", Routes.SIGNUP);
+    				model.put("forgotpassword_url", Routes.RESET_PASSWORD);
+    				model.put("login_url", Routes.LOGIN);
+    				model.put("logout_url", Routes.LOGOUT);
+    				model.put("activate_account_url", Routes.ACTIVATE_ACCOUNT);
+                    return templateEngine.render(new ModelAndView(model, "welcome.ftl"));
 				} else {
+                    logger.error("Token {} for user {} has expired", verificationToken.getToken(), verificationToken.getUser());
 					response.status(HttpStatus.SC_BAD_REQUEST);
                     response.redirect(Routes.ERROR);
 				}
@@ -161,6 +173,7 @@ public class RegistrationController {
 				response.status(HttpStatus.SC_BAD_REQUEST);
 				response.redirect(Routes.ERROR);
 			} catch(Exception e) {
+                logger.error("Failed to confirm registration", e);
 				response.status(HttpStatus.SC_BAD_REQUEST);
 				response.redirect(Routes.ERROR);
 			}
@@ -177,8 +190,8 @@ public class RegistrationController {
             return templateEngine.render(new ModelAndView(model, "signup.ftl"));
         });
     }
-    
-    	
+
+
 	private void validateInput(UserDto userDto) throws ValidationException {
 		if(validator == null) {
 			validator = validatorFactory.getValidator();

@@ -98,21 +98,18 @@ public class LoginLogoutController {
 					AuthenticationToken token = userService.startSession(user);
 					response.cookie("session", token.getToken());
                     response.status(HttpStatus.SC_OK);
-                    response.redirect("/");
+                    return new JSONObject()
+                                .put("redirect", "/")
+                                .toString();
 				} else { // password incorrect or user not found
                     response.status(HttpStatus.SC_UNAUTHORIZED);
                 }
 			} catch(ValidationException e) {
+                logger.error("Invalid inputs", e);
                 response.status(HttpStatus.SC_BAD_REQUEST);
-                String errors[] = e.getMessage().split(".");
-                return new JSONObject()
-                        .put("errors", errors)
-                        .put("status", "invalid inputs")
-                        .toString();
 			} catch(Exception e) {
                 logger.error("Failed to log user with ip {} and login params {}", request.ip(), request.body(), e);
                 response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-                response.redirect(Routes.ERROR);
             }
             return null;
 		});

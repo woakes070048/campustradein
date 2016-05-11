@@ -1,6 +1,7 @@
 $(document).ready(function() {
    $('#loginForm').validator().on('submit', function(event) {
       event.preventDefault();
+      $("#errorMsg").addClass("hidden");
       submitForm();
    });
 
@@ -16,19 +17,19 @@ $(document).ready(function() {
          data: JSON.stringify(dto),
          dataType: 'json',
          contentType: "application/json",
-         success: function(data, text, xhr) {
-            if(xhr.status != 200) {
-               var errorMsg;
+         success: function(data) {
+             window.location.href = data.redirect;
+         },
+         error: function(data) {
                if(usernameOrEmail.indexOf('@') === -1) {
                   // user entered username
                   errorMsg = 'Username or password incorrect';
                } else { // email was entered
                   errorMsg = 'Email or password incorrect';
                }
-               $("#errorMsg p").text(errorMsg);
+               $("#errorMsg").text(errorMsg);
                $("#errorMsg").removeClass("hidden");
-            }
-         }
+        }
       });
    }
 });

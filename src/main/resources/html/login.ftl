@@ -46,27 +46,20 @@
       </div>
    </nav>
 
-   <div class="container">
-            <form id="loginForm" data-toggle="validator" class="form-signin" role="form" method="#">
-               <div id="errorMsg" class="hidden alert alert-dismissible alert-danger" role="alert">
-                  <button type="button" class="close" data-dismiss="alert"
-                  aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <p></p>
-               </div>
-              <h2 class="form-signin-heading text-center">Please sign in</h2>
-              <label for="usernameOrEmail" class="sr-only">Username or Email address</label>
-              <input type="text" id="usernameOrEmail" class="form-control" placeholder="Username or Email" required autofocus>
-              <label for="password" class="sr-only">Password</label>
-              <input type="password" id="password" class="form-control" placeholder="Password" required>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" value="remember-me"> Remember me
-                </label>
-              </div>
-              <button class="btn btn-primary btn-block" type="submit">Login</button>
-            </form>
-    </div> <#-- /container -->
+   <div class = "container">
+	<div class="wrapper">
+		<form id="loginForm" role="form" class="form-signin">
+        <div id="errorMsg" class="hidden alert alert-danger alert-dismissible"></div>
+		    <h3 class="form-signin-heading">Welcome Back! Please Sign In</h3>
+			  <hr class="colorgraph"><br>
 
+			  <input type="text" class="form-control" id="usernameOrEmail" name="usernameOrEmail" placeholder="Username or Email" required="" autofocus="" />
+			  <input type="password" class="form-control" id="password" name="password" placeholder="Password" required=""/>
+
+			  <button class="btn btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>
+		</form>
+	</div>
+</div><#-- end container -->
 
 
 

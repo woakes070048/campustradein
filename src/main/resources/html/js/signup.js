@@ -27,13 +27,14 @@ $(document).ready(function() {
          data: JSON.stringify(dto),
          dataType: 'json',
          contentType: "application/json",
-         success: function(data, text) {
-            if(data.redirect) {
-                window.location.href = data.redirect;
-            } else {
-                console.log(data.errors)
-            }
-         }
+         success: function(data) {
+            window.location.href = data.redirect;
+        },
+        error: function(data) {
+            var errors = data.errors;
+            console.error(errors);
+        }
+
       });
    }
 });
