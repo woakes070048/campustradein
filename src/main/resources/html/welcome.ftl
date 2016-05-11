@@ -22,16 +22,13 @@
 </head>
 <body>
 
-<#if user_active??>
-<#if user_active == "false">
+<#if important_msg??>
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <strong>Please verify your email to complete your registration! An email was sent to you
-    </strong>
+    <strong>${important_msg}</strong>
 </div>
-</#if>
 </#if>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -75,32 +72,13 @@
         <#else>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                <li><a href="${login_url}">Login</a></li>
                 <li><a href="${signup_url}">Signup</a></li>
             </ul>
         </div>
         </#if>
     </div>
 </nav>
-
-<#-- login modal form -->
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="loginmodal-container">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h1>Login to Your Account</h1><br>
-            <form method="post" action="${login_url}">
-                <input type="text" name="usernameOrEmail" placeholder="Username or Email">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
-            </form>
-
-            <div class="login-help">
-                <a href="${signup_url}">Signup</a> - <a href="${forgotpassword_url}">Forgot Password</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 <#-- page header -->
 <div class="jumbotron jumbotron-welcome-image">

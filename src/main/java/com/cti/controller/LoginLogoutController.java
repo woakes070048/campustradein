@@ -44,7 +44,7 @@ public class LoginLogoutController {
     private static final Logger logger = LoggerFactory.getLogger(LoginLogoutController.class);
 	@Inject
     private UserService userService;
-	
+
 	@Inject
 	private AuthenticationService authService;
 
@@ -55,7 +55,7 @@ public class LoginLogoutController {
     private FreemarkerTemplateEngine templateEngine;
 
     private Validator validator;
-	
+
 	@Route
     public void handleLogout() {
         Spark.get(Routes.LOGOUT, (request, response) -> {
@@ -65,14 +65,14 @@ public class LoginLogoutController {
                     userService.endSession(sessionID);
                     response.removeCookie("session");
                 }
-                response.redirect("/");
             } catch(Exception e) {
                 logger.error("Error logging user with ip {} out", request.ip(), e);
             }
+            response.redirect("/");
             return null;
         });
     }
-	
+
 	@Route
 	public void handleLogin() {
 		Spark.post(Routes.LOGIN, (request, response) -> {

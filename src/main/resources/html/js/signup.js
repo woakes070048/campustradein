@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
    $('#signupForm').validator().on('submit', function(event) {
       if(event.isDefaultPrevented()) {
          // manual form validation

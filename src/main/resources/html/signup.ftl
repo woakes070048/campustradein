@@ -41,32 +41,11 @@
                 Already have an account?
             </p>
             <ul class="nav navbar-nav">
-                <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                <li><a href="${login_url}">Login</a></li>
             </ul>
         </div><#--/.nav-collapse -->
     </div>
 </nav>
-
-
-<#-- login modal form -->
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="loginmodal-container">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h1>Login to Your Account</h1><br>
-            <form method="post" action="${login_url}">
-                <input type="text" name="username" placeholder="Username">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
-            </form>
-
-            <div class="login-help">
-                <a href="${forgotpassword_url}">Forgot Password</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <#-- end navigation -->
 
 <div class="container">

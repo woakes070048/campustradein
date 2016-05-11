@@ -41,6 +41,7 @@ public class HomePageController {
                             model.put("user_active", "true");
                         } else {
                             model.put("user_active", "false");
+                            
                         }
                     }
 				}
