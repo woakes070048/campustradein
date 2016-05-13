@@ -14,17 +14,9 @@ repositories {
     mavenCentral()
 }
 
-jettyRun {
-    httpPort = 8080
-}
-
-jettyRunWar {
-    httpPort = 8080
-}
-
 run {
 	mainClassName = "com.cti.App"
-	applicationDefaultJvmArgs = ["-Dport=8080", "-Dhostname=http://localhost:8080"]
+	applicationDefaultJvmArgs = ["-Dport=8080", "-Dhostname=http://www.campustradein.com"]
 }
 
 test {
