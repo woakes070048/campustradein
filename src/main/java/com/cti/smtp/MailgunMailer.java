@@ -27,7 +27,6 @@ import java.util.Map;
  * Created by ifeify on 5/3/16.
  */
 public class MailgunMailer implements Mailer {
-
     private final String host;
     private final String apiKey;
 
