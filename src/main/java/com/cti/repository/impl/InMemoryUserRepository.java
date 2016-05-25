@@ -47,7 +47,7 @@ public class InMemoryUserRepository implements UserRepository {
 		return null;
 	}
 
-	@Override
+
 	public void delete(User object) throws Exception {
 		// TODO Auto-generated method stub
 		

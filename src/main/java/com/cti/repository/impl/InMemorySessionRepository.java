@@ -14,7 +14,7 @@ import com.google.inject.Singleton;
 public class InMemorySessionRepository implements SessionRepository {
 	private Map<String, User> sessions = new HashMap<>();
 	
-	@Override
+
 	public void update(AuthenticationToken object) throws Exception {
 		
 	}

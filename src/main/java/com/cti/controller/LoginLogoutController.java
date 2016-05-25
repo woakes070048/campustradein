@@ -9,16 +9,10 @@ import javax.validation.metadata.ConstraintDescriptor;
 
 import com.cti.config.FreemarkerTemplateEngine;
 import com.cti.config.Routes;
-import com.cti.dto.LoginDto;
-import com.cti.dto.UserDto;
-import com.cti.smtp.Email;
+import com.cti.dto.LoginDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringEscapeUtils;
 
-import org.apache.commons.lang3.exception.ExceptionContext;
-import org.apache.commons.logging.Log;
 import org.apache.http.HttpStatus;
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +34,7 @@ import java.util.Set;
  * Created by ifeify on 4/30/16.
  */
 @Controller
-public class LoginLogoutController {
+public class LoginLogoutController extends AbstractController {
     private static final Logger logger = LoggerFactory.getLogger(LoginLogoutController.class);
 	@Inject
     private UserService userService;
@@ -48,13 +42,10 @@ public class LoginLogoutController {
 	@Inject
 	private AuthenticationService authService;
 
-    @Inject
-    private ValidatorFactory validatorFactory;
-
-    @Inject
-    private FreemarkerTemplateEngine templateEngine;
-
-    private Validator validator;
+    public LoginLogoutController(UserService userService, AuthenticationService authService) {
+        this.userService = userService;
+        this.authService = authService;
+    }
 
 	@Route
     public void handleLogout() {
@@ -84,17 +75,17 @@ public class LoginLogoutController {
                                 .toString();
                 }
                 ObjectMapper mapper = new ObjectMapper();
-                LoginDto loginDto = mapper.readValue(request.body(), LoginDto.class);
-                validateInput(loginDto);
+                LoginDTO loginDTO = mapper.readValue(request.body(), LoginDTO.class);
+                validateInput(loginDTO);
 				User user = null;
-				if (loginDto.getUsernameOrEmail().contains("@")) {
-					user = userService.findByEmail(loginDto.getUsernameOrEmail());
+				if (loginDTO.getUsernameOrEmail().contains("@")) {
+					user = userService.findByEmail(loginDTO.getUsernameOrEmail());
 				} else {
-					user = userService.findByUsername(loginDto.getUsernameOrEmail());
+					user = userService.findByUsername(loginDTO.getUsernameOrEmail());
 				}
                 // TODO: userService.findByUserId()
 
-				if(user != null && authService.isPasswordCorrect(user.getPassword(), loginDto.getPassword())) {
+				if(user != null && authService.isPasswordCorrect(user.getPassword(), loginDTO.getPassword())) {
 					AuthenticationToken token = userService.startSession(user);
 					response.cookie("session", token.getToken());
                     response.status(HttpStatus.SC_OK);
@@ -140,14 +131,11 @@ public class LoginLogoutController {
         });
     }
 
-    private void validateInput(LoginDto loginDto) throws ValidationException {
-        if(validator == null) {
-            validator = validatorFactory.getValidator();
-        }
-        Set<ConstraintViolation<LoginDto>> violations = validator.validate(loginDto);
+    private void validateInput(LoginDTO loginDTO) throws ValidationException {
+        Set<ConstraintViolation<LoginDTO>> violations = validator.validate(loginDTO);
         if(violations.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();
-            for(ConstraintViolation<LoginDto> violation : violations) {
+            for(ConstraintViolation<LoginDTO> violation : violations) {
                 ConstraintDescriptor<?> desc = violation.getConstraintDescriptor();
                 stringBuilder.append(desc.getMessageTemplate());
                 stringBuilder.append(".");

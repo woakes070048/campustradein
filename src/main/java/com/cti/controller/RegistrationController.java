@@ -5,7 +5,7 @@ import com.cti.annotation.Route;
 import com.cti.auth.AuthenticationToken;
 import com.cti.config.FreemarkerTemplateEngine;
 import com.cti.config.Routes;
-import com.cti.dto.UserDto;
+import com.cti.dto.UserDTO;
 import com.cti.exception.InvalidTokenException;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Spark;
 
-import java.text.MessageFormat;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.validation.ConstraintViolation;
@@ -63,11 +62,11 @@ public class RegistrationController {
                     return error;
                 }
                 ObjectMapper mapper = new ObjectMapper();
-                UserDto userDto = mapper.readValue(request.body(), UserDto.class);
-				validateInput(userDto);
+                UserDTO userDTO = mapper.readValue(request.body(), UserDTO.class);
+				validateInput(userDTO);
 
 				// create account and send activation email
-				User user = userService.createNewUserAccount(userDto);
+				User user = userService.createNewUserAccount(userDTO);
 				AuthenticationToken verificationToken = userService.createVerificationToken(user);
 
 				// TODO: on another thread
@@ -192,14 +191,14 @@ public class RegistrationController {
     }
 
 
-	private void validateInput(UserDto userDto) throws ValidationException {
+	private void validateInput(UserDTO userDTO) throws ValidationException {
 		if(validator == null) {
 			validator = validatorFactory.getValidator();
 		}
-		Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
+		Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         if(violations.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();
-            for(ConstraintViolation<UserDto> violation : violations) {
+            for(ConstraintViolation<UserDTO> violation : violations) {
                 ConstraintDescriptor<?> desc = violation.getConstraintDescriptor();
                 stringBuilder.append(desc.getMessageTemplate());
                 stringBuilder.append(".");

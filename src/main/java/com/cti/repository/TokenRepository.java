@@ -7,13 +7,12 @@ import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.model.User;
 
-public interface TokenRepository extends IRepository<AuthenticationToken> {
-	@Override
-	public void save(@NotNull AuthenticationToken verificationToken) throws DuplicateTokenException;
+public interface TokenRepository {
+	void save(@NotNull AuthenticationToken verificationToken) throws DuplicateTokenException;
 	
-	public void delete(@NotNull AuthenticationToken verificationToken);
+	void delete(@NotNull AuthenticationToken verificationToken);
 	
-	public void delete(@NotNull String tokenId);
+	void delete(@NotNull String tokenId);
 	
-	public AuthenticationToken findByTokenId(@NotNull String tokenId) throws InvalidTokenException;
+	AuthenticationToken findByTokenId(@NotNull String tokenId) throws InvalidTokenException;
 }

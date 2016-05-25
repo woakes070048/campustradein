@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class LoginDto {
+public class LoginDTO {
     @NotNull(message = "Username or Email not specified")
     @NotBlank(message = "Username or Email not specified")
     @Size(min = 3)

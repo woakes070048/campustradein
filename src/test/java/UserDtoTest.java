@@ -9,7 +9,7 @@ import javax.validation.ValidatorFactory;
 
 import org.junit.Test;
 
-import com.cti.dto.UserDto;
+import com.cti.dto.UserDTO;
 
 public class UserDtoTest {
 	private Validator validator;
@@ -21,37 +21,37 @@ public class UserDtoTest {
 	
 	@Test
 	public void testNewUserWithBadUsername() {
-		UserDto newUser = new UserDto();
+		UserDTO newUser = new UserDTO();
 		newUser.setUsername("ba");
 		newUser.setEmail("me@cti.com");
 		newUser.setPassword("jjjjjjjj");
 		newUser.setMatchingPassword("jjjjjjjj");
 		newUser.setCollege("Wichita State University");
-		Set<ConstraintViolation<UserDto>> violations = validator.validate(newUser);
+		Set<ConstraintViolation<UserDTO>> violations = validator.validate(newUser);
 		assertEquals(violations.size(), 1);
 	}
 	
 	@Test
 	public void testNewUserWithDifferentPasswords() {
-		UserDto newUser = new UserDto();
+		UserDTO newUser = new UserDTO();
 		newUser.setUsername("newuser");
 		newUser.setEmail("me@cti.com");
 		newUser.setPassword("jjjjjjjjx");
 		newUser.setMatchingPassword("dsdsdsddsdssdsds");
 		newUser.setCollege("Wichita State University");
-		Set<ConstraintViolation<UserDto>> violations = validator.validate(newUser);
+		Set<ConstraintViolation<UserDTO>> violations = validator.validate(newUser);
 		assertEquals(violations.size(), 1);
 	}
 	
 	@Test
 	public void testPasswordTooShort() {
-		UserDto newUser = new UserDto();
+		UserDTO newUser = new UserDTO();
 		newUser.setUsername("newuser");
 		newUser.setEmail("me@cti.com");
 		newUser.setPassword("nnnn");
 		newUser.setMatchingPassword("nnnn");
 		newUser.setCollege("Wichita State University");
-		Set<ConstraintViolation<UserDto>> violations = validator.validate(newUser);
+		Set<ConstraintViolation<UserDTO>> violations = validator.validate(newUser);
 		assertEquals(violations.size(), 2);
 	}
 }

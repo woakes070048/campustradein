@@ -40,7 +40,7 @@ public class InMemoryTokenRepository implements TokenRepository {
 		
 	}
 
-	@Override
+
 	public void update(AuthenticationToken object) throws Exception {
 		// TODO Auto-generated method stub
 		

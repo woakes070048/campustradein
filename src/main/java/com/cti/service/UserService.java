@@ -10,12 +10,11 @@ import com.cti.annotation.encrypter.PBKDF2;
 import com.cti.auth.AuthenticationToken;
 import com.cti.auth.Encrypter;
 import com.cti.auth.Password;
-import com.cti.dto.UserDto;
+import com.cti.dto.UserDTO;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.exception.UserAlreadyExistsException;
-import com.cti.exception.UserNotFoundException;
 import com.cti.model.User;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
@@ -44,22 +43,22 @@ public class UserService {
 //		this.sessionRepository = sessionRepository;
 //	}
 
-	public User createNewUserAccount(UserDto userDto)
+	public User createNewUserAccount(UserDTO userDTO)
 							throws ValidationException, UserAlreadyExistsException {
 		try {
             
-            Password encryptedPassword = encrypt(userDto.getPassword());
+            Password encryptedPassword = encrypt(userDTO.getPassword());
 			User user = new User();
-			user.setUsername(userDto.getUsername());
+			user.setUsername(userDTO.getUsername());
 			user.setPassword(encryptedPassword.toString());
-			user.setEmail(userDto.getEmail());
-			user.setCollege(userDto.getCollege());
+			user.setEmail(userDTO.getEmail());
+			user.setCollege(userDTO.getCollege());
 			userRepository.save(user);
 			return user;
 		} catch (Exception e) {
 			throw new UserAlreadyExistsException(MessageFormat.format(
 					"{0} with email {1} is already a registered member",
-					userDto.getUsername(), userDto.getEmail()), e);
+					userDTO.getUsername(), userDTO.getEmail()), e);
 		}
 	}
 	

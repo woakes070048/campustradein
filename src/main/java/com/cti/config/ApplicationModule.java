@@ -3,6 +3,7 @@ package com.cti.config;
 import java.util.Properties;
 
 import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import com.cti.annotation.Gmail;
@@ -26,11 +27,12 @@ import com.google.inject.name.Names;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ApplicationModule extends AbstractModule {
-	private static final String mailgunAPIKey = StringEscapeUtils.escapeJava("key-1fff5fb17694e006fb79a4f6dc19a4e5");
+	private static final String mailgunAPIKey = "key-1fff5fb17694e006fb79a4f6dc19a4e5";
 	private static final String sendGridAPIKey = "";
 	private static final String payPalAPIKey = "";
 
 	private void setupGmailSSLConfig() {
+        // for demonstration only
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -39,8 +41,8 @@ public class ApplicationModule extends AbstractModule {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 		bind(Properties.class).annotatedWith(Gmail.class).toInstance(props);
-		bind(String.class).annotatedWith(Names.named("gmail.username")).toInstance("campustradein@gmail.com");
-		bind(String.class).annotatedWith(Names.named("gmail.password")).toInstance("SysAdm1n");
+		bind(String.class).annotatedWith(Names.named("gmail.username")).toInstance("someone@gmail.com");
+		bind(String.class).annotatedWith(Names.named("gmail.password")).toInstance("someone");
 	}
 
     private void setupMailgun() {
@@ -48,10 +50,10 @@ public class ApplicationModule extends AbstractModule {
                 .toInstance(mailgunAPIKey);
 
         bind(String.class).annotatedWith(Names.named("mailgun.url"))
-                .toInstance("https://api.mailgun.net/v3/sandbox780a92c515f54a69ba4047f670ddfe64.mailgun.org/messages");
+                .toInstance("https://api.mailgun.net/v3/campustradein.com/messages");
 
         bind(String.class).annotatedWith(Names.named("mailgun.sender"))
-                .toInstance("postmaster@sandbox780a92c515f54a69ba4047f670ddfe64.mailgun.org");
+                .toInstance("noreply@campustradein.com");
     }
 
 	private void setupAPIKeys() {
@@ -67,7 +69,6 @@ public class ApplicationModule extends AbstractModule {
         bind(String.class).annotatedWith(Names.named("default.email.sender")).toInstance("noreply@campustradein.com");
         setupMailgun();
 		setupAPIKeys();
-		setupGmailSSLConfig();
 
 		bind(UserRepository.class).to(InMemoryUserRepository.class);
 		bind(TokenRepository.class).to(InMemoryTokenRepository.class);
@@ -79,9 +80,9 @@ public class ApplicationModule extends AbstractModule {
 		bind(CreditCardProcessor.class).annotatedWith(PayPal.class).to(
 				PaypalCreditCardProcessor.class);
 
-		bind(Mailer.class).to(GmailMailer.class);
-		
-		bind(ValidatorFactory.class).toInstance(Validation.buildDefaultValidatorFactory());
+		bind(Mailer.class).to(MailgunMailer.class);
+
+		bind(Validator.class).toInstance(Validation.buildDefaultValidatorFactory().getValidator());
 
 	}
 }

@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import com.cti.annotation.PasswordMatches;
-import com.cti.dto.UserDto;
+import com.cti.dto.UserDTO;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object>{
 	@Override
@@ -12,7 +12,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
 	@Override
 	public boolean isValid(Object object, ConstraintValidatorContext context) {
-		UserDto user = (UserDto)object;
+		UserDTO user = (UserDTO)object;
 		if(user.getPassword() == null && user.getMatchingPassword() == null) {
 			return false;
 		}

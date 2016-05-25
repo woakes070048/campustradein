@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @PasswordMatches
-public class UserDto {
+public class UserDTO {
 	@NotNull(message = "Username not specified")
 	@NotBlank(message = "Username not specified")
 	@Pattern(regexp = "[a-zA-Z]*", message = "Username has invalid characters")
@@ -76,7 +76,7 @@ public class UserDto {
 	}
 	
 	public String toString() {
-		return MoreObjects.toStringHelper(UserDto.class)
+		return MoreObjects.toStringHelper(UserDTO.class)
                             .add("username", username)
                             .add("email", email)
                             .add("college", college)

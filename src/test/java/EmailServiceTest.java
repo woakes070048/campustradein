@@ -27,7 +27,6 @@ public class EmailServiceTest {
 	}
 	
 	@Test
-
 	public void testSendActivationEmail() throws SMTPMailException {
         User user = new User();
         user.setUsername("jackwilshere");
@@ -35,8 +34,8 @@ public class EmailServiceTest {
         Map<String, String> model = new HashMap<>();
         model.put("activation_url", "http://www.campustradein.com");
         model.put("username", user.getUsername());
-        String emailBody = templateEngine.render(new ModelAndView(model, "activation_email.html"));
-        emailService.sendActivationEmail(user, emailBody);
+        String message = templateEngine.render(new ModelAndView(model, "activation_email.ftl"));
+        emailService.sendActivationEmail(user, message);
 	}
 
 }

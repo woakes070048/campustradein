@@ -1,5 +1,5 @@
 import com.cti.config.ApplicationModule;
-import com.cti.dto.UserDto;
+import com.cti.dto.UserDTO;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
 import com.cti.service.UserService;
@@ -22,7 +22,7 @@ public class UserServiceTest {
 	
 	@Before
 	public void addOneUser() throws UserAlreadyExistsException {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setUsername("jackwilshere");
         userDto.setEmail("jwilshere@arsenal.com");
         userDto.setPassword("iAmNumber10");
@@ -34,7 +34,7 @@ public class UserServiceTest {
 
     @Test(expected = UserAlreadyExistsException.class)
     public void testAddingDuplicateUsername() throws UserAlreadyExistsException {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setUsername("jackwilshere");
         userDto.setEmail("jack.wilshere@arsenal.com");
         userDto.setPassword("justGotBackFromInjuryBoy");

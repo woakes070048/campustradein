@@ -22,13 +22,15 @@ import org.slf4j.LoggerFactory;
  * Created by ifeify on 5/2/16.
  */
 @Controller
-public class HomePageController {
-    private static final Logger logger = LoggerFactory.getLogger(HomePageController.class);
+public class HomePageController extends AbstractController {
+    private final static Logger logger = LoggerFactory.getLogger(HomePageController.class);
     @Inject
     private UserService userService;
 
     @Inject
-    private FreemarkerTemplateEngine templateEngine;
+    public HomePageController(UserService userService) {
+        this.userService = userService;
+    }
 
     @Route
     public void renderHomepage() {
