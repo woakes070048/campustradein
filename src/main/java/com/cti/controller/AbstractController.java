@@ -1,6 +1,7 @@
 package com.cti.controller;
 
 import com.cti.config.FreemarkerTemplateEngine;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -16,5 +17,8 @@ public abstract class AbstractController {
 
     @Inject
     protected FreemarkerTemplateEngine templateEngine;
+
+    @Inject
+    protected Gson gson = new Gson();
 
 }

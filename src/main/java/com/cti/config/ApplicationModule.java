@@ -19,15 +19,20 @@ import com.cti.repository.UserRepository;
 import com.cti.repository.impl.InMemorySessionRepository;
 import com.cti.repository.impl.InMemoryTokenRepository;
 import com.cti.repository.impl.InMemoryUserRepository;
+import com.cti.service.BookService;
+import com.cti.service.GoogleBookService;
 import com.cti.smtp.GmailMailer;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.MailgunMailer;
+import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.mongodb.MongoClient;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ApplicationModule extends AbstractModule {
 	private static final String mailgunAPIKey = "key-1fff5fb17694e006fb79a4f6dc19a4e5";
+    private static final String googleBooksAPIKey = "";
 	private static final String sendGridAPIKey = "";
 	private static final String payPalAPIKey = "";
 
@@ -62,6 +67,17 @@ public class ApplicationModule extends AbstractModule {
 
 		bind(String.class).annotatedWith(Names.named("PayPal API Key"))
 				.toInstance(payPalAPIKey);
+
+        bind(String.class).annotatedWith(Names.named("Google Books API Key"))
+                .toInstance(googleBooksAPIKey);
+	}
+
+	private void setupMongodb() {
+        // read from config file
+        // its a heavy-weight object so we want it to be singleton
+        // by default, mongodb opens 100 connections to the database
+		MongoClient mongoClient = new MongoClient("localhost", 27017);
+        bind(MongoClient.class).toInstance(mongoClient);
 	}
 
 	@Override
@@ -69,6 +85,7 @@ public class ApplicationModule extends AbstractModule {
         bind(String.class).annotatedWith(Names.named("default.email.sender")).toInstance("noreply@campustradein.com");
         setupMailgun();
 		setupAPIKeys();
+		setupMongodb();
 
 		bind(UserRepository.class).to(InMemoryUserRepository.class);
 		bind(TokenRepository.class).to(InMemoryTokenRepository.class);
@@ -81,6 +98,8 @@ public class ApplicationModule extends AbstractModule {
 				PaypalCreditCardProcessor.class);
 
 		bind(Mailer.class).to(MailgunMailer.class);
+
+        bind(BookService.class).to(GoogleBookService.class);
 
 		bind(Validator.class).toInstance(Validation.buildDefaultValidatorFactory().getValidator());
 

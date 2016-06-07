@@ -95,7 +95,7 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="input-group">
                         <input type="text" class="form-control search-form"
-                               placeholder="Enter ISBN, name or author">
+                               placeholder="Enter book title or ISBN number">
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-primary search-form">
                                 Search

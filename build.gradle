@@ -8,7 +8,7 @@ apply plugin: 'idea'
 group = 'com.cti'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '0.0.1'
+version = '0.0.2'
 
 repositories {
     mavenCentral()
@@ -35,7 +35,10 @@ dependencies {
     compile 'org.freemarker:freemarker:2.3.23'
     compile 'com.j2html:j2html:0.7'
     compile 'com.google.inject:guice:4.0'
+    compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.google.guava:guava:19.0'
+    compile 'com.google.api-client:google-api-client:1.19.1'
+    compile 'com.google.apis:google-api-services-books:v1-rev84-1.22.0'
     compile 'javax.json:javax.json-api:1.0'
     compile 'javax.validation:validation-api:1.1.0.Final'
     compile 'javax.el:javax.el-api:3.0.0'
