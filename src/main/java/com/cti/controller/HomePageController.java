@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by ifeify on 5/2/16.
+ * @author ifeify
  */
 @Controller
 public class HomePageController extends AbstractController {

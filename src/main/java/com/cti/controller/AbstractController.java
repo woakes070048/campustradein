@@ -9,7 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 /**
- * Created by ifeify on 5/2/16.
+ * @author ifeify
  */
 public abstract class AbstractController {
     @Inject
