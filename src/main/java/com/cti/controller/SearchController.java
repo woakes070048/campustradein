@@ -4,6 +4,7 @@ import com.cti.annotation.Route;
 import com.cti.model.Book;
 import com.cti.repository.BookRepository;
 import com.cti.service.BookService;
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 /**
- * Created by iolowosusi on 6/7/16.
+ * @author ifeify
  */
 public class SearchController extends AbstractController {
     private final static Logger logger = LoggerFactory.getLogger(SearchController.class);
@@ -33,6 +34,7 @@ public class SearchController extends AbstractController {
             String isbn13 = request.params("isbn13");
             int offset = Integer.parseInt(request.queryParams("start"));
             List<Book> books = bookRepository.findByISBN13(isbn13, offset, RESULT_SIZE);
+            response.status(HttpStatus.SC_OK);
             return books;
         }, gson::toJson);
     }
@@ -43,6 +45,7 @@ public class SearchController extends AbstractController {
             String isbn10 = request.params("isbn10");
             int offset = Integer.parseInt(request.queryParams("start"));
             List<Book> books = bookRepository.findByISBN10(isbn10, offset, RESULT_SIZE);
+            response.status(HttpStatus.SC_OK);
             return books;
         }, gson::toJson);
     }
@@ -53,6 +56,7 @@ public class SearchController extends AbstractController {
             String title = request.params("title");
             int offset = Integer.parseInt(request.queryParams("start"));
             List<Book> books = bookRepository.findByTitle(title, offset, RESULT_SIZE);
+            response.status(HttpStatus.SC_OK);
             return books;
         }, gson::toJson);
     }

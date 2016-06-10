@@ -18,6 +18,7 @@ public class Book {
     private String listedBy;
     private String condition;
     private List<String> tags;
+    private List<String> authors;
 
     public Book() {}
 
@@ -63,6 +64,14 @@ public class Book {
 
     public void setIsbn10(String isbn10) {
         this.isbn10 = isbn10;
+    }
+
+    public List<String> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public String toString() {
