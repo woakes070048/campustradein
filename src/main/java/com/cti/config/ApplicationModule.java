@@ -32,8 +32,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ApplicationModule extends AbstractModule {
 	private static final String mailgunAPIKey = "key-1fff5fb17694e006fb79a4f6dc19a4e5";
-    private static final String googleBooksAPIKey = "";
-	private static final String sendGridAPIKey = "";
+    private static final String googleBooksAPIKey = "AIzaSyCHc2kEbWt_n0VHQd-voq4gIt9sPAo2YBs";
 	private static final String payPalAPIKey = "";
 
 	private void setupGmailSSLConfig() {
@@ -62,9 +61,6 @@ public class ApplicationModule extends AbstractModule {
     }
 
 	private void setupAPIKeys() {
-		bind(String.class).annotatedWith(Names.named("SendGrid API Key"))
-				.toInstance(sendGridAPIKey);
-
 		bind(String.class).annotatedWith(Names.named("PayPal API Key"))
 				.toInstance(payPalAPIKey);
 

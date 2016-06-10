@@ -20,20 +20,16 @@ public class SearchController extends AbstractController {
     private final static int RESULT_SIZE = 20;
 
     @Inject
-    private BookService bookService;
-
-    @Inject
     private BookRepository bookRepository;
 
     @Inject
-    public SearchController(BookService bookService, BookRepository bookRepository) {
-        this.bookService = bookService;
+    public SearchController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     @Route
     public void handleISBN13Search() {
-        Spark.get("/books/:isbn13", "application/json", (request, response) -> {
+        Spark.get("/books/:isbn13", (request, response) -> {
             String isbn13 = request.params("isbn13");
             int offset = Integer.parseInt(request.queryParams("start"));
             List<Book> books = bookRepository.findByISBN13(isbn13, offset, RESULT_SIZE);
