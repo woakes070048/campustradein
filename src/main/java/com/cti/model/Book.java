@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Book {
     private String title;
+    private String imageLink;
+    private String thumbnailLink;
     private String isbn13;
     private String isbn10;
     private Date listedOn;

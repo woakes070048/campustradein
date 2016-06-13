@@ -1,6 +1,7 @@
 package com.cti.service;
 
-import com.cti.model.Book;
+import com.cti.exception.BooksApiException;
+import com.cti.model.BookInfo;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -43,40 +44,52 @@ public class GoogleBookService implements BookService {
                                         .build();
     }
 
-    @Override
-    public List<Book> findByISBN(String isbn) throws IOException {
-        List<Book> list = new ArrayList<>();
-        String query = "isbn:" + isbn;
-        Books.Volumes.List volumesList = books.volumes().list(query);
-        volumesList.setMaxResults((long)RESULT_SIZE);
-        volumesList.setPrettyPrint(true);
+    private List<BookInfo> find(String query) throws BooksApiException {
+        List<BookInfo> list = new ArrayList<>();
+        try {
+            Books.Volumes.List volumesList = books.volumes().list(query);
+            volumesList.setMaxResults((long) RESULT_SIZE);
+            volumesList.setPrettyPrint(true);
 
-        volumesList.setProjection("lite");
 //        volumesList.setFields("title,authors,"); query for the FIELDS we really need
 
-        // execute the query
-        Volumes volumes = volumesList.execute();
-        if(volumes.getTotalItems() != 0 && volumes.getItems() != null) {
-            for(Volume volume : volumes.getItems()) {
-                Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
-                Book book = new Book();
-                book.setTitle(volumeInfo.getTitle());
-                for(Volume.VolumeInfo.IndustryIdentifiers identifier: volumeInfo.getIndustryIdentifiers()) {
-                    if(identifier.getType().equals("ISBN_13")) {
-                        book.setIsbn13(identifier.getIdentifier());
-                    } else if(identifier.getType().equals("ISBN_10")) {
-                        book.setIsbn10(identifier.getIdentifier());
+            // execute the query
+            Volumes volumes = volumesList.execute();
+            if (volumes.getTotalItems() != 0 && volumes.getItems() != null) {
+                for (Volume volume : volumes.getItems()) {
+                    Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
+                    BookInfo bookInfo = new BookInfo();
+                    bookInfo.setTitle(volumeInfo.getTitle());
+                    bookInfo.setAuthors(volumeInfo.getAuthors());
+                    bookInfo.setSelfLink(volume.getSelfLink());
+                    bookInfo.setPublisher(volumeInfo.getPublisher());
+                    bookInfo.setPublishedDate(volumeInfo.getPublishedDate());
+                    for (Volume.VolumeInfo.IndustryIdentifiers identifier : volumeInfo.getIndustryIdentifiers()) {
+                        if (identifier.getType().equals("ISBN_13")) {
+                            bookInfo.setIsbn13(identifier.getIdentifier());
+                        } else if (identifier.getType().equals("ISBN_10")) {
+                            bookInfo.setIsbn10(identifier.getIdentifier());
+                        }
                     }
+                    list.add(bookInfo);
+                    logger.info(bookInfo.toString());
                 }
-                list.add(book);
-                logger.info(volumeInfo.toPrettyString());
             }
+        } catch(Exception e) {
+            throw new BooksApiException(e);
         }
         return list;
     }
 
     @Override
-    public List<Book> findByTitle(String title) {
-        return null;
+    public List<BookInfo> findByISBN(String isbn) throws BooksApiException {
+        String query = "isbn:" + isbn;
+        return find(query);
+    }
+
+    @Override
+    public List<BookInfo> findByTitle(String title) throws BooksApiException {
+        String query = "title:" + title;
+        return find(query);
     }
 }

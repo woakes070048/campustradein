@@ -1,0 +1,775 @@
+{
+ "kind": "books#volumes",
+ "totalItems": 1385,
+ "items": [
+  {
+   "kind": "books#volume",
+   "id": "XXdyQgAACAAJ",
+   "etag": "L7NGIwCp4Rc",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/XXdyQgAACAAJ",
+   "volumeInfo": {
+    "title": "The C Book, Featuring the ANSI C Standard",
+    "authors": [
+     "Mike Banahan",
+     "Declan Brady",
+     "Mark Doran"
+    ],
+    "publisher": "Addison-Wesley Longman",
+    "publishedDate": "1991-01",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0201544334"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780201544336"
+     }
+    ],
+    "readingModes": {
+     "text": false,
+     "image": false
+    },
+    "pageCount": 310,
+    "printType": "BOOK",
+    "categories": [
+     "Computers"
+    ],
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "preview-1.0.0",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=XXdyQgAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=XXdyQgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=XXdyQgAACAAJ&dq=C&hl=&cd=1&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=XXdyQgAACAAJ&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/The_C_Book_Featuring_the_ANSI_C_Standard.html?hl=&id=XXdyQgAACAAJ"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "NO_PAGES",
+    "embeddable": false,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=XXdyQgAACAAJ&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "NONE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "This book presents an introduction to the C programming language, featuring a structured approach and aimed at professionals and students with some experience of high-level languages."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "bclfdU_2lesC",
+   "etag": "gu45KlAo8Pw",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/bclfdU_2lesC",
+   "volumeInfo": {
+    "title": "The New Cambridge Medieval History: Volume 5, C.1198-c.1300",
+    "authors": [
+     "David Abulafia"
+    ],
+    "publisher": "Cambridge University Press",
+    "publishedDate": "1995",
+    "description": "The standard work of reference on the whole of Europe, east and west, during the thirteenth century.",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "052136289X"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780521362894"
+     }
+    ],
+    "readingModes": {
+     "text": false,
+     "image": true
+    },
+    "pageCount": 1045,
+    "printType": "BOOK",
+    "categories": [
+     "History"
+    ],
+    "averageRating": 2.0,
+    "ratingsCount": 2,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "preview-1.0.0",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=bclfdU_2lesC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=bclfdU_2lesC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=bclfdU_2lesC&printsec=frontcover&dq=C&hl=&cd=2&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=bclfdU_2lesC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/The_New_Cambridge_Medieval_History_Volum.html?hl=&id=bclfdU_2lesC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=bclfdU_2lesC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "The standard work of reference on the whole of Europe, east and west, during the thirteenth century."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "-W48gPmncLgC",
+   "etag": "mCgPZBA10DM",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/-W48gPmncLgC",
+   "volumeInfo": {
+    "title": "New Testament Survey",
+    "authors": [
+     "Merrill C. Tenney"
+    ],
+    "publisher": "Wm. B. Eerdmans Publishing",
+    "publishedDate": "1985-08-28",
+    "description": "Provides historical background information about the politics, social conditions, and economy of the Holy Land, examines the meaning of the New Testament, and traces the history of the early Christian Church",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0802836119"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780802836113"
+     }
+    ],
+    "readingModes": {
+     "text": true,
+     "image": true
+    },
+    "pageCount": 454,
+    "printType": "BOOK",
+    "categories": [
+     "Religion"
+    ],
+    "averageRating": 4.0,
+    "ratingsCount": 13,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.0.2.0.preview.3",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=-W48gPmncLgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=-W48gPmncLgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=-W48gPmncLgC&printsec=frontcover&dq=C&hl=&cd=3&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=-W48gPmncLgC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/New_Testament_Survey.html?hl=&id=-W48gPmncLgC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "FOR_SALE",
+    "isEbook": true,
+    "listPrice": {
+     "amount": 35.0,
+     "currencyCode": "USD"
+    },
+    "retailPrice": {
+     "amount": 23.78,
+     "currencyCode": "USD"
+    },
+    "buyLink": "http://books.google.com/books?id=-W48gPmncLgC&dq=C&hl=&buy=&source=gbs_api",
+    "offers": [
+     {
+      "finskyOfferType": 1,
+      "listPrice": {
+       "amountInMicros": 3.5E7,
+       "currencyCode": "USD"
+      },
+      "retailPrice": {
+       "amountInMicros": 2.378E7,
+       "currencyCode": "USD"
+      }
+     }
+    ]
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/New_Testament_Survey-sample-epub.acsm?id=-W48gPmncLgC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "pdf": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/New_Testament_Survey-sample-pdf.acsm?id=-W48gPmncLgC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=-W48gPmncLgC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "Provides historical background information about the politics, social conditions, and economy of the Holy Land, examines the meaning of the New Testament, and traces the history of the early Christian Church"
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "Yx4NsiVtnL8C",
+   "etag": "EOBh8x7tl/Q",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/Yx4NsiVtnL8C",
+   "volumeInfo": {
+    "title": "Demon Possession and the Christian",
+    "authors": [
+     "C. Fred Dickason"
+    ],
+    "publisher": "Crossway",
+    "publishedDate": "1989",
+    "description": "Shows from theology, the Bible and counseling experiences that Christians can be affected by demonic activity. Equips believers to fight spiritual battles--and win.",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0891075216"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780891075219"
+     }
+    ],
+    "readingModes": {
+     "text": false,
+     "image": true
+    },
+    "pageCount": 355,
+    "printType": "BOOK",
+    "categories": [
+     "Religion"
+    ],
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "2.0.0.0.preview.1",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=Yx4NsiVtnL8C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=Yx4NsiVtnL8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=Yx4NsiVtnL8C&printsec=frontcover&dq=C&hl=&cd=4&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=Yx4NsiVtnL8C&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/Demon_Possession_and_the_Christian.html?hl=&id=Yx4NsiVtnL8C"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": true
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=Yx4NsiVtnL8C&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "Shows from theology, the Bible and counseling experiences that Christians can be affected by demonic activity. Equips believers to fight spiritual battles--and win."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "kmpYUSYLD8MC",
+   "etag": "keD1ttSlZhE",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/kmpYUSYLD8MC",
+   "volumeInfo": {
+    "title": "The Uncensored War",
+    "subtitle": "The Media and Vietnam",
+    "authors": [
+     "Daniel C. Hallin"
+    ],
+    "publisher": "Univ of California Press",
+    "publishedDate": "1989",
+    "description": "From the artists to the executives, the producers to the interns, an all-access pass to MTV's first twenty years. Voices - Anthony Kiedis, Britney Spears, Busta Rhymes, Carson Daly, Chris Connelly, Denis Leary, Dr. Dre, Ed Lover, Foxy Brown, Fred Durst,",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0520065433"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780520065437"
+     }
+    ],
+    "readingModes": {
+     "text": true,
+     "image": true
+    },
+    "pageCount": 285,
+    "printType": "BOOK",
+    "categories": [
+     "History"
+    ],
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "preview-1.0.0",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=kmpYUSYLD8MC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=kmpYUSYLD8MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=kmpYUSYLD8MC&printsec=frontcover&dq=C&hl=&cd=5&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=kmpYUSYLD8MC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/The_Uncensored_War.html?hl=&id=kmpYUSYLD8MC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/The_Uncensored_War-sample-epub.acsm?id=kmpYUSYLD8MC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=kmpYUSYLD8MC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "This book was finished in the tenth year after the end of the Vietnam War."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "x2jt2K2dd3IC",
+   "etag": "T5WUnIrfqFQ",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/x2jt2K2dd3IC",
+   "volumeInfo": {
+    "title": "Relationships 101",
+    "authors": [
+     "John C. Maxwell"
+    ],
+    "publisher": "Harper Collins",
+    "publishedDate": "2004-01-13",
+    "description": "Great leadership is built on great relationships! Leadership is a relationship-intensive endeavor. If your people skills aren't strong, neither will be your leadership. \"If people aren't following you,\" sums up New York Times and Business Week best-selling author Dr. John C. Maxwell, \"then you're not really leading.\" In Relationships 101, Maxwell provides time-tested principles for developing healthy relationships with others—inside and outside of your organization—such as: The fundamentals common to all good relationships How to motivate people by knowing five things everyone has in common How to create a lasting connection with people on your team Why listening skills can be a leader's best friend The crucial factor that creates the foundation of all good relationships The most important relationship for any person's success Winning in every area of life comes from winning with people. Improve your leadership and life with Relationships 101!",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_13",
+      "identifier": "9781418577629"
+     },
+     {
+      "type": "ISBN_10",
+      "identifier": "1418577626"
+     }
+    ],
+    "readingModes": {
+     "text": true,
+     "image": true
+    },
+    "pageCount": 112,
+    "printType": "BOOK",
+    "categories": [
+     "Business & Economics"
+    ],
+    "averageRating": 3.5,
+    "ratingsCount": 37,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "0.5.5.0.preview.3",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=x2jt2K2dd3IC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=x2jt2K2dd3IC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=x2jt2K2dd3IC&printsec=frontcover&dq=C&hl=&cd=6&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=x2jt2K2dd3IC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/Relationships_101.html?hl=&id=x2jt2K2dd3IC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "FOR_SALE",
+    "isEbook": true,
+    "listPrice": {
+     "amount": 5.99,
+     "currencyCode": "USD"
+    },
+    "retailPrice": {
+     "amount": 5.99,
+     "currencyCode": "USD"
+    },
+    "buyLink": "http://books.google.com/books?id=x2jt2K2dd3IC&dq=C&hl=&buy=&source=gbs_api",
+    "offers": [
+     {
+      "finskyOfferType": 1,
+      "listPrice": {
+       "amountInMicros": 5990000.0,
+       "currencyCode": "USD"
+      },
+      "retailPrice": {
+       "amountInMicros": 5990000.0,
+       "currencyCode": "USD"
+      }
+     }
+    ]
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/Relationships_101-sample-epub.acsm?id=x2jt2K2dd3IC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "pdf": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/Relationships_101-sample-pdf.acsm?id=x2jt2K2dd3IC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=x2jt2K2dd3IC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "&quot; In Relationships 101, Maxwell provides time-tested principles for developing healthy relationships with others—inside and outside of your organization—such as: The fundamentals common to all good relationships How to motivate people ..."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "jc5-3BArEjQC",
+   "etag": "i47mT6zLvII",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/jc5-3BArEjQC",
+   "volumeInfo": {
+    "title": "Programming in C",
+    "authors": [
+     "Stephen G. Kochan"
+    ],
+    "publisher": "Sams Publishing",
+    "publishedDate": "2004-07-08",
+    "description": "Learn the C programming language from one of the best. Stephen Kochan's Programming in C is thorough with easy-to-follow instructions that are sure to benefit beginning programmers. This book provides readers with practical examples of how the C programming language can be used with small, fast programs, similar to the programming used by large game developers such as Nintendo. If you want a one-stop-source for C programming, this book is it.The book is appropriate for all introductory-to-intermediate courses on programming in the C language, including courses covering C programming for games and small-device platforms. Programming in C, Third Edition is a thoroughly revised and updated edition of Steven Kochan's classic C programming tutorial: a book that has helped thousands of students master C over the past twenty years. This edition fully reflects the latest C standard and contains current source code. It has been crafted to help students master C regardless of the platform they intend to use or the applications they intend to create -- including small-device and gaming applications, where C's elegance and speed make it especially valuable. Kochan begins with the fundamentals, then covers every facet of C language programming: variables, data types, arithmetic expressions, program looping, making decisions, arrays, functions, structures, character strings, pointers, operations on bits, the preprocessors, I/O, and more. Coverage also includes chapters on working with larger programs; debugging programs; and the fundamentals of object-oriented programming. Appendices include a complete language summary, an introduction to the Standard C Library, coverage of compiling and running programs using gcc, common programming mistakes, and more.",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_13",
+      "identifier": "9780672331411"
+     },
+     {
+      "type": "ISBN_10",
+      "identifier": "0672331411"
+     }
+    ],
+    "readingModes": {
+     "text": true,
+     "image": true
+    },
+    "pageCount": 576,
+    "printType": "BOOK",
+    "categories": [
+     "Computers"
+    ],
+    "averageRating": 5.0,
+    "ratingsCount": 1,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.6.3.0.preview.3",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=jc5-3BArEjQC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=jc5-3BArEjQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=jc5-3BArEjQC&printsec=frontcover&dq=C&hl=&cd=7&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=jc5-3BArEjQC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/Programming_in_C.html?hl=&id=jc5-3BArEjQC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "FOR_SALE",
+    "isEbook": true,
+    "listPrice": {
+     "amount": 39.99,
+     "currencyCode": "USD"
+    },
+    "retailPrice": {
+     "amount": 23.39,
+     "currencyCode": "USD"
+    },
+    "buyLink": "http://books.google.com/books?id=jc5-3BArEjQC&dq=C&hl=&buy=&source=gbs_api",
+    "offers": [
+     {
+      "finskyOfferType": 1,
+      "listPrice": {
+       "amountInMicros": 3.999E7,
+       "currencyCode": "USD"
+      },
+      "retailPrice": {
+       "amountInMicros": 2.339E7,
+       "currencyCode": "USD"
+      }
+     }
+    ]
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=jc5-3BArEjQC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "This book provides readers with practical examples of how the C programming language can be used with small, fast programs, similar to the programming used by large game developers such as Nintendo."
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "L-Pr9ye_B1YC",
+   "etag": "KjrYmSPoCWs",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/L-Pr9ye_B1YC",
+   "volumeInfo": {
+    "title": "Leadership 101",
+    "subtitle": "What Every Leader Needs to Know",
+    "authors": [
+     "John C. Maxwell"
+    ],
+    "publisher": "Thomas Nelson Inc",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_13",
+      "identifier": "9781418579739"
+     },
+     {
+      "type": "ISBN_10",
+      "identifier": "1418579734"
+     }
+    ],
+    "readingModes": {
+     "text": true,
+     "image": false
+    },
+    "printType": "BOOK",
+    "categories": [
+     "Business & Economics"
+    ],
+    "averageRating": 4.5,
+    "ratingsCount": 3,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "0.1.1.0.preview.2",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=L-Pr9ye_B1YC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=L-Pr9ye_B1YC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "nl",
+    "previewLink": "http://books.google.com/books?id=L-Pr9ye_B1YC&printsec=frontcover&dq=C&hl=&cd=8&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=L-Pr9ye_B1YC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/Leadership_101.html?hl=&id=L-Pr9ye_B1YC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": true,
+     "acsTokenLink": "http://books.google.com/books/download/Leadership_101-sample-epub.acsm?id=L-Pr9ye_B1YC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=L-Pr9ye_B1YC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "x3LwkW2wl1UC",
+   "etag": "eNzHDhwa56g",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/x3LwkW2wl1UC",
+   "volumeInfo": {
+    "title": "The C Puzzle Book",
+    "authors": [
+     "Feuer"
+    ],
+    "publisher": "Pearson Education India",
+    "publishedDate": "1999-09-01",
+    "description": "The C Puzzle Book Teaches Intermediate C Programming With An Effective And Unique Method -- And It'S Fun! Working Through Formidable Puzzles And Checking Your Results Fine Tunes Your Skills For Future Programming Challenges. This Book Is A Great Next Step For Any Programmer Who Desires A Deeper Understanding Of The C Programming Language.",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "8177581406"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9788177581409"
+     }
+    ],
+    "readingModes": {
+     "text": false,
+     "image": false
+    },
+    "pageCount": 188,
+    "printType": "BOOK",
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "0.0.1.0.preview.0",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=x3LwkW2wl1UC&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=x3LwkW2wl1UC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=x3LwkW2wl1UC&dq=C&hl=&cd=9&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=x3LwkW2wl1UC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/The_C_Puzzle_Book.html?hl=&id=x3LwkW2wl1UC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "NO_PAGES",
+    "embeddable": false,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=x3LwkW2wl1UC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "NONE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "The C Puzzle Book Teaches Intermediate C Programming With An Effective And Unique Method -- And It&#39;S Fun!"
+   }
+  },
+  {
+   "kind": "books#volume",
+   "id": "4t-sybVuoqoC",
+   "etag": "JBr6P+AbbLA",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/4t-sybVuoqoC",
+   "volumeInfo": {
+    "title": "Numerical Recipes in C",
+    "subtitle": "The Art of Scientific Computing",
+    "authors": [
+     "William H. Press"
+    ],
+    "publisher": "Cambridge University Press",
+    "publishedDate": "1992",
+    "description": "The example books published as part of the Numerical Recipes second edition series contain source programs that exercise and demonstrate all of the Numerical Recipes subroutines. Each example program contains comments and is prefaced by a short description of what it does. The books contain all of the old material from the original edition as well as new material from the second edition. They will be valuable for readers who wish to incorporate procedures and subroutines into their own source programs. They are available in both FORTRAN and C.",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0521437202"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780521437202"
+     }
+    ],
+    "readingModes": {
+     "text": false,
+     "image": true
+    },
+    "pageCount": 994,
+    "printType": "BOOK",
+    "categories": [
+     "C (Computer program language)"
+    ],
+    "averageRating": 4.0,
+    "ratingsCount": 22,
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.1.0.0.preview.1",
+    "imageLinks": {
+     "smallThumbnail": "http://books.google.com/books/content?id=4t-sybVuoqoC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+     "thumbnail": "http://books.google.com/books/content?id=4t-sybVuoqoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.com/books?id=4t-sybVuoqoC&printsec=frontcover&dq=C&hl=&cd=10&source=gbs_api",
+    "infoLink": "http://books.google.com/books?id=4t-sybVuoqoC&dq=C&hl=&source=gbs_api",
+    "canonicalVolumeLink": "http://books.google.com/books/about/Numerical_Recipes_in_C.html?hl=&id=4t-sybVuoqoC"
+   },
+   "saleInfo": {
+    "country": "US",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "US",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED",
+    "epub": {
+     "isAvailable": false
+    },
+    "pdf": {
+     "isAvailable": false
+    },
+    "webReaderLink": "http://books.google.com/books/reader?id=4t-sybVuoqoC&hl=&printsec=frontcover&output=reader&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+   },
+   "searchInfo": {
+    "textSnippet": "The example books published as part of the Numerical Recipes second edition series contain source programs that exercise and demonstrate all of the Numerical Recipes subroutines."
+   }
+  }
+ ]
+}

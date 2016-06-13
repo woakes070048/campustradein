@@ -2,6 +2,7 @@ package com.cti.controller;
 
 import com.cti.annotation.Route;
 import com.cti.model.Book;
+import com.cti.model.BookInfo;
 import com.cti.service.BookService;
 import com.google.inject.Inject;
 import org.apache.http.HttpStatus;
@@ -41,7 +42,7 @@ public class AutocompleteController extends AbstractController {
     public void handleISBNSearch() {
         Spark.get("/suggestions/:isbn", (request, response) -> {
             String isbn = request.params("isbn");
-            List<Book> books = bookService.findByISBN(isbn);
+            List<BookInfo> books = bookService.findByISBN(isbn);
             return books;
         }, gson::toJson);
     }
@@ -50,7 +51,7 @@ public class AutocompleteController extends AbstractController {
     public void handleTitleSearch() {
         Spark.get("/suggestions/:title", (request, response) -> {
             String title = request.params("title");
-            List<Book> books = bookService.findByTitle(title);
+            List<BookInfo> books = bookService.findByTitle(title);
             return books;
         }, gson::toJson);
     }

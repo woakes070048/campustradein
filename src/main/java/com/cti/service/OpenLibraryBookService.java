@@ -1,6 +1,8 @@
 package com.cti.service;
 
+import com.cti.exception.BooksApiException;
 import com.cti.model.Book;
+import com.cti.model.BookInfo;
 
 import java.util.List;
 
@@ -9,12 +11,12 @@ import java.util.List;
  */
 public class OpenLibraryBookService implements BookService {
     @Override
-    public List<Book> findByISBN(String isbn) {
+    public List<BookInfo> findByISBN(String isbn) throws BooksApiException {
         return null;
     }
 
     @Override
-    public List<Book> findByTitle(String title) {
+    public List<BookInfo> findByTitle(String title) throws BooksApiException {
         return null;
     }
 }
