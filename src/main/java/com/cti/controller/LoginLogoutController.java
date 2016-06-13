@@ -42,6 +42,7 @@ public class LoginLogoutController extends AbstractController {
 	@Inject
 	private AuthenticationService authService;
 
+    @Inject
     public LoginLogoutController(UserService userService, AuthenticationService authService) {
         this.userService = userService;
         this.authService = authService;

@@ -22,8 +22,8 @@ import java.util.List;
 /**
  * @author ifeify
  */
-public class GoogleBookService implements BookService {
-    private static final Logger logger = LoggerFactory.getLogger(GoogleBookService.class);
+public class GoogleBooksApi implements BooksApi {
+    private static final Logger logger = LoggerFactory.getLogger(GoogleBooksApi.class);
 
     private static final String APPLICATION_NAME = "campustradein";
     private static final int RESULT_SIZE = 5; // only want to return at most 5 results
@@ -36,7 +36,7 @@ public class GoogleBookService implements BookService {
     private final Books books;
 
     @Inject
-    public GoogleBookService(@Named("Google Books API Key") String apiKey) throws GeneralSecurityException, IOException {
+    public GoogleBooksApi(@Named("Google Books API Key") String apiKey) throws GeneralSecurityException, IOException {
         this.apiKey = apiKey;
         books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                                         .setApplicationName(APPLICATION_NAME)
@@ -50,8 +50,9 @@ public class GoogleBookService implements BookService {
             Books.Volumes.List volumesList = books.volumes().list(query);
             volumesList.setMaxResults((long) RESULT_SIZE);
             volumesList.setPrettyPrint(true);
-
-//        volumesList.setFields("title,authors,"); query for the FIELDS we really need
+            // return a partial response rather than a full response. performance boost
+            // TODO: not working at the moment
+//            volumesList.setFields("items(title,authors,publisher,publishedDate,industryIdentifiers,categories,infoLink)");
 
             // execute the query
             Volumes volumes = volumesList.execute();
@@ -61,9 +62,10 @@ public class GoogleBookService implements BookService {
                     BookInfo bookInfo = new BookInfo();
                     bookInfo.setTitle(volumeInfo.getTitle());
                     bookInfo.setAuthors(volumeInfo.getAuthors());
-                    bookInfo.setSelfLink(volume.getSelfLink());
+                    bookInfo.setPreviewLink(volumeInfo.getInfoLink());
                     bookInfo.setPublisher(volumeInfo.getPublisher());
                     bookInfo.setPublishedDate(volumeInfo.getPublishedDate());
+                    bookInfo.setTags(volumeInfo.getCategories());
                     for (Volume.VolumeInfo.IndustryIdentifiers identifier : volumeInfo.getIndustryIdentifiers()) {
                         if (identifier.getType().equals("ISBN_13")) {
                             bookInfo.setIsbn13(identifier.getIdentifier());
@@ -82,9 +84,9 @@ public class GoogleBookService implements BookService {
     }
 
     @Override
-    public List<BookInfo> findByISBN(String isbn) throws BooksApiException {
+    public BookInfo findByISBN(String isbn) throws BooksApiException {
         String query = "isbn:" + isbn;
-        return find(query);
+        return find(query).get(0); // should only return one result
     }
 
     @Override

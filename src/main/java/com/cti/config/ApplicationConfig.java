@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import com.cti.annotation.Gmail;
 import com.cti.annotation.billing.PayPal;
@@ -19,18 +18,15 @@ import com.cti.repository.UserRepository;
 import com.cti.repository.impl.InMemorySessionRepository;
 import com.cti.repository.impl.InMemoryTokenRepository;
 import com.cti.repository.impl.InMemoryUserRepository;
-import com.cti.service.BookService;
-import com.cti.service.GoogleBookService;
-import com.cti.smtp.GmailMailer;
+import com.cti.service.BooksApi;
+import com.cti.service.GoogleBooksApi;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.MailgunMailer;
-import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.mongodb.MongoClient;
-import org.apache.commons.lang3.StringEscapeUtils;
 
-public class ApplicationModule extends AbstractModule {
+public class ApplicationConfig extends AbstractModule {
 	private static final String mailgunAPIKey = "key-1fff5fb17694e006fb79a4f6dc19a4e5";
     private static final String googleBooksAPIKey = "AIzaSyCHc2kEbWt_n0VHQd-voq4gIt9sPAo2YBs";
 	private static final String payPalAPIKey = "";
@@ -95,7 +91,7 @@ public class ApplicationModule extends AbstractModule {
 
 		bind(Mailer.class).to(MailgunMailer.class);
 
-        bind(BookService.class).to(GoogleBookService.class);
+        bind(BooksApi.class).to(GoogleBooksApi.class);
 
 		bind(Validator.class).toInstance(Validation.buildDefaultValidatorFactory().getValidator());
 

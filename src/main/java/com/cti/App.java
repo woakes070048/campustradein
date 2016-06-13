@@ -1,7 +1,7 @@
 package com.cti;
 
 import com.cti.annotation.Route;
-import com.cti.config.ApplicationModule;
+import com.cti.config.ApplicationConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.reflections.Reflections;
@@ -51,7 +51,7 @@ public class App {
 		Set<Class<?>> controllers = reflections
 				.getTypesAnnotatedWith(com.cti.annotation.Controller.class);
 		
-		Injector injector = Guice.createInjector(new ApplicationModule());
+		Injector injector = Guice.createInjector(new ApplicationConfig());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
 

@@ -1,25 +1,31 @@
 package com.cti.controller;
 
+import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
-import com.cti.model.Book;
 import com.cti.model.BookInfo;
-import com.cti.service.BookService;
+import com.cti.service.BooksApi;
 import com.google.inject.Inject;
 import org.apache.http.HttpStatus;
 import spark.Spark;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ifeify
+ * The Autocomplete controller is handles request for a book when a user lists a book for sale.
+ * The user specifies a title or isbn number of the book and the controller returns a
+ * list of books that matches that criteria. The idea is to use the data returned auto-populate
+ * the book listing form for the user
  */
+@Controller
 public class AutocompleteController extends AbstractController {
     @Inject
-    private BookService bookService;
+    private BooksApi booksApi;
 
     @Inject
-    public AutocompleteController(BookService bookService) {
-        this.bookService = bookService;
+    public AutocompleteController(BooksApi booksApi) {
+        this.booksApi = booksApi;
     }
 
     /**
@@ -40,18 +46,24 @@ public class AutocompleteController extends AbstractController {
 
     @Route
     public void handleISBNSearch() {
-        Spark.get("/suggestions/:isbn", (request, response) -> {
+        Spark.get("/suggestions/isbn/:isbn", (request, response) -> {
             String isbn = request.params("isbn");
-            List<BookInfo> books = bookService.findByISBN(isbn);
-            return books;
+            Optional<BookInfo> result = booksApi.findByISBN(isbn);
+            if(result.isPresent()) {
+                response.status(HttpStatus.SC_OK);
+                return result.get();
+            } else {
+                response.status(HttpStatus.SC_BAD_REQUEST);
+                return null;
+            }
         }, gson::toJson);
     }
 
     @Route
     public void handleTitleSearch() {
-        Spark.get("/suggestions/:title", (request, response) -> {
+        Spark.get("/suggestions/title/:title", (request, response) -> {
             String title = request.params("title");
-            List<BookInfo> books = bookService.findByTitle(title);
+            List<BookInfo> books = booksApi.findByTitle(title);
             return books;
         }, gson::toJson);
     }

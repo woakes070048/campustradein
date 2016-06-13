@@ -1,4 +1,4 @@
-import com.cti.config.ApplicationModule;
+import com.cti.config.ApplicationConfig;
 import com.cti.config.FreemarkerTemplateEngine;
 import com.cti.model.User;
 import com.cti.service.EmailService;
@@ -21,7 +21,7 @@ public class EmailServiceTest {
 	private FreemarkerTemplateEngine templateEngine;
 	
 	public EmailServiceTest() {
-		Injector injector = Guice.createInjector(new ApplicationModule());
+		Injector injector = Guice.createInjector(new ApplicationConfig());
 		emailService = injector.getInstance(EmailService.class);
         templateEngine = injector.getInstance(FreemarkerTemplateEngine.class);
 	}

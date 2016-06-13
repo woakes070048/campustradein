@@ -1,28 +1,24 @@
-import com.cti.config.ApplicationModule;
+import com.cti.config.ApplicationConfig;
 import com.cti.exception.BooksApiException;
-import com.cti.model.Book;
 import com.cti.model.BookInfo;
-import com.cti.service.BookService;
+import com.cti.service.BooksApi;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by iolowosusi on 6/10/16.
  */
-public class GoogleBookServiceTest {
-    private BookService bookService;
+public class GoogleBooksApiTest {
+    private BooksApi booksApi;
 
-    public GoogleBookServiceTest() {
-        Injector injector = Guice.createInjector(new ApplicationModule());
-        bookService = injector.getInstance(BookService.class);
+    public GoogleBooksApiTest() {
+        Injector injector = Guice.createInjector(new ApplicationConfig());
+        booksApi = injector.getInstance(BooksApi.class);
     }
 
     @Test
@@ -31,7 +27,7 @@ public class GoogleBookServiceTest {
         String bookTitle = "Absolute C++";
         String author = "Walter J. Savitch";
 
-        List<BookInfo> books = bookService.findByISBN(isbn13);
+        List<BookInfo> books = booksApi.findByISBN(isbn13);
         assertNotEquals(0, books.size());
         BookInfo book = books.get(0);
         assertTrue(book.getTitle().contains(bookTitle));

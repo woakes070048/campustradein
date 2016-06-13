@@ -1,9 +1,7 @@
 package com.cti.controller;
 
 import com.cti.annotation.Route;
-import com.cti.model.Book;
 import com.cti.repository.BookRepository;
-import com.cti.service.BookService;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

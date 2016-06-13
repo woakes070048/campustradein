@@ -1,4 +1,4 @@
-import com.cti.config.ApplicationModule;
+import com.cti.config.ApplicationConfig;
 import com.cti.dto.UserDTO;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.User;
@@ -16,7 +16,7 @@ public class UserServiceTest {
 	private UserService userService;
 
 	public UserServiceTest() {
-		Injector injector = Guice.createInjector(new ApplicationModule());
+		Injector injector = Guice.createInjector(new ApplicationConfig());
 		this.userService = injector.getInstance(UserService.class);
 	}
 	

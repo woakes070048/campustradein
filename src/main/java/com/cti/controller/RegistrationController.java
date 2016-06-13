@@ -42,13 +42,11 @@ public class RegistrationController {
     @Inject
     private EmailService emailService;
 
-    @Inject
-    private ValidatorFactory validatorFactory;
+	@Inject
+	private Validator validator;
 
     @Inject
     private FreemarkerTemplateEngine templateEngine;
-
-    private Validator validator;
 
 	@Route
 	public void handleNewRegistration() {
@@ -192,9 +190,6 @@ public class RegistrationController {
 
 
 	private void validateInput(UserDTO userDTO) throws ValidationException {
-		if(validator == null) {
-			validator = validatorFactory.getValidator();
-		}
 		Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO);
         if(violations.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();

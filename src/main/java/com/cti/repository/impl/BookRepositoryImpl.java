@@ -1,6 +1,5 @@
 package com.cti.repository.impl;
 
-import com.cti.model.Book;
 import com.cti.repository.BookRepository;
 import com.google.inject.Inject;
 import com.mongodb.MongoClient;
@@ -9,7 +8,6 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.*;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;

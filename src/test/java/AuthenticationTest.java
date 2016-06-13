@@ -1,7 +1,6 @@
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,7 @@ import com.cti.auth.Encrypter;
 import com.cti.auth.Password;
 import com.cti.auth.Password.PasswordBuilder;
 import com.cti.auth.Password.PasswordParser;
-import com.cti.config.ApplicationModule;
+import com.cti.config.ApplicationConfig;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordParseException;
 import com.google.inject.Guice;
@@ -22,7 +21,7 @@ public class AuthenticationTest {
     private Encrypter encrypter;
 	
 	public AuthenticationTest() {
-		Injector injector = Guice.createInjector(new ApplicationModule());
+		Injector injector = Guice.createInjector(new ApplicationConfig());
 		this.encrypter = injector.getInstance(Encrypter.class);
 	}
 
