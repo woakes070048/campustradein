@@ -1,6 +1,7 @@
 package com.cti.repository.impl;
 
-import com.cti.repository.BookRepository;
+import com.cti.model.Book;
+import com.cti.repository.Bookstore;
 import com.google.inject.Inject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -13,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by iolowosusi on 6/7/16.
+ * @author ifeify
  */
-public class BookRepositoryImpl implements BookRepository {
+public class BookstoreImpl implements Bookstore {
     private MongoDatabase bookstore;
     private MongoCollection books;
 
     @Inject
-    public BookRepositoryImpl(MongoClient mongoClient) {
+    public BookstoreImpl(MongoClient mongoClient) {
         this.bookstore = mongoClient.getDatabase("product_catalog");
         this.books = bookstore.getCollection("books");
     }
@@ -34,7 +35,7 @@ public class BookRepositoryImpl implements BookRepository {
                                         .into(documents);
 
         List<Book> searchResult = new ArrayList<>();
-        mapToDomain(documents, searchResult);
+        mapToDomainModel(documents, searchResult);
         return searchResult;
     }
 
@@ -47,7 +48,7 @@ public class BookRepositoryImpl implements BookRepository {
                                         .into(documents);
 
         List<Book> searchResult = new ArrayList<>();
-        mapToDomain(documents, searchResult);
+        mapToDomainModel(documents, searchResult);
         return searchResult;
     }
 
@@ -60,7 +61,7 @@ public class BookRepositoryImpl implements BookRepository {
                                         .into(documents);
 
         List<Book> searchResult = new ArrayList<>();
-        mapToDomain(documents, searchResult);
+        mapToDomainModel(documents, searchResult);
         return searchResult;
     }
 
@@ -69,7 +70,7 @@ public class BookRepositoryImpl implements BookRepository {
         Document document = new Document("title", book.getTitle())
                                 .append("isbn13", book.getIsbn13())
                                 .append("isbn10", book.getIsbn10())
-                                .append("listedBy", book.listedBy())
+                                .append("listedBy", book.getListedBy())
                                 .append("dateListedOn", book.getDateListed());
         books.insertOne(document);
     }
@@ -79,10 +80,11 @@ public class BookRepositoryImpl implements BookRepository {
 
     }
 
-    private void mapToDomain(List<Document> documents, List<Book> bookList) {
+    private void mapToDomainModel(List<Document> documents, List<Book> bookList) {
         for(Document document : documents) {
             if(document != null) {
-                Book book = new Book(document.getString("title"));
+                Book book = new Book();
+                book.setTitle(document.getString("title"));
                 book.setIsbn13(document.getString("isbn13"));
                 book.setIsbn10(document.getString("isbn10"));
                 book.setListedBy(document.getString("listedBy"));
@@ -92,7 +94,7 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
-    private void mapToDomain(Document document, Book book) {
+    private void mapToDomainModel(Document document, Book book) {
         if(document != null) {
             book.setTitle(document.getString("title"));
             book.setIsbn13(document.getString("isbn13"));

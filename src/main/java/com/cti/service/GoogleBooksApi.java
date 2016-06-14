@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -50,9 +51,8 @@ public class GoogleBooksApi implements BooksApi {
             Books.Volumes.List volumesList = books.volumes().list(query);
             volumesList.setMaxResults((long) RESULT_SIZE);
             volumesList.setPrettyPrint(true);
-            // return a partial response rather than a full response. performance boost
-            // TODO: not working at the moment
-//            volumesList.setFields("items(title,authors,publisher,publishedDate,industryIdentifiers,categories,infoLink)");
+
+            // TODO: return a partial response
 
             // execute the query
             Volumes volumes = volumesList.execute();
@@ -84,14 +84,14 @@ public class GoogleBooksApi implements BooksApi {
     }
 
     @Override
-    public BookInfo findByISBN(String isbn) throws BooksApiException {
+    public Optional<BookInfo> findByISBN(String isbn) throws BooksApiException {
         String query = "isbn:" + isbn;
-        return find(query).get(0); // should only return one result
+        List<BookInfo> books = find(query); // should only return one result actually
+        if(!books.isEmpty()) {
+            BookInfo bookInfo = books.get(0);
+            return Optional.ofNullable(bookInfo);
+        }
+        return Optional.empty();
     }
 
-    @Override
-    public List<BookInfo> findByTitle(String title) throws BooksApiException {
-        String query = "title:" + title;
-        return find(query);
-    }
 }

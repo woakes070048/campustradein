@@ -5,12 +5,12 @@ import com.cti.model.Book;
 import java.util.List;
 
 /**
- * The BookRepository is essentially the product catalog or the book store.
+ * The product catalog is essentially the book store or book repository.
  * By default, all methods return items that are sorted based on the date it was listed,
  * starting with the most recent. Appropriate methods also have pagination support
  * @author ifeify
  */
-public interface BookRepository {
+public interface Bookstore {
     /**
      * @param title title of the book
      * @param start offset from start records

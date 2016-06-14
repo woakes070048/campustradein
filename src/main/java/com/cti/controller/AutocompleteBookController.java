@@ -3,6 +3,7 @@ package com.cti.controller;
 import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
 import com.cti.model.BookInfo;
+import com.cti.service.BookService;
 import com.cti.service.BooksApi;
 import com.google.inject.Inject;
 import org.apache.http.HttpStatus;
@@ -19,13 +20,13 @@ import java.util.Optional;
  * the book listing form for the user
  */
 @Controller
-public class AutocompleteController extends AbstractController {
+public class AutocompleteBookController extends AbstractController {
     @Inject
-    private BooksApi booksApi;
+    private BookService bookService;
 
     @Inject
-    public AutocompleteController(BooksApi booksApi) {
-        this.booksApi = booksApi;
+    public AutocompleteBookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     /**
@@ -48,7 +49,7 @@ public class AutocompleteController extends AbstractController {
     public void handleISBNSearch() {
         Spark.get("/suggestions/isbn/:isbn", (request, response) -> {
             String isbn = request.params("isbn");
-            Optional<BookInfo> result = booksApi.findByISBN(isbn);
+            Optional<BookInfo> result = bookService.getBookDetails(isbn);
             if(result.isPresent()) {
                 response.status(HttpStatus.SC_OK);
                 return result.get();
@@ -56,15 +57,6 @@ public class AutocompleteController extends AbstractController {
                 response.status(HttpStatus.SC_BAD_REQUEST);
                 return null;
             }
-        }, gson::toJson);
-    }
-
-    @Route
-    public void handleTitleSearch() {
-        Spark.get("/suggestions/title/:title", (request, response) -> {
-            String title = request.params("title");
-            List<BookInfo> books = booksApi.findByTitle(title);
-            return books;
         }, gson::toJson);
     }
 }

@@ -15,10 +15,15 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * @author ifeify
+ * The book service class queries an external books api (e.g Google Books api, Open Library api)
+ * to get detailed information for a book. It uses a cache with a maximum size of 10,000 internally to
+ * cache results and eliminates the need to call the api for the same query. It's current limitation is
+ * that there is a chance for duplicates. If a user queries for the same book but provides the ISBN13 number and ISBN10
+ * number, it's not recognized as the same book and so two entries for the book will be created in the cache
  */
 @Singleton
 public class BookService {
-    private final Logger logger = LoggerFactory.getLogger(BookService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private LoadingCache<String, Optional<BookInfo>> cache;
 
     @Inject
@@ -33,8 +38,7 @@ public class BookService {
                             .build(new CacheLoader<String, Optional<BookInfo>>() {
                                 @Override
                                 public Optional<BookInfo> load(String key) throws Exception {
-                                    BookInfo bookInfo = booksApi.findByISBN(key);
-                                    return Optional.ofNullable(bookInfo);
+                                    return booksApi.findByISBN(key);
                                 }
                             });
     }
@@ -43,12 +47,12 @@ public class BookService {
         try {
             Optional<BookInfo> result = cache.get(isbn);
             CacheStats cacheStats = cache.stats();
-            logger.info(cacheStats.toString());
+            logger.info("Cache hit(s): {}", cacheStats.hitCount());
+            logger.info("Cache miss(es): {}", cacheStats.missCount());
+            logger.info("Cache load count: {}", cacheStats.loadCount());
             return result;
         } catch (ExecutionException e) {
             throw new BooksApiException(e);
         }
     }
-
-
 }

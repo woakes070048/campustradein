@@ -2,6 +2,7 @@ package com.cti.model;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Book {
     @NotNull
     private String listedBy;
     @NotNull
-    private LocalDateTime dateListed = LocalDateTime.now();
+    private Date dateListed = new Date();
     @NotNull
     private List<String> tags;
     @NotNull
@@ -89,11 +90,11 @@ public class Book {
         this.listedBy = listedBy;
     }
 
-    public LocalDateTime getDateListed() {
+    public Date getDateListed() {
         return dateListed;
     }
 
-    public void setDateListed(LocalDateTime dateListed) {
+    public void setDateListed(Date dateListed) {
         this.dateListed = dateListed;
     }
 

@@ -1,7 +1,7 @@
 package com.cti.service;
 
 import com.cti.model.Book;
-import com.cti.repository.BookRepository;
+import com.cti.repository.Bookstore;
 import com.cti.repository.UserRepository2;
 
 import javax.inject.Inject;
@@ -14,16 +14,16 @@ public class UserService2 {
     @Inject
     private UserRepository2 userRepository;
     @Inject
-    private BookRepository bookRepository;
+    private Bookstore bookstore;
 
     @Inject
-    public UserService2(UserRepository2 userRepository, BookRepository bookRepository) {
+    public UserService2(UserRepository2 userRepository, Bookstore bookstore) {
         this.userRepository = userRepository;
-        this.bookRepository = bookRepository;
+        this.bookstore = bookstore;
     }
 
     public void listBook(Book book) {
-        bookRepository.addBook(book);
+        bookstore.addBook(book);
         userRepository.addNewListing(book);
     }
 
@@ -33,7 +33,7 @@ public class UserService2 {
      * @param book
      */
     public void markSold(Book book) {
-        bookRepository.deleteBook(book);
+        bookstore.deleteBook(book);
         userRepository.updateListing(book);
     }
 }

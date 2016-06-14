@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by iolowosusi on 6/10/16.
+ * @author ifeify
  */
 public class GoogleBooksApiTest {
     private BooksApi booksApi;
@@ -27,18 +27,21 @@ public class GoogleBooksApiTest {
         String bookTitle = "Absolute C++";
         String author = "Walter J. Savitch";
 
-        List<BookInfo> books = booksApi.findByISBN(isbn13);
-        assertNotEquals(0, books.size());
-        BookInfo book = books.get(0);
-        assertTrue(book.getTitle().contains(bookTitle));
-        Optional<String> result = book.getAuthors().stream()
-                                                    .filter(str -> str.equalsIgnoreCase(author))
-                                                    .findFirst();
+        Optional<BookInfo> result = booksApi.findByISBN(isbn13);
         if(result.isPresent()) {
-            String authorName = result.get();
-            assertTrue(authorName.equalsIgnoreCase(author));
+            BookInfo book = result.get();
+            assertTrue(book.getTitle().contains(bookTitle));
+            Optional<String> authors = book.getAuthors().stream()
+                                                .filter(str -> str.equalsIgnoreCase(author))
+                                                .findFirst();
+            if(result.isPresent()) {
+                String authorName = authors.get();
+                assertTrue(authorName.equalsIgnoreCase(author));
+            } else {
+                fail("No author found for " + bookTitle);
+            }
         } else {
-            fail();
+            fail("Google could not find a book with isbn13 " + isbn13);
         }
     }
 }
