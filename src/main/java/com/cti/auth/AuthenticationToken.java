@@ -1,14 +1,10 @@
 package com.cti.auth;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
-import org.springframework.format.datetime.joda.LocalDateTimeParser;
-import org.springframework.format.datetime.joda.LocalTimeParser;
-
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -16,20 +12,20 @@ import com.google.common.base.MoreObjects;
  */
 public class AuthenticationToken {
 	private static final int EXPIRATION_TIME = 60 * 24; // 24 hours
-	private User user;
+	private UserAccount userAccount;
 	private String token;
 	private LocalDateTime expirationTime;
 	private boolean verified;
 	
-	public AuthenticationToken(User user) {
-		this.user = user;
+	public AuthenticationToken(UserAccount userAccount) {
+		this.userAccount = userAccount;
 		this.token = UUID.randomUUID().toString();
 		this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
 		this.verified = false;
 	}
 	
-	public AuthenticationToken(User user, long expirationTime) {
-		this.user = user;
+	public AuthenticationToken(UserAccount userAccount, long expirationTime) {
+		this.userAccount = userAccount;
 		this.token = UUID.randomUUID().toString();
 		this.expirationTime = calculateExpirationDate(expirationTime);
 		this.verified = false;
@@ -44,12 +40,12 @@ public class AuthenticationToken {
 		return expirationTime.isBefore(LocalDateTime.now());
 	}
 
-	public User getUser() {
-		return user;
+	public UserAccount getUserAccount() {
+		return userAccount;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public String getToken() {
@@ -75,7 +71,7 @@ public class AuthenticationToken {
 	public String toString() {
 		return MoreObjects.toStringHelper(AuthenticationToken.class)
 							.add("Token ID", token)
-							.add("User", user)
+							.add("UserAccount", userAccount)
 							.add("Expiration date", expirationTime)
 							.toString();
 	}

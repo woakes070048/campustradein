@@ -30,7 +30,7 @@ public class Book {
     @NotNull
     private String condition;
     @NotNull
-    private int price;
+    private double price;
     @NotNull
     private int quantity;
 
@@ -114,11 +114,11 @@ public class Book {
         this.condition = condition;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

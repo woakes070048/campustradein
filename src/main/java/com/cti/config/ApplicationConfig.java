@@ -15,9 +15,11 @@ import com.cti.billing.PaypalCreditCardProcessor;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
 import com.cti.repository.UserRepository;
+import com.cti.repository.UserRepository2;
 import com.cti.repository.impl.InMemorySessionRepository;
 import com.cti.repository.impl.InMemoryTokenRepository;
 import com.cti.repository.impl.InMemoryUserRepository;
+import com.cti.repository.impl.UserRepositoryImpl;
 import com.cti.service.BooksApi;
 import com.cti.service.GoogleBooksApi;
 import com.cti.smtp.Mailer;
@@ -79,7 +81,7 @@ public class ApplicationConfig extends AbstractModule {
 		setupAPIKeys();
 		setupMongodb();
 
-		bind(UserRepository.class).to(InMemoryUserRepository.class);
+		bind(UserRepository2.class).to(UserRepositoryImpl.class);
 		bind(TokenRepository.class).to(InMemoryTokenRepository.class);
         bind(SessionRepository.class).to(InMemorySessionRepository.class);
 		bind(Encrypter.class).annotatedWith(PBKDF2.class).to(

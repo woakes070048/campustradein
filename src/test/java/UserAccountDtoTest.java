@@ -11,10 +11,10 @@ import org.junit.Test;
 
 import com.cti.dto.UserDTO;
 
-public class UserDtoTest {
+public class UserAccountDtoTest {
 	private Validator validator;
 	
-	public UserDtoTest() {
+	public UserAccountDtoTest() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		this.validator = factory.getValidator();
 	}

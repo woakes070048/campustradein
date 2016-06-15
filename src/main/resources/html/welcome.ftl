@@ -49,7 +49,7 @@
             <p class="navbar-text">Welcome ${user_name}</p>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-plus fa-fw"></i>
+                    aria-haspopup="true" aria-expanded="false"><i class="fa fa-userAccount-plus fa-fw"></i>
                     <span class="caret"></span>
                 </a>
 

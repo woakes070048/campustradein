@@ -3,20 +3,20 @@ package com.cti.repository;
 import javax.validation.constraints.NotNull;
 
 import com.cti.exception.UserAlreadyExistsException;
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 
 public interface UserRepository {
 	/**
-	 * Persists user information in the database and ensures that the 
+	 * Persists userAccount information in the database and ensures that the
 	 * username and/or email does not already exist
 	 */
-	void save(@NotNull User user) throws UserAlreadyExistsException;
+	void save(@NotNull UserAccount userAccount) throws UserAlreadyExistsException;
 	
-	void update(@NotNull User user);
+	void update(@NotNull UserAccount userAccount);
 	
-	User findByUsername(@NotNull String username);
+	UserAccount findByUsername(@NotNull String username);
 	
-	User findByEmail(@NotNull String email);
+	UserAccount findByEmail(@NotNull String email);
 	
-	User findByUsernameAndEmail(@NotNull String username, @NotNull String email);
+	UserAccount findByUsernameAndEmail(@NotNull String username, @NotNull String email);
 }

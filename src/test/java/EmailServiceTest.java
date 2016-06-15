@@ -1,6 +1,6 @@
 import com.cti.config.ApplicationConfig;
 import com.cti.config.FreemarkerTemplateEngine;
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 import com.cti.service.EmailService;
 import com.cti.smtp.SMTPMailException;
 import com.google.inject.Guice;
@@ -16,7 +16,6 @@ import java.util.Map;
 
 @Ignore
 public class EmailServiceTest {
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
 	private EmailService emailService;
 	private FreemarkerTemplateEngine templateEngine;
 	
@@ -28,14 +27,14 @@ public class EmailServiceTest {
 	
 	@Test
 	public void testSendActivationEmail() throws SMTPMailException {
-        User user = new User();
-        user.setUsername("jackwilshere");
-        user.setEmail("ifeify92@gmail.com");
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername("jackwilshere");
+        userAccount.setEmail("ifeify92@gmail.com");
         Map<String, String> model = new HashMap<>();
         model.put("activation_url", "http://www.campustradein.com");
-        model.put("username", user.getUsername());
+        model.put("username", userAccount.getUsername());
         String message = templateEngine.render(new ModelAndView(model, "activation_email.ftl"));
-        emailService.sendActivationEmail(user, message);
+        emailService.sendActivationEmail(userAccount, message);
 	}
 
 }

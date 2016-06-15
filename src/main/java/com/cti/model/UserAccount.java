@@ -2,21 +2,19 @@ package com.cti.model;
 
 import com.google.common.base.MoreObjects;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class User {
+public final class UserAccount {
 	private String username;
 	private String email;
 	private String password;
 	private String college;
-	private LocalDateTime dateJoined;
-	private boolean isActive;
+	private Date dateJoined = new Date();
+	private boolean isActive = false;
+	private List<Book> listings = new ArrayList<>();
 
-    public User() {
-		dateJoined = LocalDateTime.now();
-		isActive = false;
-	}
-	
 	public String getUsername() {
 		return username;
 	}
@@ -45,15 +43,7 @@ public class User {
 		return isActive;
 	}
 	
-	public void activate() {
-		isActive = true;
-	}
-	
-	public void deactivate() {
-		isActive = false;
-	}
-	
-	public LocalDateTime memberSince() {
+	public Date memberSince() {
 		return dateJoined;
 	}
 	
@@ -66,7 +56,7 @@ public class User {
 	}
 	
 	public String toString() {
-		return MoreObjects.toStringHelper(User.class)
+		return MoreObjects.toStringHelper(UserAccount.class)
 					.add("username", username)
 					.add("email", email)
 					.add("password", password)
@@ -75,4 +65,20 @@ public class User {
 					.add("isActive?", isActive)
 					.toString();
 	}
+
+	public void setDateJoined(Date dateJoined) {
+		this.dateJoined = dateJoined;
+	}
+
+	public void setActive(Boolean active) {
+		this.isActive = active;
+	}
+
+	public void setBookListing(List<Book> bookListings) {
+		this.listings = bookListings;
+	}
+
+    public List<Book> getBookListing() {
+        return listings;
+    }
 }

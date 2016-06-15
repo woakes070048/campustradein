@@ -15,7 +15,7 @@ import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.exception.UserAlreadyExistsException;
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
 import com.cti.repository.UserRepository;
@@ -43,97 +43,97 @@ public class UserService {
 //		this.sessionRepository = sessionRepository;
 //	}
 
-	public User createNewUserAccount(UserDTO userDTO)
-							throws ValidationException, UserAlreadyExistsException {
-		try {
-            
-            Password encryptedPassword = encrypt(userDTO.getPassword());
-			User user = new User();
-			user.setUsername(userDTO.getUsername());
-			user.setPassword(encryptedPassword.toString());
-			user.setEmail(userDTO.getEmail());
-			user.setCollege(userDTO.getCollege());
-			userRepository.save(user);
-			return user;
-		} catch (Exception e) {
-			throw new UserAlreadyExistsException(MessageFormat.format(
-					"{0} with email {1} is already a registered member",
-					userDTO.getUsername(), userDTO.getEmail()), e);
-		}
-	}
-	
-	public void activateUser(User user, String token) {
-		user.activate();
-		userRepository.update(user);
-		tokenRepository.delete(token);
-	}
-
-	public AuthenticationToken createVerificationToken(User user) throws DuplicateTokenException {
-		AuthenticationToken token = new AuthenticationToken(user);
-		tokenRepository.save(token);
-		return token;
-    }
-
-    public AuthenticationToken getVerificationToken(String token) throws InvalidTokenException {
-        return tokenRepository.findByTokenId(token);
-    }
-
-	public boolean isUsernameAlreadyTaken(@NotNull String username) {
-		User user = userRepository.findByUsername(username);
-		if (user == null) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean isEmailAlreadyTaken(String email) {
-		User user = userRepository.findByEmail(email);
-		if(user == null) {
-			return false;
-		}
-		return true;
-	}
-
-    private Password encrypt(String plainTextPassword) throws EncryptionException {
-        return new Password.PasswordBuilder()
-                .plainTextPassword(plainTextPassword)
-                .useEncrypter(encrypter)
-                .hash();
-    }
-
-    private Password encrypt(String plainTextPassword, Password template) throws EncryptionException {
-        return new Password.PasswordBuilder()
-                .plainTextPassword(plainTextPassword)
-                .useSalt(template.getSalt())
-                .iterations(template.getIterations())
-                .hashSize(template.getHashSize())
-                .useEncrypter(template.getEncrypter())
-                .hash();
-    }
-
-	public AuthenticationToken startSession(User user) throws DuplicateTokenException {
-		AuthenticationToken sessionToken = new AuthenticationToken(user);
-		sessionRepository.save(sessionToken);
-		return sessionToken;
-	}
-	
-	public void endSession(String sessionID) throws InvalidTokenException {
-		sessionRepository.delete(sessionID);
-	}
-
-	public User findUserBySessionID(String sessionID) {
-		try {
-			return sessionRepository.findBySessionID(sessionID);
-		} catch (InvalidTokenException e) {
-			return null;
-		}
-	}
-
-	public User findByUsername(String uname) {
-		return userRepository.findByUsername(uname);
-	}
-
-	public User findByEmail(String email) {
-		return userRepository.findByEmail(email);
-	}
+//	public UserAccount createNewUserAccount(UserDTO userDTO)
+//							throws ValidationException, UserAlreadyExistsException {
+//		try {
+//
+//            Password encryptedPassword = encrypt(userDTO.getPassword());
+//			UserAccount userAccount = new UserAccount();
+//			userAccount.setUsername(userDTO.getUsername());
+//			userAccount.setPassword(encryptedPassword.toString());
+//			userAccount.setEmail(userDTO.getEmail());
+//			userAccount.setCollege(userDTO.getCollege());
+//			userRepository.save(userAccount);
+//			return userAccount;
+//		} catch (Exception e) {
+//			throw new UserAlreadyExistsException(MessageFormat.format(
+//					"{0} with email {1} is already a registered member",
+//					userDTO.getUsername(), userDTO.getEmail()), e);
+//		}
+//	}
+//
+//	public void activateUser(UserAccount userAccount, String token) {
+//		userAccount.activateAccount();
+//		userRepository.update(userAccount);
+//		tokenRepository.delete(token);
+//	}
+//
+//	public AuthenticationToken createVerificationToken(UserAccount userAccount) throws DuplicateTokenException {
+//		AuthenticationToken token = new AuthenticationToken(userAccount);
+//		tokenRepository.save(token);
+//		return token;
+//    }
+//
+//    public AuthenticationToken getVerificationToken(String token) throws InvalidTokenException {
+//        return tokenRepository.findByTokenId(token);
+//    }
+//
+//	public boolean isUsernameAlreadyTaken(@NotNull String username) {
+//		UserAccount userAccount = userRepository.findByUsername(username);
+//		if (userAccount == null) {
+//			return false;
+//		}
+//		return true;
+//	}
+//
+//	public boolean isEmailAlreadyTaken(String email) {
+//		UserAccount userAccount = userRepository.findByEmail(email);
+//		if(userAccount == null) {
+//			return false;
+//		}
+//		return true;
+//	}
+//
+//    private Password encrypt(String plainTextPassword) throws EncryptionException {
+//        return new Password.PasswordBuilder()
+//                .plainTextPassword(plainTextPassword)
+//                .useEncrypter(encrypter)
+//                .hash();
+//    }
+//
+//    private Password encrypt(String plainTextPassword, Password template) throws EncryptionException {
+//        return new Password.PasswordBuilder()
+//                .plainTextPassword(plainTextPassword)
+//                .useSalt(template.getSalt())
+//                .iterations(template.getIterations())
+//                .hashSize(template.getHashSize())
+//                .useEncrypter(template.getEncrypter())
+//                .hash();
+//    }
+//
+//	public AuthenticationToken startSession(UserAccount userAccount) throws DuplicateTokenException {
+//		AuthenticationToken sessionToken = new AuthenticationToken(userAccount);
+//		sessionRepository.save(sessionToken);
+//		return sessionToken;
+//	}
+//
+//	public void endSession(String sessionID) throws InvalidTokenException {
+//		sessionRepository.delete(sessionID);
+//	}
+//
+//	public UserAccount findUserBySessionID(String sessionID) {
+//		try {
+//			return sessionRepository.findBySessionID(sessionID);
+//		} catch (InvalidTokenException e) {
+//			return null;
+//		}
+//	}
+//
+//	public UserAccount findByUsername(String uname) {
+//		return userRepository.findByUsername(uname);
+//	}
+//
+//	public UserAccount findByEmail(String email) {
+//		return userRepository.findByEmail(email);
+//	}
 }

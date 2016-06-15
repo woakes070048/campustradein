@@ -3,7 +3,7 @@ package com.cti.repository;
 import com.cti.auth.AuthenticationToken;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 
 public interface SessionRepository {
 	void save(AuthenticationToken token) throws DuplicateTokenException;
@@ -12,5 +12,5 @@ public interface SessionRepository {
 	
 	void delete(String token) throws InvalidTokenException;
 
-	User findBySessionID(String sessionID) throws InvalidTokenException;
+	UserAccount findBySessionID(String sessionID) throws InvalidTokenException;
 }

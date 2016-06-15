@@ -8,6 +8,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.*;
+
+import com.mongodb.client.model.Indexes;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -15,15 +17,23 @@ import java.util.List;
 
 /**
  * @author ifeify
+ * There are three indexes we create for fast retrieval. We index on isbn numbers, full-text index
+ * on book title, index on price, and index on date in descending order
  */
 public class BookstoreImpl implements Bookstore {
     private MongoDatabase bookstore;
-    private MongoCollection books;
+    private MongoCollection<Document> books;
 
     @Inject
     public BookstoreImpl(MongoClient mongoClient) {
-        this.bookstore = mongoClient.getDatabase("product_catalog");
+        this.bookstore = mongoClient.getDatabase("campustradein");
         this.books = bookstore.getCollection("books");
+        books.createIndex(Indexes.compoundIndex(Indexes.descending("dateListedOn"),
+                                                Indexes.descending("price")));
+
+        books.createIndex(Indexes.compoundIndex(Indexes.descending("dateListedOn"),
+                                                Indexes.descending("price"),
+                                                Indexes.text("title")));
     }
 
     @Override
@@ -53,9 +63,9 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
-    public List<Book> findByISBN10(String isbn11, int start, int size) {
+    public List<Book> findByISBN10(String isbn10, int start, int size) {
         List<Document> documents = new ArrayList<>();
-        books.find(eq("isbn11", isbn11)).sort(descending("dateListedOn"))
+        books.find(eq("isbn10", isbn10)).sort(descending("dateListedOn"))
                                         .skip(start)
                                         .limit(size)
                                         .into(documents);
@@ -68,10 +78,14 @@ public class BookstoreImpl implements Bookstore {
     @Override
     public void addBook(Book book) {
         Document document = new Document("title", book.getTitle())
+                                .append("authors", book.getAuthors())
                                 .append("isbn13", book.getIsbn13())
                                 .append("isbn10", book.getIsbn10())
                                 .append("listedBy", book.getListedBy())
-                                .append("dateListedOn", book.getDateListed());
+                                .append("dateListedOn", book.getDateListed())
+                                .append("price", book.getPrice())
+                                .append("condition", book.getCondition())
+                                .append("tags", book.getTags());
         books.insertOne(document);
     }
 
@@ -85,10 +99,14 @@ public class BookstoreImpl implements Bookstore {
             if(document != null) {
                 Book book = new Book();
                 book.setTitle(document.getString("title"));
+                book.setAuthors((List<String>)document.get("authors"));
                 book.setIsbn13(document.getString("isbn13"));
                 book.setIsbn10(document.getString("isbn10"));
                 book.setListedBy(document.getString("listedBy"));
                 book.setDateListed(document.getDate("dateListedOn"));
+                book.setPrice(document.getDouble("price"));
+                book.setCondition(document.getString("condition"));
+                book.setTags((List<String>)document.get("tags"));
                 bookList.add(book);
             }
         }
@@ -97,10 +115,14 @@ public class BookstoreImpl implements Bookstore {
     private void mapToDomainModel(Document document, Book book) {
         if(document != null) {
             book.setTitle(document.getString("title"));
+            book.setAuthors((List<String>)document.get("authors"));
             book.setIsbn13(document.getString("isbn13"));
             book.setIsbn10(document.getString("isbn10"));
             book.setListedBy(document.getString("listedBy"));
             book.setDateListed(document.getDate("dateListedOn"));
+            book.setPrice(document.getDouble("price"));
+            book.setCondition(document.getString("condition"));
+            book.setTags((List<String>)document.get("tags"));
         }
     }
 }

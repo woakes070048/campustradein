@@ -1,0 +1,23 @@
+{
+  "_id" : "",
+  "title" : "Absolute C++",
+  "isbn_13" : "978",
+  "isbn_10" : "0278",
+  "dateListed" : "yyyy-MM-dd",
+  "listedBy" : "jack",
+  "tags" : ["engineering"],
+  "condition" : "fairly new, used for two semesters"
+  "price" : 39.99
+},
+
+{
+  "_id" : "",
+  "username" : "jwilshere",
+  "password" : "jskdsuidshdwiuhdhsdxKkjsd",
+  "email" : "jwilly@arsenal.com",
+  "isActivated" : "true",
+  "memberSince" : ""
+
+}
+
+

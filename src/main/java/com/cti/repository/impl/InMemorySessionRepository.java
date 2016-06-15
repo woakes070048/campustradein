@@ -6,13 +6,13 @@ import java.util.Map;
 import com.cti.auth.AuthenticationToken;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
-import com.cti.model.User;
+import com.cti.model.UserAccount;
 import com.cti.repository.SessionRepository;
 import com.google.inject.Singleton;
 
 @Singleton
 public class InMemorySessionRepository implements SessionRepository {
-	private Map<String, User> sessions = new HashMap<>();
+	private Map<String, UserAccount> sessions = new HashMap<>();
 	
 
 	public void update(AuthenticationToken object) throws Exception {
@@ -25,7 +25,7 @@ public class InMemorySessionRepository implements SessionRepository {
 		if(sessions.containsKey(sessionID)) {
 			throw new DuplicateTokenException(sessionID + " is a duplicate");
 		}
-		sessions.put(sessionID, token.getUser());
+		sessions.put(sessionID, token.getUserAccount());
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class InMemorySessionRepository implements SessionRepository {
 	}
 
 	@Override
-	public User findBySessionID(String sessionID) throws InvalidTokenException {
+	public UserAccount findBySessionID(String sessionID) throws InvalidTokenException {
 		if(!sessions.containsKey(sessionID)) {
 			throw new InvalidTokenException();
 		}
