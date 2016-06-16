@@ -1,6 +1,7 @@
 package com.cti.model;
 
 import com.cti.exception.InvalidISBNException;
+import com.google.common.base.MoreObjects;
 
 import java.text.MessageFormat;
 import java.util.IllegalFormatException;
@@ -28,11 +29,30 @@ public final class Isbn {
             isbn10 = isbn;
             isbn13 = convertTo13Digit(isbn);
         }
-
     }
 
     private String convertTo10Digit(String isbn) {
-        return null;
+        StringBuilder isbnBuilder = new StringBuilder();
+        isbnBuilder.append(isbn.substring(3, 12));
+        int checksum = 0;
+        int weight = 10;
+
+        // checksum for each character is the numeric value multipled by the current weight
+        // weight decreses on each iteration
+        for(int i = 0; i < isbnBuilder.length(); i++) {
+            // get numeric value of character
+            checksum += (((int)isbnBuilder.charAt(i)) - 48) * weight;
+            weight--;
+        }
+        checksum = 11 - (checksum % 11);
+        if(checksum == 10) {
+            isbnBuilder.append("X");
+        } else if(checksum == 11) {
+            isbnBuilder.append("0");
+        } else {
+            isbnBuilder.append(checksum);
+        }
+        return isbnBuilder.toString();
     }
 
     private String convertTo13Digit(String isbn) {
@@ -112,5 +132,13 @@ public final class Isbn {
         int result = isbn13.hashCode();
         result = 31 * result + isbn10.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                            .add("ISBN_13", isbn13)
+                            .add("ISBN_10", isbn10)
+                            .toString();
     }
 }
