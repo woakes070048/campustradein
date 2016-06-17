@@ -3,6 +3,7 @@ package com.cti.service;
 import com.cti.exception.BooksApiException;
 import com.cti.model.BookInfo;
 
+import com.cti.model.Isbn;
 import com.google.common.cache.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 @Singleton
 public class BookService {
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
-    private LoadingCache<String, Optional<BookInfo>> cache;
+    private LoadingCache<Isbn, Optional<BookInfo>> cache;
 
     @Inject
     private BooksApi booksApi;
@@ -35,15 +36,15 @@ public class BookService {
         cache = CacheBuilder.newBuilder()
                             .maximumSize(10000)
                             .recordStats()
-                            .build(new CacheLoader<String, Optional<BookInfo>>() {
+                            .build(new CacheLoader<Isbn, Optional<BookInfo>>() {
                                 @Override
-                                public Optional<BookInfo> load(String key) throws Exception {
-                                    return booksApi.findByISBN(key);
+                                public Optional<BookInfo> load(Isbn isbn) throws Exception {
+                                    return booksApi.findByISBN(isbn.toIsbn13());
                                 }
                             });
     }
 
-    public Optional<BookInfo> getBookDetails(String isbn) throws BooksApiException {
+    public Optional<BookInfo> getBookDetails(Isbn isbn) {
         try {
             Optional<BookInfo> result = cache.get(isbn);
             CacheStats cacheStats = cache.stats();
@@ -52,7 +53,7 @@ public class BookService {
             logger.info("Cache load count: {}", cacheStats.loadCount());
             return result;
         } catch (ExecutionException e) {
-            throw new BooksApiException(e);
+            return Optional.empty();
         }
     }
 }

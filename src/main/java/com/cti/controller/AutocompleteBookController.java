@@ -2,11 +2,14 @@ package com.cti.controller;
 
 import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
+import com.cti.exception.InvalidISBNException;
 import com.cti.model.BookInfo;
+import com.cti.model.Isbn;
 import com.cti.service.BookService;
 import com.cti.service.BooksApi;
 import com.google.inject.Inject;
 import org.apache.http.HttpStatus;
+import org.json.JSONObject;
 import spark.Spark;
 
 import java.util.List;
@@ -32,9 +35,10 @@ public class AutocompleteBookController extends AbstractController {
     @Route
     public void handleISBNSearch() {
         Spark.get("/suggestions/isbn/:isbn", (request, response) -> {
-            String isbn = request.params("isbn");
+            String isbnNumber = request.params("isbn");
+            Isbn isbn = new Isbn(isbnNumber);
             Optional<BookInfo> result = bookService.getBookDetails(isbn);
-            if(result.isPresent()) {
+            if (result.isPresent()) {
                 response.status(HttpStatus.SC_OK);
                 return result.get();
             } else {

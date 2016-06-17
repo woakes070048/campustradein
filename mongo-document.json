@@ -1,23 +1,27 @@
 {
-  "_id" : "",
-  "title" : "Absolute C++",
-  "isbn_13" : "978",
-  "isbn_10" : "0278",
-  "dateListed" : "yyyy-MM-dd",
-  "listedBy" : "jack",
-  "tags" : ["engineering"],
-  "condition" : "fairly new, used for two semesters"
-  "price" : 39.99
-},
-
-{
-  "_id" : "",
-  "username" : "jwilshere",
-  "password" : "jskdsuidshdwiuhdhsdxKkjsd",
-  "email" : "jwilly@arsenal.com",
-  "isActivated" : "true",
-  "memberSince" : ""
-
+  "bookId" : "xshjkds",
+  "title" : "Absolute Java",
+  "authors" : ["Walter J. Savitch"],
+  "isbn13" : "9780136083825",
+  "isbn10" : "013608382X",
+  "listedBy": "ifeify",
+  "categories" : ["Computer science", "Java"],
+  "condition" : "fairly new",
+  "price" : 99.99,
+  "links" : [
+    {
+      "rel" : "self",
+      "href" : "http://www.campustradein.com/users/ifeify/books/xshjkds"
+    },
+    {
+      "rel" : "update",
+      "href" : "http://www.campustradein.com/users/ifeify/books/xshjkds"
+    },
+    {
+      "rel" : "delete",
+      "href" : "http://www.campustradein.com/users/ifeify/books/xshjkds"
+    }
+  ]
 }
 
 

@@ -33,10 +33,11 @@ public class RequiresLoginFilter implements Filter {
             }
 
         } catch(NullPointerException e) {
-            response.redirect("/");
             response.removeCookie("user_session");
             response.removeCookie("logged_in");
             response.removeCookie("dotcom_user");
+            response.body("You better log in");
+            response.redirect("/");
             halt();
         }
     }

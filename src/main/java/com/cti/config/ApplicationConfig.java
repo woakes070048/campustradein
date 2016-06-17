@@ -76,6 +76,7 @@ public class ApplicationConfig extends AbstractModule {
 		setupMongodb();
 
 		bind(UserRepository2.class).to(UserRepositoryImpl.class);
+		bind(UserRepository.class).to(InMemoryUserRepository.class);
 		bind(TokenRepository.class).to(InMemoryTokenRepository.class);
         bind(SessionRepository.class).to(InMemorySessionRepository.class);
 		bind(Encrypter.class).annotatedWith(PBKDF2.class).to(
