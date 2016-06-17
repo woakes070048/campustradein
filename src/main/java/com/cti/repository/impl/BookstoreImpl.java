@@ -2,6 +2,7 @@ package com.cti.repository.impl;
 
 import com.cti.model.Book;
 import com.cti.repository.Bookstore;
+import com.cti.util.Base64;
 import com.google.inject.Inject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -9,11 +10,14 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.*;
 
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -76,6 +80,18 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
+    public Optional<Book> findById(String uuid) {
+        ObjectId id = new ObjectId(Base64.fromBase64(uuid));
+        Document document = books.find(Filters.eq("_id", id)).first();
+        if(document == null) {
+            return Optional.empty();
+        }
+        Book book = new Book();
+        mapToDomainModel(document, book);
+        return Optional.of(book);
+    }
+
+    @Override
     public void addBook(Book book) {
         Document document = new Document("title", book.getTitle())
                                 .append("authors", book.getAuthors())
@@ -85,8 +101,11 @@ public class BookstoreImpl implements Bookstore {
                                 .append("dateListedOn", book.getDateListed())
                                 .append("price", book.getPrice())
                                 .append("condition", book.getCondition())
-                                .append("tags", book.getTags());
+                                .append("tags", book.getCategories());
         books.insertOne(document);
+        ObjectId objectId = document.get("_id", ObjectId.class);
+        String uuid = Base64.toBase64(objectId.toByteArray());
+        book.setBookId(uuid);
     }
 
     @Override
@@ -98,6 +117,7 @@ public class BookstoreImpl implements Bookstore {
         for(Document document : documents) {
             if(document != null) {
                 Book book = new Book();
+                book.setBookId(toUUID(document.get("_id", ObjectId.class)));
                 book.setTitle(document.getString("title"));
                 book.setAuthors((List<String>)document.get("authors"));
                 book.setIsbn13(document.getString("isbn13"));
@@ -106,7 +126,7 @@ public class BookstoreImpl implements Bookstore {
                 book.setDateListed(document.getDate("dateListedOn"));
                 book.setPrice(document.getDouble("price"));
                 book.setCondition(document.getString("condition"));
-                book.setTags((List<String>)document.get("tags"));
+                book.setCategories((List<String>)document.get("tags"));
                 bookList.add(book);
             }
         }
@@ -114,6 +134,7 @@ public class BookstoreImpl implements Bookstore {
 
     private void mapToDomainModel(Document document, Book book) {
         if(document != null) {
+            book.setBookId(toUUID(document.get("_id", ObjectId.class)));
             book.setTitle(document.getString("title"));
             book.setAuthors((List<String>)document.get("authors"));
             book.setIsbn13(document.getString("isbn13"));
@@ -122,7 +143,11 @@ public class BookstoreImpl implements Bookstore {
             book.setDateListed(document.getDate("dateListedOn"));
             book.setPrice(document.getDouble("price"));
             book.setCondition(document.getString("condition"));
-            book.setTags((List<String>)document.get("tags"));
+            book.setCategories((List<String>)document.get("tags"));
         }
+    }
+
+    private String toUUID(ObjectId id) {
+        return Base64.toBase64(id.toByteArray());
     }
 }

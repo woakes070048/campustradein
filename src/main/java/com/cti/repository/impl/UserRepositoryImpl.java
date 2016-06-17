@@ -18,6 +18,7 @@ import org.bson.Document;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -75,41 +76,25 @@ public class UserRepositoryImpl implements UserRepository2 {
     }
 
     @Override
-    public UserAccount findByUsername(String username) throws UserNotFoundException {
+    public Optional<UserAccount> findByUsername(String username) {
         Document document = userCollection.find(Filters.eq("username", username)).first();
         if(document == null) {
-            throw new UserNotFoundException(username + " does not exist");
+            return Optional.empty();
         }
         UserAccount userAccount = new UserAccount();
         mapToDomainModel(document, userAccount);
-        return userAccount;
+        return Optional.of(userAccount);
     }
 
     @Override
-    public UserAccount findByEmail(String email) throws UserNotFoundException {
+    public Optional<UserAccount> findByEmail(String email) {
         Document document = userCollection.find(Filters.eq("username", email)).first();
         if(document == null) {
-            throw new UserNotFoundException(email + " does not exist");
+            return Optional.empty();
         }
         UserAccount userAccount = new UserAccount();
         mapToDomainModel(document, userAccount);
-        return userAccount;
-    }
-
-    @Override
-    public boolean isEmailRegistered(String email) {
-        if(userCollection.find(Filters.eq("email", email)).first() == null) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isUsernameRegistered(String username) {
-        if(userCollection.find(Filters.eq("username", username)).first() == null) {
-            return false;
-        }
-        return true;
+        return Optional.of(userAccount);
     }
 
     @Override
@@ -121,7 +106,7 @@ public class UserRepositoryImpl implements UserRepository2 {
     }
 
     @Override
-    public void addNewListing(Book book) {
+    public void addBookListing(Book book) {
         userCollection.updateOne(Filters.eq("username", book.getListedBy()),
                                         new Document("$push", new Document("bookListings", book)));
     }

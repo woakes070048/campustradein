@@ -29,22 +29,6 @@ public class AutocompleteBookController extends AbstractController {
         this.bookService = bookService;
     }
 
-    /**
-     * Make sure only authenticated users can access this api and only supports JSON
-     */
-    @Route
-    public void applyFilter() {
-        Spark.before("/suggestions/*", (request, response) -> {
-            String accept = request.headers("Accept");
-            if(accept != null && !accept.contains("application/json")) {
-                Spark.halt(HttpStatus.SC_UNAUTHORIZED);
-                return;
-            }
-            String sessionID = request.cookie("session");
-            // TODO: authenticate user
-        });
-    }
-
     @Route
     public void handleISBNSearch() {
         Spark.get("/suggestions/isbn/:isbn", (request, response) -> {

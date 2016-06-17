@@ -5,6 +5,8 @@ import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
 
+import java.util.Optional;
+
 /**
  * @author ifeify
  */
@@ -13,17 +15,13 @@ public interface UserRepository2 {
 
     void activateUser(String username) throws UserNotFoundException;
 
-    UserAccount findByUsername(String username) throws UserNotFoundException;
+    Optional<UserAccount> findByUsername(String username);
 
-    UserAccount findByEmail(String email) throws UserNotFoundException;
-
-    boolean isEmailRegistered(String email);
-
-    boolean isUsernameRegistered(String username);
+    Optional<UserAccount> findByEmail(String email);
 
     void deleteUser(String username) throws UserNotFoundException;
 
-    void addNewListing(Book book);
+    void addBookListing(Book book);
 
     void updateListing(Book book);
 

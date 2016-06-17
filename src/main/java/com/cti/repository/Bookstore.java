@@ -3,6 +3,7 @@ package com.cti.repository;
 import com.cti.model.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The product catalog is essentially the book store or book repository.
@@ -35,6 +36,18 @@ public interface Bookstore {
      */
     List<Book> findByISBN10(String isbn11, int start, int size);
 
+    /**
+     * Queries the datastore using the book's unique identifier
+     * @param uuid unique identifier for the book
+     * @return the book if it exists in the datastore
+     */
+    Optional<Book> findById(String uuid);
+
+    /**
+     * Adds a new book to the datastore
+     * @param book
+     * @return returns a unique identifier that can be used to query the datastore for this particular book
+     */
     void addBook(Book book);
 
     void deleteBook(Book book);

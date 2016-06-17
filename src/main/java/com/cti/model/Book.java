@@ -1,7 +1,11 @@
 package com.cti.model;
 
+import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,45 +13,33 @@ import java.util.List;
  * @author ifeify
  */
 public class Book {
-    @NotNull
-    private String thumbnailImageLink;
-    @NotNull
-    private String coverImageLink;
-    @NotNull
+    @SerializedName("id")
+    private String bookId;
+
     private String title;
-    @NotNull
+
     private List<String> authors;
-    @NotNull
+
     private String isbn10;
-    @NotNull
+
     private String isbn13;
-    @NotNull
+
     private String listedBy;
-    @NotNull
+
     private Date dateListed = new Date();
-    @NotNull
-    private List<String> tags;
-    @NotNull
+
+    private List<String> categories;
+
     private String condition;
-    @NotNull
+
     private double price;
-    @NotNull
-    private int quantity;
 
-    public String getThumbnailImageLink() {
-        return thumbnailImageLink;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setThumbnailImageLink(String thumbnailImageLink) {
-        this.thumbnailImageLink = thumbnailImageLink;
-    }
-
-    public String getCoverImageLink() {
-        return coverImageLink;
-    }
-
-    public void setCoverImageLink(String coverImageLink) {
-        this.coverImageLink = coverImageLink;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getTitle() {
@@ -56,6 +48,13 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void addAuthor(String author) {
+        if(authors == null) {
+            authors = new ArrayList<>();
+        }
+        authors.add(author);
     }
 
     public List<String> getAuthors() {
@@ -98,12 +97,19 @@ public class Book {
         this.dateListed = dateListed;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<String> getCategories() {
+        return categories;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(String category) {
+        if(this.categories == null) {
+            this.categories = new ArrayList<>();
+        }
+        this.categories.add(category);
     }
 
     public String getCondition() {
@@ -122,11 +128,38 @@ public class Book {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+        return bookId.equals(book.getBookId());
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = bookId.hashCode();
+        result = 31 * result;
+        return result;
     }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                            .add("id", bookId)
+                            .add("title", title)
+                            .add("authors", authors)
+                            .add("ISBN_13", isbn13)
+                            .add("ISBN_10", isbn10)
+                            .add("listedBy", listedBy)
+                            .add("dateListed", dateListed)
+                            .add("categories", categories)
+                            .add("condition", condition)
+                            .add("price", price)
+                            .toString();
+    }
+
 }

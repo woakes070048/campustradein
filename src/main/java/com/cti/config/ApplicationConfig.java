@@ -12,14 +12,8 @@ import com.cti.auth.Encrypter;
 import com.cti.auth.PBKDF2Encrypter;
 import com.cti.billing.CreditCardProcessor;
 import com.cti.billing.PaypalCreditCardProcessor;
-import com.cti.repository.SessionRepository;
-import com.cti.repository.TokenRepository;
-import com.cti.repository.UserRepository;
-import com.cti.repository.UserRepository2;
-import com.cti.repository.impl.InMemorySessionRepository;
-import com.cti.repository.impl.InMemoryTokenRepository;
-import com.cti.repository.impl.InMemoryUserRepository;
-import com.cti.repository.impl.UserRepositoryImpl;
+import com.cti.repository.*;
+import com.cti.repository.impl.*;
 import com.cti.service.BooksApi;
 import com.cti.service.GoogleBooksApi;
 import com.cti.smtp.Mailer;
@@ -94,6 +88,7 @@ public class ApplicationConfig extends AbstractModule {
 		bind(Mailer.class).to(MailgunMailer.class);
 
         bind(BooksApi.class).to(GoogleBooksApi.class);
+		bind(Bookstore.class).to(BookstoreImpl.class);
 
 		bind(Validator.class).toInstance(Validation.buildDefaultValidatorFactory().getValidator());
 
