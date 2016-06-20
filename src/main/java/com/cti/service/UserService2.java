@@ -1,10 +1,14 @@
 package com.cti.service;
 
+import com.cti.exception.UserAlreadyExistsException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
 import com.cti.repository.Bookstore;
 import com.cti.repository.UserRepository2;
+import com.cti.smtp.Email;
+import com.cti.smtp.Mailer;
+import com.cti.smtp.SMTPMailException;
 import org.eclipse.jetty.server.Authentication;
 
 import javax.inject.Inject;
@@ -19,6 +23,9 @@ import java.util.Optional;
 public class UserService2 {
     @Inject
     private Bookstore bookstore;
+
+    @Inject
+    private Mailer mailer;
 
     @Inject
     private UserRepository2 userRepository2;
@@ -49,5 +56,14 @@ public class UserService2 {
         } else {
             return false;
         }
+    }
+
+    public void createNewUser(UserAccount userAccount) throws UserAlreadyExistsException {
+        // TODO: validate user
+        userRepository2.addUser(userAccount);
+    }
+
+    public void sendNotification(Email email) throws SMTPMailException {
+        mailer.mail(email);
     }
 }

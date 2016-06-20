@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
@@ -19,6 +20,9 @@ public abstract class AbstractController {
     protected FreemarkerTemplateEngine templateEngine;
 
     @Inject
+    @Named("default.email.sender")
+    protected String sender;
+
     protected Gson gson = new Gson();
 
 }

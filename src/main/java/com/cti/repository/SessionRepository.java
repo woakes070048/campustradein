@@ -6,11 +6,11 @@ import com.cti.exception.InvalidTokenException;
 import com.cti.model.UserAccount;
 
 public interface SessionRepository {
-	void save(AuthenticationToken token) throws DuplicateTokenException;
+	String newSession(String username);
 
-	void delete(AuthenticationToken token) throws InvalidTokenException;
-	
-	void delete(String token) throws InvalidTokenException;
+	String findBySessionID(String sessionID);
 
-	UserAccount findBySessionID(String sessionID) throws InvalidTokenException;
+    String findByUsername(String username);
+
+    void deleteSession(String sessionID);
 }

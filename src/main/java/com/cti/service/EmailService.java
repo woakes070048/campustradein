@@ -26,7 +26,4 @@ public class EmailService {
         mailer.mail(email);
     }
 
-    public void sendForgotPasswordUrl(UserAccount userAccount) {
-
-    }
 }
