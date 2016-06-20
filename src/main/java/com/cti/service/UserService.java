@@ -1,24 +1,11 @@
 package com.cti.service;
 
-import java.text.MessageFormat;
-
 import javax.inject.Inject;
-import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 
 import com.cti.annotation.encrypter.PBKDF2;
-import com.cti.auth.AuthenticationToken;
 import com.cti.auth.Encrypter;
-import com.cti.auth.Password;
-import com.cti.dto.UserDTO;
-import com.cti.exception.DuplicateTokenException;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.InvalidTokenException;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.model.UserAccount;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
-import com.cti.repository.UserRepository;
 
 public class UserService {
 	@Inject
@@ -68,14 +55,14 @@ public class UserService {
 //		tokenRepository.delete(token);
 //	}
 //
-//	public AuthenticationToken createVerificationToken(UserAccount userAccount) throws DuplicateTokenException {
-//		AuthenticationToken token = new AuthenticationToken(userAccount);
+//	public TokenGenerator createVerificationToken(UserAccount userAccount) throws DuplicateTokenException {
+//		TokenGenerator token = new TokenGenerator(userAccount);
 //		tokenRepository.save(token);
 //		return token;
 //    }
 //
-//    public AuthenticationToken getVerificationToken(String token) throws InvalidTokenException {
-//        return tokenRepository.findByTokenId(token);
+//    public TokenGenerator getVerificationToken(String token) throws InvalidTokenException {
+//        return tokenRepository.findUserByTokenId(token);
 //    }
 //
 //	public boolean isUsernameAlreadyTaken(@NotNull String username) {
@@ -111,8 +98,8 @@ public class UserService {
 //                .hash();
 //    }
 //
-//	public AuthenticationToken startSession(UserAccount userAccount) throws DuplicateTokenException {
-//		AuthenticationToken sessionToken = new AuthenticationToken(userAccount);
+//	public TokenGenerator startSession(UserAccount userAccount) throws DuplicateTokenException {
+//		TokenGenerator sessionToken = new TokenGenerator(userAccount);
 //		sessionRepository.save(sessionToken);
 //		return sessionToken;
 //	}

@@ -1,35 +1,14 @@
 package com.cti.controller;
 
 import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
-import com.cti.auth.AuthenticationToken;
 import com.cti.config.FreemarkerTemplateEngine;
-import com.cti.config.Routes;
-import com.cti.dto.UserDTO;
-import com.cti.exception.InvalidTokenException;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.model.UserAccount;
 import com.cti.service.EmailService;
 import com.cti.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.ModelAndView;
-import spark.Spark;
 
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
-import javax.validation.metadata.ConstraintDescriptor;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 @Controller
 public class RegistrationController {
@@ -64,7 +43,7 @@ public class RegistrationController {
 //
 //				// create account and send activation email
 //				UserAccount userAccount = userService.createNewUserAccount(userDTO);
-//				AuthenticationToken verificationToken = userService.createVerificationToken(userAccount);
+//				TokenGenerator verificationToken = userService.createVerificationToken(userAccount);
 //
 //				// TODO: on another thread
 //				// send activation email
@@ -80,7 +59,7 @@ public class RegistrationController {
 //				emailService.sendActivationEmail(userAccount, body);
 //
 //				// generate session cookie
-//				AuthenticationToken sessionToken = userService.startSession(userAccount);
+//				TokenGenerator sessionToken = userService.startSession(userAccount);
 ////				response.cookie("session", sessionToken.getToken(), 3600, true);
 //				response.cookie("session", sessionToken.getToken());
 //                response.status(HttpStatus.SC_OK);
@@ -138,14 +117,14 @@ public class RegistrationController {
 //    	Spark.get(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
 //    		try {
 //				String token = escapeHtml4(request.queryParams("token"));
-//				AuthenticationToken verificationToken = userService.getVerificationToken(token);
+//				TokenGenerator verificationToken = userService.getVerificationToken(token);
 //
 //				if(verificationToken != null && !verificationToken.hasExpired()) {
 //					UserAccount userAccount = verificationToken.getUserAccount();
 //					userService.activateUser(userAccount, verificationToken.getToken());
 //					response.removeCookie("session");
 //                    response.removeCookie("account_activated");
-//					AuthenticationToken sessionToken = userService.startSession(userAccount);
+//					TokenGenerator sessionToken = userService.startSession(userAccount);
 //
 //                    Cookie sessionCookie = new Cookie("session", sessionToken.getToken());
 //                    sessionCookie.setPath("/");

@@ -1,31 +1,13 @@
 package com.cti.controller;
 
 import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.metadata.ConstraintDescriptor;
 
-import com.cti.config.Routes;
-import com.cti.dto.LoginDTO;
-import com.cti.model.UserAccount;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.ModelAndView;
-import spark.Spark;
 
 import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
-import com.cti.auth.AuthenticationToken;
 import com.cti.service.AuthenticationService;
 import com.cti.service.UserService;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by ifeify on 4/30/16.
@@ -84,7 +66,7 @@ public class LoginLogoutController extends AbstractController {
 //                // TODO: userService.findByUserId()
 //
 //				if(userAccount != null && authService.isPasswordCorrect(userAccount.getPassword(), loginDTO.getPassword())) {
-//					AuthenticationToken token = userService.startSession(userAccount);
+//					TokenGenerator token = userService.startSession(userAccount);
 //					response.cookie("session", token.getToken());
 //                    response.status(HttpStatus.SC_OK);
 //                    return new JSONObject()

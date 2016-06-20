@@ -75,7 +75,7 @@ public class ApplicationConfig extends AbstractModule {
 		setupAPIKeys();
 		setupMongodb();
 
-		bind(UserRepository2.class).to(UserRepositoryImpl.class);
+		bind(UserRepository.class).to(UserRepositoryImpl.class);
 		bind(UserRepository.class).to(InMemoryUserRepository.class);
 		bind(TokenRepository.class).to(InMemoryTokenRepository.class);
         bind(SessionRepository.class).to(InMemorySessionRepository.class);

@@ -2,8 +2,8 @@ package com.cti.controller;
 
 import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
-import com.cti.auth.AuthenticationToken;
 import com.cti.config.Routes;
+import com.cti.exception.InvalidTokenException;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.UserAccount;
 import com.cti.repository.SessionRepository;
@@ -40,7 +40,7 @@ public class RegistrationController2 extends AbstractController {
 
     @Route
     public void checkIfUsernameExists() {
-        Spark.get("/users", (request, response) -> {
+        Spark.post("/users", (request, response) -> {
             Optional<String> result = Optional.ofNullable(request.queryParams("username"));
             if(result.isPresent()) {
                 if(userService2.isUsernameRegistered(result.get())) {
@@ -57,7 +57,7 @@ public class RegistrationController2 extends AbstractController {
 
     @Route
     public void checkIfEmailExists() {
-        Spark.get("/users", (request, response) -> {
+        Spark.post("/users", (request, response) -> {
             Optional<String> result = Optional.ofNullable(request.queryParams("email"));
             if(result.isPresent()) {
                 if(userService2.isUsernameRegistered(result.get())) {
@@ -73,11 +73,13 @@ public class RegistrationController2 extends AbstractController {
     }
 
     @Route
-    public void hangleSignup() {
+    public void handleSignup() {
         Spark.post(Routes.SIGNUP, (request, response) -> {
             try {
                 UserAccount userAccount = gson.fromJson(request.body(), UserAccount.class);
                 userService2.createNewUser(userAccount);
+
+                // send activation notification email to the user
                 Email email = new Email();
                 email.setTo(userAccount.getEmail());
                 email.setFrom(sender);
@@ -87,7 +89,7 @@ public class RegistrationController2 extends AbstractController {
                 StringBuilder sb = new StringBuilder();
 				sb.append(System.getProperty("hostname"));
 				sb.append(Routes.ACTIVATE_ACCOUNT);
-				sb.append("?token=");
+				sb.append("?q=");
 				sb.append(token);
 				Map<String, String> model = new HashMap<>();
 				model.put("username", userAccount.getUsername());
@@ -96,14 +98,32 @@ public class RegistrationController2 extends AbstractController {
                 email.setBody(templateEngine.render(new ModelAndView(model, "activation_email.ftl")));
                 userService2.sendNotification(email);
 
+                // start user session
                 String sessionID = sessionRepository.newSession(userAccount.getUsername());
                 response.cookie("user_session", sessionID);
-                response.cookie("dotcom_user", userAccount.getUsername());
+                response.cookie("username", userAccount.getUsername());
                 response.cookie("loggedIn", "true");
                 response.status(HttpStatus.SC_OK);
             } catch(UserAlreadyExistsException | SMTPMailException e) {
                 logger.error("An error occurred registering user", e);
-                response.status(HttpStatus.SC_BAD_REQUEST);
+                response.redirect("/error", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            }
+            return null;
+        });
+    }
+
+    @Route
+    public void handleAccountActivation() {
+        Spark.post(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
+            try {
+                String token = request.queryParams("q");
+                if(!tokenRepository.hasTokenExpired(token)) {
+
+                } else {
+
+                }
+            } catch(InvalidTokenException e) {
+                logger.error("Error activating user account", e);
             }
             return null;
         });

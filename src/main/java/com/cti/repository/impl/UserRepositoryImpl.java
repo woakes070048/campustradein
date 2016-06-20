@@ -4,7 +4,7 @@ import com.cti.exception.UserAlreadyExistsException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
-import com.cti.repository.UserRepository2;
+import com.cti.repository.UserRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -23,7 +23,7 @@ import java.util.Optional;
 /**
  * @author ifeify
  */
-public class UserRepositoryImpl implements UserRepository2 {
+public class UserRepositoryImpl implements UserRepository {
     private final MongoDatabase mongoDatabase;
     private final MongoCollection<Document> userCollection;
 

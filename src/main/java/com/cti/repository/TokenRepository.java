@@ -1,15 +1,13 @@
 package com.cti.repository;
 
-import javax.validation.constraints.NotNull;
-
-import com.cti.auth.AuthenticationToken;
 import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
 
 public interface TokenRepository {
-	String newToken(String username);
 
-    String newToken(String username, long expiryDate);
+    void addToken(Token token) throws DuplicateTokenException;
 
-    void deleteToken(String username);
+    Token findById(String token) throws InvalidTokenException;
+
+    void deleteToken(String token);
 }
