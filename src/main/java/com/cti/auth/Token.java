@@ -11,6 +11,8 @@ public class Token {
     private String username;
     private LocalDateTime expirationDateTime;
 
+    public Token() {}
+
     public Token(String username) {
         this.username = username;
         expirationDateTime = LocalDateTime.now().plusMinutes(EXPIRATION_TIME);

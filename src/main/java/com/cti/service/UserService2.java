@@ -1,5 +1,8 @@
 package com.cti.service;
 
+import com.cti.auth.EncrypterFactory;
+import com.cti.auth.Password;
+import com.cti.exception.EncryptionException;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
@@ -57,8 +60,13 @@ public class UserService2 {
         }
     }
 
-    public void createNewUser(UserAccount userAccount) throws UserAlreadyExistsException {
+    public void createNewUser(UserAccount userAccount) throws UserAlreadyExistsException, EncryptionException {
         // TODO: validate user
+        Password hashedPassword = new Password.PasswordBuilder()
+                                            .plainTextPassword(userAccount.getPassword())
+                                            .useEncrypter(EncrypterFactory.getEncrypter("PBKDF2WithHmacSHA1"))
+                                            .hash();
+        userAccount.setPassword(hashedPassword.toString());
         userRepository.addUser(userAccount);
     }
 

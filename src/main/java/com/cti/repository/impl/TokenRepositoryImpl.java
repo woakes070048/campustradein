@@ -1,18 +1,22 @@
 package com.cti.repository.impl;
 
+import com.cti.auth.Token;
 import com.cti.auth.TokenGenerator;
+import com.cti.exception.DuplicateTokenException;
 import com.cti.exception.InvalidTokenException;
 import com.cti.repository.TokenRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
+import org.apache.tools.ant.taskdefs.Local;
 import org.bson.Document;
 
 import javax.inject.Inject;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -29,50 +33,29 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     @Override
-    public String newToken(String username) {
-        LocalDateTime time = LocalDateTime.now().plusMinutes(EXPIRATION_TIME);
-        String token = TokenGenerator.generate();
-        Document document = new Document("username", username)
-                                .append("token", token)
-                                .append("expirationTime", EXPIRATION_TIME);
+    public void addToken(Token token) throws DuplicateTokenException {
+        LocalDateTime expirationTime = token.getExpirationDateTime();
+        Date expirationDate = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
+        Document document = new Document("username", token.getUsername())
+                                        .append("token", token.getToken())
+                                        .append("expirationDate", expirationDate);
         tokenCollection.insertOne(document);
-        return token;
     }
 
     @Override
-    public String newToken(String username, long expirationTime) {
-        // mongodb does not support LocalDateTime so convert to Date
-        LocalDateTime time = LocalDateTime.now().plusMinutes(expirationTime);
-        Date expirationDate = Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
-
-        String token = TokenGenerator.generate();
-        Document document = new Document("username", username)
-                                .append("token", token)
-                                .append("expirationDate", expirationDate);
-        tokenCollection.insertOne(document);
-        return token;
-    }
-
-    @Override
-    public boolean hasTokenExpired(String token) throws InvalidTokenException {
-        Document document = tokenCollection.find(Filters.eq("token", token)).first();
+    public Optional<Token> findById(String tokenId) {
+        Document document = tokenCollection.find(Filters.eq("token", tokenId)).first();
         if(document == null) {
-            throw new InvalidTokenException(token + " is not valid");
+            return Optional.empty();
         }
+        Token token = new Token();
         Date expirationDate = document.getDate("expirationDate");
         LocalDateTime expirationTime = LocalDateTime.ofInstant(expirationDate.toInstant(), ZoneId.systemDefault());
-        return expirationTime.isBefore(LocalDateTime.now());
-    }
+        token.setExpirationDateTime(expirationTime);
+        token.setUsername(document.getString("username"));
 
-    @Override
-    public String findUserByTokenId(String token) throws InvalidTokenException {
-        Document document = tokenCollection.find(Filters.eq("token", token)).first();
-        if(document == null) {
-            throw new InvalidTokenException(token + " is not valid");
-        }
-        return document.getString("username");
+        return Optional.of(token);
     }
-
 
     @Override
     public void deleteToken(String token) {
