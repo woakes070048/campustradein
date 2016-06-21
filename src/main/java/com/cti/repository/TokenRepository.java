@@ -1,16 +1,15 @@
 package com.cti.repository;
 
-import com.cti.auth.Token;
+import com.cti.auth.VerificationToken;
 import com.cti.exception.DuplicateTokenException;
-import com.cti.exception.InvalidTokenException;
 
 import java.util.Optional;
 
 public interface TokenRepository {
 
-    void addToken(Token token) throws DuplicateTokenException;
+    void addToken(VerificationToken verificationToken) throws DuplicateTokenException;
 
-    Optional<Token> findById(String token);
+    Optional<VerificationToken> findById(String token);
 
     void deleteToken(String token);
 }

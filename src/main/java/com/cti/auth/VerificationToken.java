@@ -5,15 +5,15 @@ import java.time.LocalDateTime;
 /**
  * @author ifeify
  */
-public class Token {
+public class VerificationToken {
     private final static long EXPIRATION_TIME = 60 * 24;
     private String token;
     private String username;
     private LocalDateTime expirationDateTime;
 
-    public Token() {}
+    public VerificationToken() {}
 
-    public Token(String username) {
+    public VerificationToken(String username) {
         this.username = username;
         expirationDateTime = LocalDateTime.now().plusMinutes(EXPIRATION_TIME);
     }

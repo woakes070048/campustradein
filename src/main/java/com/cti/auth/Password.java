@@ -16,7 +16,7 @@ public class Password {
 
     public Password() {}
 	
-	public Password(PasswordBuilder builder) {
+	public Password(Builder builder) {
 		this.salt = builder.salt;
 		this.iterations = builder.iterations;
 		this.hash = builder.hash;
@@ -97,7 +97,7 @@ public class Password {
 		return sb.toString();
 	}
 	
-	public static class PasswordBuilder {
+	public static class Builder {
 		private Encrypter encrypter;
 		private int iterations = PasswordFormat.ITERATIONS;
 		private int hashSize = PasswordFormat.HASH_BYTE_SIZE;
@@ -107,27 +107,27 @@ public class Password {
 		private byte[] hash;
         private boolean saltProvided = false;
 		
-		public PasswordBuilder iterations(int iter) {
+		public Builder iterations(int iter) {
 			this.iterations = iter;
 			return this;
 		}
 
-        public PasswordBuilder plainTextPassword(String password) {
+        public Builder plainTextPassword(String password) {
             this.password = password;
             return this;
         }
 		
-		public PasswordBuilder hashSize(int size) {
+		public Builder hashSize(int size) {
 			this.hashSize = size;
 			return this;
 		}
 
-		public PasswordBuilder useEncrypter(Encrypter encrypter) {
+		public Builder useEncrypter(Encrypter encrypter) {
             this.encrypter = encrypter;
             return this;
         }
 		
-		public PasswordBuilder saltSize(int size) {
+		public Builder saltSize(int size) {
 			this.saltSize = size;
 			return this;
 		}
@@ -150,7 +150,7 @@ public class Password {
 			return new Password(this);
 		}
 
-        public PasswordBuilder useSalt(byte[] salt) {
+        public Builder useSalt(byte[] salt) {
             this.salt = salt;
             this.saltSize = salt.length;
             saltProvided = true;

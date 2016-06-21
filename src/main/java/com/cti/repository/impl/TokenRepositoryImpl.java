@@ -1,15 +1,12 @@
 package com.cti.repository.impl;
 
-import com.cti.auth.Token;
-import com.cti.auth.TokenGenerator;
+import com.cti.auth.VerificationToken;
 import com.cti.exception.DuplicateTokenException;
-import com.cti.exception.InvalidTokenException;
 import com.cti.repository.TokenRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Indexes;
-import org.apache.tools.ant.taskdefs.Local;
+import com.mongodb.client.model.Indexes;;
 import org.bson.Document;
 
 import javax.inject.Inject;
@@ -33,7 +30,7 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     @Override
-    public void addToken(Token token) throws DuplicateTokenException {
+    public void addToken(VerificationToken token) throws DuplicateTokenException {
         LocalDateTime expirationTime = token.getExpirationDateTime();
         Date expirationDate = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
         Document document = new Document("username", token.getUsername())
@@ -43,12 +40,12 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     @Override
-    public Optional<Token> findById(String tokenId) {
+    public Optional<VerificationToken> findById(String tokenId) {
         Document document = tokenCollection.find(Filters.eq("token", tokenId)).first();
         if(document == null) {
             return Optional.empty();
         }
-        Token token = new Token();
+        VerificationToken token = new VerificationToken();
         Date expirationDate = document.getDate("expirationDate");
         LocalDateTime expirationTime = LocalDateTime.ofInstant(expirationDate.toInstant(), ZoneId.systemDefault());
         token.setExpirationDateTime(expirationTime);

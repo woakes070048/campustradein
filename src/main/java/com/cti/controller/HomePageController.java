@@ -1,21 +1,6 @@
 package com.cti.controller;
 
 import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
-import com.cti.config.Routes;
-import com.cti.model.UserAccount;
-import com.cti.service.UserService;
-
-import spark.ModelAndView;
-import spark.Spark;
-
-import javax.inject.Inject;
-
-import java.util.HashMap;
-import java.text.MessageFormat;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author ifeify

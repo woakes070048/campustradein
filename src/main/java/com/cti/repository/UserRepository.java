@@ -1,5 +1,6 @@
 package com.cti.repository;
 
+import com.cti.auth.Credential;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
@@ -11,6 +12,8 @@ import java.util.Optional;
  * @author ifeify
  */
 public interface UserRepository {
+    Optional<Credential> getUserCredential(String username);
+
     void addUser(UserAccount userAccount) throws UserAlreadyExistsException;
 
     void activateUser(String username) throws UserNotFoundException;
