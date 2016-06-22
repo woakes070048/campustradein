@@ -1,23 +1,26 @@
-import com.cti.config.ApplicationConfig;
+import com.cti.config.AppConfig;
 import com.cti.exception.BooksApiException;
 import com.cti.model.BookInfo;
 import com.cti.service.BooksApi;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Optional;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author ifeify
  */
+@Ignore
 public class GoogleBooksApiTest {
     private BooksApi booksApi;
 
     public GoogleBooksApiTest() {
-        Injector injector = Guice.createInjector(new ApplicationConfig());
+        Injector injector = Guice.createInjector(new AppConfig());
         booksApi = injector.getInstance(BooksApi.class);
     }
 

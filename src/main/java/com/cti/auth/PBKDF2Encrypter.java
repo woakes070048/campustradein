@@ -1,12 +1,11 @@
 package com.cti.auth;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import com.cti.exception.EncryptionException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
-import com.cti.exception.EncryptionException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class PBKDF2Encrypter implements Encrypter {
 	@Override

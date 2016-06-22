@@ -1,13 +1,11 @@
 package com.cti.config;
 
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.StringWriter;
 

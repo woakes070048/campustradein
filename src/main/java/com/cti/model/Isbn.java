@@ -4,7 +4,6 @@ import com.cti.exception.InvalidISBNException;
 import com.google.common.base.MoreObjects;
 
 import java.text.MessageFormat;
-import java.util.IllegalFormatException;
 
 /**
  * @author ifeify

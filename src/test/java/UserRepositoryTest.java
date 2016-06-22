@@ -1,4 +1,4 @@
-import com.cti.config.ApplicationConfig;
+import com.cti.config.AppConfig;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.model.UserAccount;
 import com.cti.repository.UserRepository;
@@ -17,7 +17,7 @@ public class UserRepositoryTest {
     private UserAccount userAccount;
 
     public UserRepositoryTest() {
-        userRepository = Guice.createInjector(new ApplicationConfig()).getInstance(UserRepository.class);
+        userRepository = Guice.createInjector(new AppConfig()).getInstance(UserRepository.class);
     }
 
     @Before

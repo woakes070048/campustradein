@@ -10,12 +10,11 @@ import static spark.Spark.halt;
 /**
  * @author ifeify
  */
-public class RequiresJsonFilter implements Filter {
+public class RequiresBodyFilter implements Filter {
     @Override
     public void handle(Request request, Response response) throws Exception {
-        String acceptHeader = request.headers("Accept");
-        if(acceptHeader == null || !acceptHeader.contains("application/json")) {
-            halt(HttpStatus.SC_NOT_ACCEPTABLE, "Only JSON allowed");
+        if(request.body().isEmpty()) {
+            halt(HttpStatus.SC_NOT_ACCEPTABLE, "Body is empty");
         }
     }
 }

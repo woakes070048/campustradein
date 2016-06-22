@@ -1,12 +1,11 @@
 package com.cti.validator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.cti.annotation.ValidEmail;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import com.cti.annotation.ValidEmail;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 	private Pattern pattern;

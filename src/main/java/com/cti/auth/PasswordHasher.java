@@ -1,14 +1,11 @@
 package com.cti.auth;
 
-import java.security.SecureRandom;
+import com.cti.exception.EncryptionException;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
-
-import org.apache.commons.codec.binary.Base64;
-
-import com.cti.exception.EncryptionException;
+import java.security.SecureRandom;
 
 public class PasswordHasher {
 	@Inject

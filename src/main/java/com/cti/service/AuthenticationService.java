@@ -3,13 +3,11 @@ package com.cti.service;
 import com.cti.auth.Credential;
 import com.cti.auth.Password;
 import com.cti.auth.Password.PasswordParser;
-import com.cti.exception.AuthenticationException;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordParseException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.UserRepository;
-import org.apache.http.auth.AUTH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +22,6 @@ public class AuthenticationService {
     private SessionRepository sessionRepository;
 
     /**
-     *
      * @param usernameOrEmail the username or email of the user
      * @param password password to authenticate with
      * @return true if user is was successfully logged in. false if the usernameOrEmail does not
@@ -62,7 +59,13 @@ public class AuthenticationService {
      * @param username
      * @throws UserNotFoundException
      */
-    public void logout(String username) throws UserNotFoundException {
-        sessionRepository.deleteSession(username);
+    public boolean logout(String username) {
+        try {
+            sessionRepository.deleteSession(username);
+            return true;
+        } catch (UserNotFoundException e) {
+            logger.error(username + " does not exist");
+            return false;
+        }
     }
 }

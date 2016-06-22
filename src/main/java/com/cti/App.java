@@ -1,7 +1,7 @@
 package com.cti;
 
 import com.cti.annotation.Route;
-import com.cti.config.ApplicationConfig;
+import com.cti.config.AppConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.reflections.Reflections;
@@ -32,7 +32,7 @@ public class App {
 		Spark.port(port);
 		Spark.staticFileLocation("/html");
 		initializeControllers();
-        Spark.awaitInitialization();
+//        Spark.awaitInitialization();
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class App {
 		Set<Class<?>> controllers = reflections
 				.getTypesAnnotatedWith(com.cti.annotation.Controller.class);
 		
-		Injector injector = Guice.createInjector(new ApplicationConfig());
+		Injector injector = Guice.createInjector(new AppConfig());
 		for (Class<?> clazz : controllers) {
 			logger.info("setting up {}", clazz.getName());
 

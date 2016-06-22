@@ -1,16 +1,16 @@
 package com.cti.service;
 
-import com.cti.exception.BooksApiException;
 import com.cti.model.BookInfo;
-
 import com.cti.model.Isbn;
-import com.google.common.cache.*;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.CacheStats;
+import com.google.common.cache.LoadingCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 

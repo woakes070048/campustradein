@@ -2,12 +2,6 @@ package com.cti.auth;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.UUID;
-
-import com.cti.model.UserAccount;
-import com.google.common.base.MoreObjects;
 
 /**
  * @author ifeify

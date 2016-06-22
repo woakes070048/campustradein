@@ -1,10 +1,10 @@
 package com.cti.validator;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import com.cti.annotation.PasswordMatches;
 import com.cti.dto.UserDTO;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object>{
 	@Override

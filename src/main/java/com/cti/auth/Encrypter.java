@@ -1,8 +1,5 @@
 package com.cti.auth;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 import com.cti.exception.EncryptionException;
 
 public interface Encrypter {

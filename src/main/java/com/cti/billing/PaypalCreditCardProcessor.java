@@ -1,8 +1,8 @@
 package com.cti.billing;
 
-import javax.inject.Inject;
-
 import com.google.inject.name.Named;
+
+import javax.inject.Inject;
 
 /**
  * Created by ifeify on 5/1/16.

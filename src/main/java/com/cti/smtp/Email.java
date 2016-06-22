@@ -1,7 +1,5 @@
 package com.cti.smtp;
 
-import com.google.inject.name.Named;
-
 import java.util.List;
 import java.util.Map;
 

@@ -12,6 +12,7 @@ import com.cti.repository.TokenRepository;
 import com.cti.service.UserService;
 import com.cti.smtp.Email;
 import com.cti.smtp.SMTPMailException;
+import com.google.gson.JsonObject;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import spark.ModelAndView;
 import spark.Spark;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.validation.ConstraintViolation;
 import java.util.*;
 
@@ -41,45 +43,43 @@ public class RegistrationController extends AbstractController {
 
     @Route
     public void checkIfUsernameExists() {
-        Spark.post("/users", (request, response) -> {
-            Optional<String> result = Optional.ofNullable(request.queryParams("username"));
-            if(result.isPresent()) {
-                if(userService.isUsernameRegistered(result.get())) {
-                    response.status(HttpStatus.SC_OK);
-                } else {
-                    response.status(HttpStatus.SC_CONFLICT);
-                }
+        Spark.get("/signupok/username/:username", (request, response) -> {
+            Optional<String> username = Optional.ofNullable(request.params(":username"));
+            if(username.isPresent() && !userService.isUsernameRegistered(username.get())) {
+                response.status(HttpStatus.SC_OK);
             } else {
-                response.status(HttpStatus.SC_CONFLICT);
+                response.status(HttpStatus.SC_BAD_REQUEST);
             }
+            response.body("");
+            response.header("Content-Type", "application/json");
             return null;
         });
     }
 
     @Route
     public void checkIfEmailExists() {
-        Spark.post("/users", (request, response) -> {
-            Optional<String> result = Optional.ofNullable(request.queryParams("email"));
-            if(result.isPresent()) {
-                if(userService.isUsernameRegistered(result.get())) {
-                    response.status(HttpStatus.SC_OK);
-                } else {
-                    response.status(HttpStatus.SC_CONFLICT);
-                }
+        Spark.get("/signupok/email/:email", (request, response) -> {
+            Optional<String> email = Optional.ofNullable(request.params(":email"));
+            if(email.isPresent() && !userService.isEmailRegistered(email.get())) {
+                response.status(HttpStatus.SC_OK);
             } else {
-                response.status(HttpStatus.SC_CONFLICT);
+                response.status(HttpStatus.SC_BAD_REQUEST);
             }
+            response.body("");
             return null;
         });
     }
 
     @Route
     public void handleSignup() {
+        Spark.before(Routes.SIGNUP, new RequiresJsonFilter());
+        Spark.before(Routes.SIGNUP, new RequiresBodyFilter());
+
         Spark.post(Routes.SIGNUP, (request, response) -> {
             try {
                 UserAccount userAccount = gson.fromJson(request.body(), UserAccount.class);
                 Set<ConstraintViolation<UserAccount>> violations = validator.validate(userAccount);
-                if(violations.size() > 0) {
+                if(violations.size() > 0) { // errors with input
                     List<String> errors = new ArrayList<>();
                     for(ConstraintViolation v : violations) {
                         errors.add(v.getMessage());
@@ -112,14 +112,24 @@ public class RegistrationController extends AbstractController {
                 userService.sendNotification(email);
 
                 // start user session
+                // TODO: load balancer will have to set HttpOnly and secure flags for cookies
                 String sessionID = sessionRepository.newSession(userAccount.getUsername());
-                response.cookie("user_session", sessionID);
-                response.cookie("username", userAccount.getUsername());
-                response.cookie("loggedIn", "true");
+                response.cookie(Cookies.USER_SESSION, sessionID, 604800); // expires in a week
+                response.cookie(Cookies.USER_NAME, userAccount.getUsername(), 604800);
+                response.cookie(Cookies.LOGGED_IN, "yes", 604800);
                 response.status(HttpStatus.SC_CREATED);
+                response.header("Content-Type", "application/json");
+
+                JsonObject jsonResponse = new JsonObject();
+                jsonResponse.addProperty("redirect", "/");
+                return gson.toJson(jsonResponse);
             } catch(UserAlreadyExistsException e) {
                 logger.error("An error occurred registering user", e);
-                response.status(HttpStatus.SC_BAD_REQUEST);
+                response.status(HttpStatus.SC_CONFLICT);
+                response.header("Content-Type", "application/json");
+                JsonObject jsonResponse = new JsonObject();
+                jsonResponse.addProperty("error", "try using another username and/or email");
+                return gson.toJson(jsonResponse);
             } catch(SMTPMailException | EncryptionException e) {
                 logger.error("An error occurred creating new user account", e);
                 response.status(HttpStatus.SC_INTERNAL_SERVER_ERROR);

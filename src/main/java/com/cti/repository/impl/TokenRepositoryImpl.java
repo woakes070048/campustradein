@@ -6,14 +6,16 @@ import com.cti.repository.TokenRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Indexes;;
+import com.mongodb.client.model.Indexes;
 import org.bson.Document;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
+
+;
 
 /**
  * @author ifeify

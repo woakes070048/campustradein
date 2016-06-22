@@ -1,5 +1,6 @@
 package com.cti.repository.impl;
 
+import com.cti.auth.Credential;
 import com.cti.exception.UserAlreadyExistsException;
 import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
@@ -33,6 +34,33 @@ public class UserRepositoryImpl implements UserRepository {
         userCollection = mongoDatabase.getCollection("users");
         userCollection.createIndex(Indexes.ascending("username"));
         userCollection.createIndex(Indexes.ascending("email"));
+    }
+
+    @Override
+    public Optional<Credential> getUserCredential(String usernameOrEmail) {
+        if(usernameOrEmail.contains("@")) {
+            Document document = userCollection.find(Filters.eq("email", usernameOrEmail)).first();
+            if(document != null) {
+                Credential credential = new Credential();
+                credential.setUsername(document.getString("username"));
+                credential.setEmail(document.getString("email"));
+                credential.setEncryptedPassword(document.getString("password"));
+                return Optional.of(credential);
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            Document document = userCollection.find(Filters.eq("username", usernameOrEmail)).first();
+            if(document != null) {
+                Credential credential = new Credential();
+                credential.setUsername(document.getString("username"));
+                credential.setEmail(document.getString("email"));
+                credential.setEncryptedPassword(document.getString("password"));
+                return Optional.of(credential);
+            } else {
+                return Optional.empty();
+            }
+        }
     }
 
     @Override

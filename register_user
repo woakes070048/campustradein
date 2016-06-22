@@ -1,3 +1,3 @@
 #!/bin/bash
-USER = "{\"username\":\"ifeify\",\"email\":\"ifeify92@gmail.com\",\"password\":\"ifeifybaddo\",\"matchingPassword\":\"ifeifybaddo\",\"college\":\"Wichita State University\"}"
-curl -vH "Accept : application/json" -H "Content-Type : application/json" -d "$USER" -X POST localhost:8080/login
+USER = "{\"username\":\"ifeify\",\"email\":\"ifeify92@gmail.com\",\"password\":\"ifeifybaddo\",\"college\":\"Wichita State University\"}"
+curl -vH "Accept : application/json" -H "Content-Type : application/json" -d "$USER" -X POST localhost:8080/signup

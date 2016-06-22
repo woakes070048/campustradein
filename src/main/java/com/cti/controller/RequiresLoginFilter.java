@@ -1,13 +1,11 @@
 package com.cti.controller;
 
-import static com.google.common.base.Preconditions.*;
-import static spark.Spark.halt;
-
 import spark.Filter;
 import spark.Request;
 import spark.Response;
 
-import javax.servlet.http.Cookie;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static spark.Spark.halt;
 
 /**
  * @author ifeify

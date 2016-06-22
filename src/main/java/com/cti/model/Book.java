@@ -3,8 +3,6 @@ package com.cti.model;
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

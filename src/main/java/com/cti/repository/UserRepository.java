@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author ifeify
  */
 public interface UserRepository {
-    Optional<Credential> getUserCredential(String username);
+    Optional<Credential> getUserCredential(String usernameOrEmail);
 
     void addUser(UserAccount userAccount) throws UserAlreadyExistsException;
 

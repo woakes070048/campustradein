@@ -15,6 +15,7 @@ public class VerificationToken {
 
     public VerificationToken(String username) {
         this.username = username;
+        token = TokenGenerator.generate();
         expirationDateTime = LocalDateTime.now().plusMinutes(EXPIRATION_TIME);
     }
 

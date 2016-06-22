@@ -1,15 +1,13 @@
-import static org.junit.Assert.assertEquals;
-
-import java.util.Set;
+import com.cti.dto.UserDTO;
+import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.Set;
 
-import org.junit.Test;
-
-import com.cti.dto.UserDTO;
+import static org.junit.Assert.assertEquals;
 
 public class UserAccountDtoTest {
 	private Validator validator;

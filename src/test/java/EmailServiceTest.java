@@ -1,4 +1,4 @@
-import com.cti.config.ApplicationConfig;
+import com.cti.config.AppConfig;
 import com.cti.config.FreemarkerTemplateEngine;
 import com.cti.model.UserAccount;
 import com.cti.service.EmailService;
@@ -7,8 +7,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 
 import java.util.HashMap;
@@ -20,7 +18,7 @@ public class EmailServiceTest {
 	private FreemarkerTemplateEngine templateEngine;
 	
 	public EmailServiceTest() {
-		Injector injector = Guice.createInjector(new ApplicationConfig());
+		Injector injector = Guice.createInjector(new AppConfig());
 		emailService = injector.getInstance(EmailService.class);
         templateEngine = injector.getInstance(FreemarkerTemplateEngine.class);
 	}

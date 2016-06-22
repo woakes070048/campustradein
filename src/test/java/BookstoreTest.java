@@ -1,4 +1,4 @@
-import com.cti.config.ApplicationConfig;
+import com.cti.config.AppConfig;
 import com.cti.model.Book;
 import com.cti.repository.Bookstore;
 import com.google.inject.Guice;
@@ -11,7 +11,8 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author ifeify
@@ -22,7 +23,7 @@ public class BookstoreTest {
     private Book book = new Book();
 
     public BookstoreTest() {
-        Injector injector = Guice.createInjector(new ApplicationConfig());
+        Injector injector = Guice.createInjector(new AppConfig());
         mongoClient = injector.getInstance(MongoClient.class);
         bookStore = injector.getInstance(Bookstore.class);
     }

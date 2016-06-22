@@ -53,11 +53,7 @@ public class UserService {
 
     public boolean isUsernameRegistered(String username) {
         Optional<UserAccount> result = userRepository.findByUsername(username);
-        if(result.isPresent()) {
-            return true;
-        } else {
-            return false;
-        }
+        return result.isPresent();
     }
 
     public void createNewUser(UserAccount userAccount) throws UserAlreadyExistsException, EncryptionException {

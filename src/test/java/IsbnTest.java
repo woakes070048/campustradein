@@ -2,7 +2,7 @@ import com.cti.exception.InvalidISBNException;
 import com.cti.model.Isbn;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author ifeify
