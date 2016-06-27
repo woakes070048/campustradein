@@ -12,17 +12,17 @@ import javax.inject.Inject;
  * @author ifeify
  */
 @Controller
-public class BookListingController extends AbstractController {
+public class UserController extends AbstractController {
     @Inject
     private UserService userService;
 
     @Inject
-    public BookListingController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @Route
-    public void listABook() {
+    public void addBook() {
         Spark.post("users/:user/books", (request, response) -> {
             Book book = gson.fromJson(request.body(), Book.class);
             userService.createNewListing(book);
@@ -31,7 +31,26 @@ public class BookListingController extends AbstractController {
     }
 
     @Route
-    public void handleImageUpload() {
+    public void deleteBook() {
+        Spark.delete("users/:user/books/:id", (request, response) -> {
 
+            return null;
+        });
+    }
+
+    @Route
+    public void updateBook() {
+        Spark.put("users/:user/books/:id", (request, response) -> {
+
+            return null;
+        });
+    }
+
+    @Route
+    public void getBook() {
+        Spark.get("users/:user/books/:id", (request, response) -> {
+
+            return null;
+        });
     }
 }

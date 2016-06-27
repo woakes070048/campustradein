@@ -35,7 +35,7 @@ public class UserService {
     public void createNewListing(Book book) throws UserNotFoundException {
         Optional<UserAccount> result = userRepository.findByUsername(book.getListedBy());
         if(!result.isPresent()) {
-            throw new UserNotFoundException("book listed by " + book.getListedBy() + " does not exist");
+            throw new UserNotFoundException("username " + book.getListedBy() + " does not exist");
         }
         // TODO: should be a unit of work
         userRepository.addBookListing(book);

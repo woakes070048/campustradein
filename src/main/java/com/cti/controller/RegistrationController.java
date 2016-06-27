@@ -48,10 +48,8 @@ public class RegistrationController extends AbstractController {
             if(username.isPresent() && !userService.isUsernameRegistered(username.get())) {
                 response.status(HttpStatus.SC_OK);
             } else {
-                response.status(HttpStatus.SC_BAD_REQUEST);
+                response.status(HttpStatus.SC_CONFLICT);
             }
-            response.body("");
-            response.header("Content-Type", "application/json");
             return null;
         });
     }
@@ -63,9 +61,8 @@ public class RegistrationController extends AbstractController {
             if(email.isPresent() && !userService.isEmailRegistered(email.get())) {
                 response.status(HttpStatus.SC_OK);
             } else {
-                response.status(HttpStatus.SC_BAD_REQUEST);
+                response.status(HttpStatus.SC_CONFLICT);
             }
-            response.body("");
             return null;
         });
     }
@@ -160,5 +157,4 @@ public class RegistrationController extends AbstractController {
             }
         });
     }
-
 }

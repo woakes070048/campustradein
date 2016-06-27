@@ -18,9 +18,7 @@ import java.util.concurrent.ExecutionException;
  * @author ifeify
  * The book service class queries an external books api (e.g Google Books api, Open Library api)
  * to get detailed information for a book. It uses a cache with a maximum size of 10,000 internally to
- * cache results and eliminates the need to call the api for the same query. It's current limitation is
- * that there is a chance for duplicates. If a user queries for the same book but provides the ISBN13 number and ISBN10
- * number, it's not recognized as the same book and so two entries for the book will be created in the cache
+ * cache results and eliminates the need to call the api for the same query.
  */
 @Singleton
 public class BookService {
