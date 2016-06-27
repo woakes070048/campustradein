@@ -41,7 +41,7 @@ public final class UserAccount {
 	}
 	
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username.toLowerCase();
 	}
 	
 	public String getEmail() {
@@ -49,7 +49,7 @@ public final class UserAccount {
 	}
 	
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 	
 	public String getPassword() {

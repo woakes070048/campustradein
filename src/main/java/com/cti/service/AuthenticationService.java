@@ -29,6 +29,7 @@ public class AuthenticationService {
      */
     public boolean login(String usernameOrEmail, String password) {
         try {
+            usernameOrEmail = usernameOrEmail.toLowerCase();
             Optional<Credential> result = userRepository.getUserCredential(usernameOrEmail);
             if (!result.isPresent()) {
                 logger.error("{} is not recognized", usernameOrEmail);

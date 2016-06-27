@@ -1,5 +1,7 @@
 package com.cti.repository.impl;
 
+import com.cti.auth.TokenGenerator;
+import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.repository.Bookstore;
 import com.cti.util.Base64;
@@ -9,6 +11,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -32,6 +35,7 @@ public class BookstoreImpl implements Bookstore {
     public BookstoreImpl(MongoClient mongoClient) {
         this.bookstore = mongoClient.getDatabase("campustradein");
         this.books = bookstore.getCollection("books");
+        books.createIndex(Indexes.ascending("bookId"));
         books.createIndex(Indexes.compoundIndex(Indexes.descending("dateListedOn"),
                                                 Indexes.descending("price")));
 
@@ -80,9 +84,8 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
-    public Optional<Book> findById(String uuid) {
-        ObjectId id = new ObjectId(Base64.fromBase64(uuid));
-        Document document = books.find(Filters.eq("_id", id)).first();
+    public Optional<Book> findById(String bookId) {
+        Document document = books.find(Filters.eq("bookId", bookId)).first();
         if(document == null) {
             return Optional.empty();
         }
@@ -93,7 +96,8 @@ public class BookstoreImpl implements Bookstore {
 
     @Override
     public void addBook(Book book) {
-        Document document = new Document("title", book.getTitle())
+        Document document = new Document("bookId", book.getBookId())
+                                .append("title", book.getTitle())
                                 .append("authors", book.getAuthors())
                                 .append("isbn13", book.getIsbn13())
                                 .append("isbn10", book.getIsbn10())
@@ -103,21 +107,29 @@ public class BookstoreImpl implements Bookstore {
                                 .append("condition", book.getCondition())
                                 .append("tags", book.getCategories());
         books.insertOne(document);
-        ObjectId objectId = document.get("_id", ObjectId.class);
-        String uuid = Base64.toBase64(objectId.toByteArray());
-        book.setBookId(uuid);
     }
 
     @Override
-    public void deleteBook(Book book) {
+    public void deleteBook(String bookId)  {
+        DeleteResult deleteResult = books.deleteOne(Filters.eq("bookId", bookId));
+        if(deleteResult.getDeletedCount() == 0) {
+            throw new IllegalArgumentException(bookId + " is not a valid book identification number");
+        }
+    }
 
+    @Override
+    public void deleteBooksListedBy(String username) throws UserNotFoundException {
+        DeleteResult deleteResult = books.deleteMany(Filters.eq("listedBy", username));
+        if(deleteResult.getDeletedCount() == 0) {
+            throw new UserNotFoundException(username + " is not a valid user");
+        }
     }
 
     private void mapToDomainModel(List<Document> documents, List<Book> bookList) {
         for(Document document : documents) {
             if(document != null) {
                 Book book = new Book();
-                book.setBookId(toUUID(document.get("_id", ObjectId.class)));
+                book.setBookId(document.getString("bookId"));
                 book.setTitle(document.getString("title"));
                 book.setAuthors((List<String>)document.get("authors"));
                 book.setIsbn13(document.getString("isbn13"));
@@ -134,7 +146,7 @@ public class BookstoreImpl implements Bookstore {
 
     private void mapToDomainModel(Document document, Book book) {
         if(document != null) {
-            book.setBookId(toUUID(document.get("_id", ObjectId.class)));
+            book.setBookId(document.getString("bookId"));
             book.setTitle(document.getString("title"));
             book.setAuthors((List<String>)document.get("authors"));
             book.setIsbn13(document.getString("isbn13"));
@@ -145,9 +157,5 @@ public class BookstoreImpl implements Bookstore {
             book.setCondition(document.getString("condition"));
             book.setCategories((List<String>)document.get("tags"));
         }
-    }
-
-    private String toUUID(ObjectId id) {
-        return Base64.toBase64(id.toByteArray());
     }
 }

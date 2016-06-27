@@ -1,5 +1,6 @@
 package com.cti.repository;
 
+import com.cti.exception.UserNotFoundException;
 import com.cti.model.Book;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface Bookstore {
      */
     void addBook(Book book);
 
-    void deleteBook(Book book);
+    void deleteBook(String bookId);
 
-
+    void deleteBooksListedBy(String username) throws UserNotFoundException;
 }

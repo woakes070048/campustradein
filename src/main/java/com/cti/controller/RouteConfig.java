@@ -10,7 +10,7 @@ import spark.Spark;
 @Controller
 public class RouteConfig {
     public RouteConfig() {
-        Spark.before("/users/:username/*", new RequiresLoginFilter());
-        Spark.before("/users/:username/books", new RequiresJsonFilter());
+//        Spark.before("/users/:username/*", new RequiresLoginFilter());
+//        Spark.before("/users/:username/books", new RequiresJsonFilter());
     }
 }

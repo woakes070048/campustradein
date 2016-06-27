@@ -4,9 +4,12 @@ import com.cti.annotation.Controller;
 import com.cti.annotation.Route;
 import com.cti.model.Book;
 import com.cti.service.UserService;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.HttpStatus;
 import spark.Spark;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -33,7 +36,9 @@ public class UserController extends AbstractController {
     @Route
     public void deleteBook() {
         Spark.delete("users/:user/books/:id", (request, response) -> {
-
+            String bookId = StringEscapeUtils.escapeHtml4(request.params(":id"));
+            String username = StringEscapeUtils.escapeHtml4(request.params(":user"));
+            userService.deleteListing(username, bookId);
             return null;
         });
     }
@@ -49,8 +54,16 @@ public class UserController extends AbstractController {
     @Route
     public void getBook() {
         Spark.get("users/:user/books/:id", (request, response) -> {
-
-            return null;
+            String bookId = StringEscapeUtils.escapeHtml4(request.params(":id"));
+            String username = StringEscapeUtils.escapeHtml4(request.params(":user"));
+            Optional<Book> result = userService.getListing(bookId);
+            if(result.isPresent()) {
+                response.status(HttpStatus.SC_OK);
+                return gson.toJson(result.get());
+            } else {
+                response.status(HttpStatus.SC_NOT_FOUND);
+                return null;
+            }
         });
     }
 }

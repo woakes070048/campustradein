@@ -28,5 +28,5 @@ public interface UserRepository {
 
     void updateListing(Book book);
 
-    void deleteListing(Book book);
+    void deleteListing(String username, String bookId);
 }

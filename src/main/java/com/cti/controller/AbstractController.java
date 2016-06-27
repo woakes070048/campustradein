@@ -2,6 +2,7 @@ package com.cti.controller;
 
 import com.cti.config.FreemarkerTemplateEngine;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +22,8 @@ public abstract class AbstractController {
     @Named("default.email.sender")
     protected String sender;
 
-    protected Gson gson = new Gson();
+    protected Gson gson = new GsonBuilder()
+                                .setPrettyPrinting()
+                                .create();
 
 }

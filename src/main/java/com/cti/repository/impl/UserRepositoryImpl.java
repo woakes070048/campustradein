@@ -135,8 +135,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addBookListing(Book book) {
+        Document listing = new Document("bookId", book.getBookId())
+                                .append("title", book.getTitle())
+                                .append("authors", book.getAuthors())
+                                .append("isbn13", book.getIsbn13())
+                                .append("isbn10", book.getIsbn10())
+                                .append("listedBy", book.getListedBy())
+                                .append("dateListedOn", book.getDateListed())
+                                .append("price", book.getPrice())
+                                .append("condition", book.getCondition())
+                                .append("tags", book.getCategories());
+
         userCollection.updateOne(Filters.eq("username", book.getListedBy()),
-                                        new Document("$push", new Document("bookListings", book)));
+                                        Updates.push("bookListings", listing));
     }
 
     @Override
@@ -145,7 +156,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteListing(Book book) {
-
+    public void deleteListing(String username, String bookId) {
     }
 }

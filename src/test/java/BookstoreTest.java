@@ -18,13 +18,11 @@ import static org.junit.Assert.fail;
  * @author ifeify
  */
 public class BookstoreTest {
-    private MongoClient mongoClient;
     private Bookstore bookStore;
     private Book book = new Book();
 
     public BookstoreTest() {
         Injector injector = Guice.createInjector(new AppConfig());
-        mongoClient = injector.getInstance(MongoClient.class);
         bookStore = injector.getInstance(Bookstore.class);
     }
 
