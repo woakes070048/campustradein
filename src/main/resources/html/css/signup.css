@@ -1,5 +1,6 @@
 body {
-    background: url("../img/books-on-desk-darker.jpg") no-repeat center center fixed;
+    /*background: url("../img/books-on-desk-darker.jpg") no-repeat center center fixed;*/
+    padding-top: 70px;
 }
 
 .centered-form {
@@ -10,4 +11,13 @@ body {
 	background: rgba(255, 255, 255);
 	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
     padding: 20px;
+}
+
+#signupForm input {
+    border-radius: 0px;
+}
+
+.password-progress {
+    margin-top: 10px;
+    margin-bottom: 0;
 }

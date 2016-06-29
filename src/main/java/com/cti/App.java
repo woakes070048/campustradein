@@ -22,9 +22,13 @@ public class App {
 	
 	public static void main(String[] args) {
 		try {
+			if(System.getProperty("port") == null && System.getProperty("domainName") == null) {
+				logger.error("Please specify a port and domain name");
+				System.exit(-1);
+			}
     		new App(Integer.valueOf(System.getProperty("port")));
     	} catch(Exception e) {
-    		logger.error("Cannot start application", e);
+    		logger.error("Failed to launch application", e);
     	}
 	}
 	

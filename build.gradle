@@ -16,7 +16,7 @@ repositories {
 
 run {
 	mainClassName = "com.cti.App"
-	applicationDefaultJvmArgs = ["-Dport=8080", "-Dhostname=http://www.campustradein.com"]
+	applicationDefaultJvmArgs = ["-Dport=8080", "-DdomainName=http://localhost"]
 }
 
 test {
