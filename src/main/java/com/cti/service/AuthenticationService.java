@@ -3,6 +3,7 @@ package com.cti.service;
 import com.cti.auth.Credential;
 import com.cti.auth.Password;
 import com.cti.auth.Password.PasswordParser;
+import com.cti.exception.AuthenticationException;
 import com.cti.exception.EncryptionException;
 import com.cti.exception.PasswordParseException;
 import com.cti.exception.UserNotFoundException;
@@ -27,13 +28,12 @@ public class AuthenticationService {
      * @return true if user is was successfully logged in. false if the usernameOrEmail does not
      * exist or in case a password parse and encryption exception occurs.
      */
-    public boolean login(String usernameOrEmail, String password) {
+    public Credential authenticate(String usernameOrEmail, String password) throws AuthenticationException {
         try {
             usernameOrEmail = usernameOrEmail.toLowerCase();
             Optional<Credential> result = userRepository.getUserCredential(usernameOrEmail);
             if (!result.isPresent()) {
-                logger.error("{} is not recognized", usernameOrEmail);
-                return false;
+                throw new AuthenticationException(usernameOrEmail + " is not a recognized user/email");
             }
             Credential credential = result.get();
             Password storedPassword = PasswordParser.parse(credential.getEncryptedPassword());
@@ -45,13 +45,14 @@ public class AuthenticationService {
                                                     .useEncrypter(storedPassword.getEncrypter())
                                                     .hashSize(storedPassword.getHashSize())
                                                     .hash();
-            return loginPassword.equals(storedPassword);
+            if(!loginPassword.equals(storedPassword)) {
+                throw new AuthenticationException("Failed to authenticate " + usernameOrEmail);
+            }
+            return credential;
         } catch(PasswordParseException e) {
-            logger.error("Failed to parse stored password for {}", usernameOrEmail);
-            return false;
+            throw new AuthenticationException(e);
         } catch (EncryptionException e) {
-            logger.error("Failed to encrypt login password for {}", usernameOrEmail);
-            return false;
+            throw new AuthenticationException(e);
         }
     }
 

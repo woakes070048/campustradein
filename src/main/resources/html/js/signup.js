@@ -29,7 +29,7 @@ $(document).ready(function() {
 					},
 					remote: {
 						threshold: 6,
-						delay: 5000,
+						delay: 2000,
 						message: 'The username is not available',
 						url: '/signupok',
 						type: 'POST',
@@ -49,7 +49,7 @@ $(document).ready(function() {
 					remote: {
 						message: 'The email address is not available',
 						threshold: 3,
-						delay: 5000,
+						delay: 2000,
 						url: '/signupok',
 						type: 'POST',
 						dataType: 'json',
@@ -135,32 +135,33 @@ $(document).ready(function() {
 		}
 	}).on('success.form.fv', function(e) {
 		e.preventDefault();
-		console.log('form is valid');
 	});
 
 	$('#signupForm').submit(function(e) {
-		console.log('Here we areeeeeeeeee');
 		var $form = $(e.target),
 			fv = $form.data('formValidation');
-		console.log($form.serializeArray());
+
+		$form.attr('disabled', true);
+
 		var formArray = $form.serializeArray();
 		var jsonData = convertFormDataToJson(formArray);
-		console.log(jsonData);
 
 		$.ajax({
 			url: '/signup',
 			type: 'POST',
-			data: jsonData,
+			data: JSON.stringify(jsonData),
 			contentType: 'application/json',
 			dataType: 'json',
-			success: function(data) {
-				window.location.href = data.redirect;
-				console.log(data);
-			},
-			error: function(data) {
-				console.log(data.errors);
+		}).success(function(response) {
+			$form.attr('disabled', true);
+			if(response.result === 'error') {
+				// let them know what fields are invalid
+				// but it should not be though?? Hmm??
+				// user turned off javascript??? WHHHYYYYYYYYY!!
+			} else {
+				window.location.href = response.redirect;
 			}
-		})
+		});
 	});
 
 

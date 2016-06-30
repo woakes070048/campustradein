@@ -91,4 +91,8 @@ public class UserService {
         userRepository.deleteListing(username, bookId);
         bookstore.deleteBooksListedBy(username);
     }
+
+    public void activateUser(String username) throws UserNotFoundException {
+        userRepository.activateUser(username);
+    }
 }

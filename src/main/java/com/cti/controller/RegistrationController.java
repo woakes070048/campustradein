@@ -81,9 +81,10 @@ public class RegistrationController extends AbstractController {
                 JsonObject jsonResponse = new JsonObject();
                 Set<ConstraintViolation<UserAccount>> violations = validator.validate(userAccount);
                 if(violations.size() > 0) { // errors with input
-                    List<String> errors = new ArrayList<>();
+                    Map<String, String> errors = new HashMap<>();
                     for(ConstraintViolation v : violations) {
-                        errors.add(v.getMessage());
+                        logger.error("Field {} has error {}", v.getPropertyPath(), v.getMessage());
+                        errors.put(v.getPropertyPath().toString(), v.getMessage());
                     }
                     jsonResponse.addProperty("result", "error");
 //                    jsonResponse.addProperty("errors", errors);
@@ -116,6 +117,7 @@ public class RegistrationController extends AbstractController {
                 String sessionID = sessionRepository.newSession(userAccount.getUsername());
                 response.cookie(Cookies.USER_SESSION, sessionID, 604800); // expires in a week
                 response.cookie(Cookies.USER_NAME, userAccount.getUsername(), 604800);
+                response.cookie(Cookies.EMAIL, userAccount.getEmail());
                 response.cookie(Cookies.LOGGED_IN, "yes", 604800);
                 response.cookie(Cookies.SIGNUP_SUCCESS, "true");
                 response.status(HttpStatus.SC_CREATED);
@@ -138,13 +140,18 @@ public class RegistrationController extends AbstractController {
                 jsonResponse.addProperty("result", "error");
                 jsonResponse.addProperty("error", "We cannot process your request at this time");
                 return jsonResponse;
+            } catch(Exception e) {
+                logger.error("Error occurred signing up", e);
+                JsonObject jsonResponse = new JsonObject();
+                jsonResponse.addProperty("result", "error");
+                return jsonResponse;
             }
         }, gson::toJson);
     }
 
     @Route
     public void handleAccountActivation() {
-        Spark.post(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
+        Spark.get(Routes.ACTIVATE_ACCOUNT, (request, response) -> {
             String tokenID = request.queryParams("q");
             Optional<VerificationToken> result = tokenRepository.findById(tokenID);
             if(result.isPresent()) {
@@ -154,12 +161,13 @@ public class RegistrationController extends AbstractController {
                     return null;
                 } else {
                     tokenRepository.deleteToken(tokenID);
+                    userService.activateUser(verificationToken.getUsername());
                     Map<String, String> model = new HashMap<>();
                     model.put("username", verificationToken.getUsername());
                     return templateEngine.render(new ModelAndView(model, "accountActivated.ftl"));
                 }
             } else {
-                response.redirect("/resend-activation");
+                response.redirect("/");
                 return null;
             }
         });

@@ -43,7 +43,7 @@
 		<div class="accountActivation">
 			<h1>Congratulations ${username}!</h1>
 			<h2>Your Account has been fully activated</h2>
-			<p>You will be redirected to our home page in 5 seconds or if you're impatient like us
+			<p>You will be redirected to our home page in 15 seconds or if you're impatient like us
 
 			</p>
 			<p class="text-center">
@@ -62,7 +62,7 @@
 		<script type="text/javascript">
 			var timer = setTimeout(function() {
 				window.location=window.location.hostname;
-			}, 5000);
+			}, 15000);
 		</script>
 	</body>
 </html>
