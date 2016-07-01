@@ -116,7 +116,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<UserAccount> findByEmail(String email) {
-        Document document = userCollection.find(Filters.eq("username", email)).first();
+        Document document = userCollection.find(Filters.eq("email", email)).first();
         if(document == null) {
             return Optional.empty();
         }

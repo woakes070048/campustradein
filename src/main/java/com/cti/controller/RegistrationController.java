@@ -46,25 +46,35 @@ public class RegistrationController extends AbstractController {
     @Route
     public void validateUsernameAndEmail() {
         Spark.post("/signupok", (request, response) -> {
-            response.header("Content-Type", "application/json");
+            // TODO: parse query string in request body
+            logger.info(request.body());
+            logger.info("Type {}", request.queryParams("type"));
+            JsonElement jsonElement = gson.fromJson(request.body(), JsonElement.class);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            String type = jsonObject.get("type").getAsString();
+
             JsonObject jsonResponse = new JsonObject();
 
-            String type = request.queryParams("type");
-            jsonResponse.addProperty("valid", false);
             if(type != null && type.equals("email")) {
-                String email = request.queryParams("email");
+                String email = jsonObject.get("email").getAsString();
                 if(email != null && !userService.isEmailRegistered(email)) {
                     jsonResponse.addProperty("valid", true);
+                } else {
+                    jsonResponse.addProperty("valid", false);
                 }
-            }
-            if(type != null && type.equals("username")) {
-                String username = request.queryParams("username");
+            } else if(type != null && type.equals("username")) {
+                String username = jsonObject.get("username").getAsString();
                 if(username != null && !userService.isUsernameRegistered(username)) {
                     jsonResponse.addProperty("valid", true);
+                } else {
+                    jsonResponse.addProperty("valid", false);
                 }
+            } else {
+                jsonResponse.addProperty("valid", false);
             }
             JsonArray jsonArray = new JsonArray();
             jsonArray.add(jsonResponse);
+            response.header("Content-Type", "application/json");
             return gson.toJson(jsonArray);
         });
     }

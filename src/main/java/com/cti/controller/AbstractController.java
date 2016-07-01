@@ -23,6 +23,7 @@ public abstract class AbstractController {
     protected String sender;
 
     protected Gson gson = new GsonBuilder()
+                                .setLenient()
                                 .setPrettyPrinting()
                                 .create();
 

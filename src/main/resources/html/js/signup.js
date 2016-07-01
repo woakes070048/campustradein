@@ -53,6 +53,7 @@ $(document).ready(function() {
 						url: '/signupok',
 						type: 'POST',
 						dataType: 'json',
+						contentType: 'application/json',
 						data: {
 							type: 'email'
 						}
