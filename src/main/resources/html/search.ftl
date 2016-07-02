@@ -12,11 +12,10 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-social.css">
-	<link rel="stylesheet" type="text/css" href="css/formValidation.min.css">
 	<link rel="stylesheet" type="text/css" href="css/home.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.theme.css">
+	<link rel="stylesheet" type="text/css" href="css/search.css">
 
 	<!-- google fonts  -->
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -24,7 +23,7 @@
 </head>
 <body>
 	<!-- navigation section -->
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav id="navigation-header" class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -39,6 +38,7 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
 				<ul class="nav navbar-nav navbar-right">
 					<#if username??>
 					<li class="dropdown">
@@ -51,7 +51,7 @@
 							<li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> Bookshelf</a></li>
 							<li><a href="#"><i class="fa fa-inbox" aria-hidden="true"></i> Inbox</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+							<li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
 						</ul>
 					</li>
 					<#else>
@@ -79,7 +79,7 @@
 						</a>
 					</li>
 				</ul>
-				<div class="col-lg-6 itemModelForms tab-content">
+				<div class="col-lg-6 itemModelForms tab-content" id="modalLogin">
 					<!-- <img src="assets/ico/tooltip.png" id="tooltip"> -->
 					<!-- login form -->
 					<div role="tabpanel" class="tab-pane active itemLoginForm" id="login">
@@ -102,94 +102,110 @@
 	</div>
 	<div class="clearfix"></div>
 
-	<!-- arrow for push up to the top -->
-	<a href="#home" class="scroll ArrowUp">
-		<i class="fa fa-chevron-up"></i>
-	</a>
-
-	<!-- header/default slider section -->
-	<section class="header" id="home">
-		<div class="overlayHeader">
-			<h1>Welcome to campustradein</h1>
-			<h4>The best way to buy and sell your textbooks on campus</h4>
-			<form method="GET" action="/search" class="form-inline">
-				<div class="form-group">
-					<input type="hidden" name="start" value="0">
-					<input type="text" name="q" class="form-control" id="exampleInputName2" placeholder="I'm looking for...">
-					<span class="fa fa-search errspan hidden-lg hidden-md"></span>
+	<section class="searchButton searchFont">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="input-group">
+						<#if query??>
+						<input type="text" class="form-control input-lg" value="${query}" />
+						<#else>
+						<input type="text" class="form-control input-lg" placeholder="I'm looking for..." />
+						</#if>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-primary btn-lg">Search</button>
+						</span>
+					</div>
+					<#if totalNumberOfBooks gt 0>
+					<p>
+						You searched for <strong>${query}</strong>, <strong>${totalNumberOfBooks}</strong> items returned
+					</p>
+					<form class="form-inline">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" value="">
+								Sort by price
+							</label>
+						</div>
+					</form>
+					</#if>
 				</div>
-				<input id="catalogSearch" type="submit" class="SearchButton hidden-xs hidden-sm" value="search">
-			</form>
-			<button data-toggle="modal" data-target="#myModalVideo" class="modalSeeVideoButton">
-				<span><i class="fa fa-play" aria-hidden="true"></i></span> &nbsp;
-				See how it works
-			</button>
+			</div>
+
 		</div>
 	</section>
 	<div class="clearfix"></div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="myModalVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="ButtonVideoClose">
-			<h4 data-dismiss="modal" id="player1Close">X</h4>
-		</div>
+	<section class="searchResults searchFont">
 		<div class="container">
 			<div class="row">
-				<div class="videoVimeo">
-					<iframe id="player1" src="" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen autoplay></iframe>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
+				<div class="col-md-8 col-md-offset-2">
+					<#if books?size == 0>
+						<h4 class="text-center">
+							No results found
+						</h4>
+						<button href="#" class="btn btn-primary btn-lg center-block"><i class="fa fa-search"></i> Browse catalog</button>
+					<#else>
+					<div class="panel panel-default ">
+						<div class="panel-body searchItems">
+							<#list books as book>
+								<div class="media">
+									<div class="media-left">
+										<a href="#">
+											<img class="media-object" src="http://placehold.it/100x100" alt="" />
+										</a>
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading"><a href="#">${book.title} </a>
+											<small>by Walter J. Savitch
+												<#list books.authors as author>
+													${author},
+												</#list>
+											</small>
+										</h4>
+										<h4 class="media-heading"><small>ISBN: <span class="label label-default">${book.isbn13}</span> <span class="label label-default">${book.isbn10}</span></small></h4>
+										<button type="button" class="btn btn-primary" name="button"><i class="fa fa-shopping-cart"></i> Buy now</button>
+										<button type="button" class="btn btn-danger" name="button"><i class="fa fa-exchange"></i> Negotiate</button>
+									</div>
+									<div class="media-right">
+										<h4>${book.price}</h4>
+									</div>
+									<hr>
+								</div><!-- end media -->
+							</#list>
 
-	<!-- sectionImageContent 1  -->
-	<section class="sectionImageContent1">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="wow fadeIn">Buy and Sell Textbooks, Fast and Easy</h1>
-					<p class="wow fadeIn">
-						That Economics textbook you've been stressing over? It's just one click away!<br/>
-						There are 100s of textbooks for students to choose from and the best part? It's easy and convenient!
-					</p>
-					<img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=600%C3%97170&w=600&h=170" class="wow fadeIn img-responsive">
-				</div>
-			</div>
-		</div>
-	</section>
+						</div> <!-- end panel-body -->
+					</div><!-- end panel -->
 
-	<!-- sectionImageContent 2  -->
-	<section class="sectionImageContent2">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="wow fadeIn">Get more money for your textbooks</h1>
-					<p class="wow fadeIn">
-						Students can make up to 80% back for textbooks compared to bookstore re-sale prices
-					</p>
-					<img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=600%C3%97170&w=600&h=170" class="wow fadeIn img-responsive">
-				</div>
-			</div>
-		</div>
-	</section>
+					<#if books?size > 0>
+					<nav class="text-center">
+						<ul class="pagination">
+							<li>
+								<a href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li>
+								<a href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+					</#if>
+					</#if>
+				</div> <!-- end col-md-8 -->
+			</div><!-- end row -->
+		</div><!-- end container-->
+	</section><!-- end searchResults -->
 
-	<!-- sectionImageContent 2  -->
-	<section class="sectionImageContent3">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="wow fadeIn">One community tailored to your needs</h1>
-					<p class="wow fadeIn">
-						Dedicated to students in the Wichita State University community. Your most frequently used books are here
-						so you will never run out of options
-					</p>
-					<img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=600%C3%97170&w=600&h=170" class="wow fadeIn img-responsive">
-				</div>
-			</div>
-		</div>
-	</section>
 
+	<!-- footer section -->
 	<footer>
 		<p>&copy; Copyright 2016 <br />
 			Powered by <a target="_blank" href="http://www.getbootstrap.com">Twitter bootstrap</a> and
@@ -197,7 +213,6 @@
 		</p>
 	</footer>
 
-	<#if signupWasSuccessful??>
 	<div class="modal fade" role="dialog" id="signupSuccess">
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
@@ -206,10 +221,10 @@
 					<h4>Success!</h4>
 				</div>
 				<div class="modal-body">
-					<p>${username}, Thanks for joining campustradein</p>
+					<p>Thanks for joining campustradein</p>
 					<p>
-						An <em>email</em> has been sent to <em>${email}</em>. Please activate your account.
-						Click on your email provider to go straight to your inbox
+						An <em>email</em> has been sent to <em>youremail@email.com</em>. Click on your email provider to go straight
+						to your inbox
 					</p>
 					<a target="_blank" class="btn btn-primary btn-social btn-google" href="http://mail.google.com">
 						<span class="fa fa-google"></span> Gmail
@@ -227,35 +242,14 @@
 			</div>
 		</div><!-- modal-dialog-->
 	</div>
-	</#if>
 
 	<!-- javascript Libraries and custom files -->
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/formValidation.min.js"></script>
-	<script type="text/javascript" src="js/formValidation-bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/morphext.js"></script>
-	<script type="text/javascript" src="js/backstretch.min.js"></script>
-	<script type="text/javascript" src="js/wow.js"></script>
-	<script type="text/javascript" src="js/owl.carousel.js"></script>
-	<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-80043851-1', 'auto');
-	ga('send', 'pageview');
-	</script>
-
-	<script type="text/javascript" src="js/custom.js"></script>
+	<script  type="text/javascript" src="js/jquery.js"></script>
+	<script  type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script  type="text/javascript" src="js/morphext.js"></script>
+	<script  type="text/javascript" src="js/backstretch.min.js"></script>
+	<script  type="text/javascript" src="js/wow.js"></script>
+	<script  type="text/javascript" src="js/owl.carousel.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
-	<#if signupWasSuccessful??>
-	<script type="text/javascript">
-	$(window).load(function(){
-		$('#signupSuccess').modal('show');
-	})
-	</script>
-	</#if>
 </body>
 </html>

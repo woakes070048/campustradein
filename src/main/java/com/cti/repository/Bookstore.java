@@ -51,6 +51,10 @@ public interface Bookstore {
      */
     void addBook(Book book);
 
+    long count();
+
+    long count(String title);
+
     void deleteBook(String bookId);
 
     void deleteBooksListedBy(String username) throws UserNotFoundException;

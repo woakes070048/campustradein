@@ -110,6 +110,16 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
+    public long count() {
+        return books.count();
+    }
+
+    @Override
+    public long count(String title) {
+        return books.count(Filters.eq("title", title));
+    }
+
+    @Override
     public void deleteBook(String bookId)  {
         DeleteResult deleteResult = books.deleteOne(Filters.eq("bookId", bookId));
         if(deleteResult.getDeletedCount() == 0) {

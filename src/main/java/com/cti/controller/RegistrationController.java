@@ -17,6 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
@@ -25,6 +27,7 @@ import spark.Spark;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.validation.ConstraintViolation;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -47,23 +50,25 @@ public class RegistrationController extends AbstractController {
     public void validateUsernameAndEmail() {
         Spark.post("/signupok", (request, response) -> {
             // TODO: parse query string in request body
-            logger.info(request.body());
-            logger.info("Type {}", request.queryParams("type"));
-            JsonElement jsonElement = gson.fromJson(request.body(), JsonElement.class);
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            String type = jsonObject.get("type").getAsString();
+            List<NameValuePair> nameValuePairs = URLEncodedUtils.parse(request.body().trim(), Charset.forName("UTF-8"));
+
+            Map<String, String> queryParams = new HashMap<>();
+            for(NameValuePair pair : nameValuePairs) {
+                queryParams.put(pair.getName(), pair.getValue());
+            }
+            String type = queryParams.get("type");
 
             JsonObject jsonResponse = new JsonObject();
 
             if(type != null && type.equals("email")) {
-                String email = jsonObject.get("email").getAsString();
+                String email = queryParams.get("email");
                 if(email != null && !userService.isEmailRegistered(email)) {
                     jsonResponse.addProperty("valid", true);
                 } else {
                     jsonResponse.addProperty("valid", false);
                 }
             } else if(type != null && type.equals("username")) {
-                String username = jsonObject.get("username").getAsString();
+                String username = queryParams.get("username");
                 if(username != null && !userService.isUsernameRegistered(username)) {
                     jsonResponse.addProperty("valid", true);
                 } else {
@@ -72,10 +77,8 @@ public class RegistrationController extends AbstractController {
             } else {
                 jsonResponse.addProperty("valid", false);
             }
-            JsonArray jsonArray = new JsonArray();
-            jsonArray.add(jsonResponse);
             response.header("Content-Type", "application/json");
-            return gson.toJson(jsonArray);
+            return gson.toJson(jsonResponse);
         });
     }
 

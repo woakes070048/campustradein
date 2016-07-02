@@ -1,0 +1,31 @@
+body {
+    padding-top: 70px;
+}
+.searchResults {
+    padding-top: 30px;
+}
+
+.searchFont {
+    font-family: 'Lato';
+}
+
+.panel .searchItems {
+    padding: 50px;
+    box-shadow: rgba(0, 0, 0, 0.1) 20px 20px 20px;
+    border-radius: none;
+}
+.searchButton p {
+    padding-top: 10px;
+}
+.searchItems .media .media-body h4 {
+    font-size: 20px;
+}
+
+.searchItems .media .media-right h4 {
+    font-size: 40px;
+    font-weight: 400;
+}
+
+footer {
+    margin-top: 20px;
+}
