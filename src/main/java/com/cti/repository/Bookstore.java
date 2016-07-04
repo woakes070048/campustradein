@@ -51,6 +51,8 @@ public interface Bookstore {
      */
     void addBook(Book book);
 
+    List<Book> getRecentListings(int start, int size);
+
     long count();
 
     long count(String title);

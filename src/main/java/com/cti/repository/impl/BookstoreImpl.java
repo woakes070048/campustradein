@@ -110,6 +110,18 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
+    public List<Book> getRecentListings(int start, int size) {
+        List<Document> documents = new ArrayList<>();
+        books.find().sort(descending("dateListedOn"))
+                    .skip(start)
+                    .limit(size)
+                    .into(documents);
+        List<Book> results = new ArrayList<>();
+        mapToDomainModel(documents, results);
+        return results;
+    }
+
+    @Override
     public long count() {
         return books.count();
     }

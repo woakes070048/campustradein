@@ -103,24 +103,25 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<div class="input-group">
-						<input type="text" class="form-control input-lg" placeholder="I'm looking for..." />
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-primary btn-lg">Search</button>
-						</span>
-					</div>
-					
-					<p>
-						You searched for <strong>Absolute C++</strong>, <strong>52</strong> items returned
-					</p>
-					<form class="form-inline">
+					<form class="" action="/search" method="get">
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text" class="form-control input-lg" placeholder="I'm looking for..." />
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-primary btn-lg">Search</button>
+								</span>
+							</div>
+							<p class="help-block">
+								Your search for Absolute C++, returned 5 results
+							</p>
+						</div>
+
 						<div class="checkbox">
 							<label>
 								<input type="checkbox" value="">
 								Sort by price
 							</label>
 						</div>
-
 					</form>
 				</div>
 			</div>
@@ -136,7 +137,11 @@
 					<h4 class="text-center">
 						No results found
 					</h4>
-					<button class="btn btn-primary btn-lg center-block"><i class="fa fa-search"></i> Browse catalog</button>
+					<form action="/search" method="get">
+						<input type="hidden" name="catalog" value="yes">
+						<button type="submit" class="btn btn-primary btn-lg center-block"><i class="fa fa-search"></i> Browse catalog</button>
+					</form>
+
 					<div class="panel panel-default ">
 						<div class="panel-body searchItems">
 							<div class="media">

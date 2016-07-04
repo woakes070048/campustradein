@@ -106,29 +106,37 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<div class="input-group">
-						<#if query??>
-						<input type="text" class="form-control input-lg" value="${query}" />
-						<#else>
-						<input type="text" class="form-control input-lg" placeholder="I'm looking for..." />
-						</#if>
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-primary btn-lg">Search</button>
-						</span>
-					</div>
-					<#if totalNumberOfBooks gt 0>
-					<p>
-						You searched for <strong>${query}</strong>, <strong>${totalNumberOfBooks}</strong> items returned
-					</p>
-					<form class="form-inline">
+					<form action="/search" method="get">
+						<div class="form-group">
+							<div class="input-group">
+								<#if query??>
+								<input type="text" name="q" class="form-control input-lg" value="${query}" />
+								<#else>
+								<input type="text" name="q" class="form-control input-lg" placeholder="I'm looking for..." />
+								</#if>
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-primary btn-lg">Search</button>
+								</span>
+							</div>
+							<#if totalNumberOfBooks gt 0>
+							<p class="help-block">
+								Your search for <strong>${query}</strong>, returned <strong>${totalNumberOfBooks}</strong> results
+							</p>
+							<#else>
+							<p class="help-block">
+								Your search for <strong>${query}</strong>, returned no results
+							</p>
+							</#if>
+						</div>
+						<#if totalNumberOfBooks gt 0>
 						<div class="checkbox">
 							<label>
 								<input type="checkbox" value="">
 								Sort by price
 							</label>
 						</div>
+						</#if>
 					</form>
-					</#if>
 				</div>
 			</div>
 
@@ -144,7 +152,10 @@
 						<h4 class="text-center">
 							No results found
 						</h4>
-						<button href="#" class="btn btn-primary btn-lg center-block"><i class="fa fa-search"></i> Browse catalog</button>
+						<form action="/catalog" method="get">
+							<input type="hidden" name="page" value="1">
+							<button type="submit" class="btn btn-primary btn-lg center-block"><i class="fa fa-search"></i> Browse catalog</button>
+						</form>
 					<#else>
 					<div class="panel panel-default ">
 						<div class="panel-body searchItems">
