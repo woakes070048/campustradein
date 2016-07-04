@@ -67,7 +67,7 @@ public class AppConfig extends AbstractModule {
         // read from config file
         // its a heavy-weight object so we want it to be singleton
         // by default, mongodb opens 100 connections to the database
-		MongoClient mongoClient = new MongoClient("localhost", 27017);
+		MongoClient mongoClient = new MongoClient();
         bind(MongoClient.class).toInstance(mongoClient);
 	}
 

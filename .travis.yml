@@ -1,5 +1,8 @@
-before_script:
-  - chmod +x gradlew
 language: java
 jdk: oraclejdk8
 services: mongodb
+before_script:
+  - chmod +x gradlew
+  # make sure mongod is fully functional before running any tests
+  - sleep 15
+  - mongo mydb_test --eval 'db.addUser("travis", "test");'

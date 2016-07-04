@@ -1,0 +1,9 @@
+db-server-1:
+  url: 127.0.0.1
+  port: 27017
+  dbPath: /db/data
+
+db-server-2:
+  url: 127.0.0.2
+  port: 27017
+  dbPath: /db/data

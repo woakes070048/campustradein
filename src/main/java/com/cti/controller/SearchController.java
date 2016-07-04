@@ -56,7 +56,7 @@ public class SearchController extends AbstractController {
             return templateEngine.render(new ModelAndView(model, "catalog.ftl"));
         });
     }
-    
+
     @Route
     public void handleItemSearch() {
         Spark.get("/search", (request, response) -> {
