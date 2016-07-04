@@ -17,6 +17,7 @@ import com.cti.repository.impl.TokenRepositoryImpl;
 import com.cti.repository.impl.UserRepositoryImpl;
 import com.cti.service.BooksApi;
 import com.cti.service.GoogleBooksApi;
+import com.cti.service.UserService;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.MailgunMailer;
 import com.google.inject.AbstractModule;

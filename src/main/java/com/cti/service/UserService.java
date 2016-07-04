@@ -13,16 +13,16 @@ import com.cti.repository.UserRepository;
 import com.cti.smtp.Email;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.SMTPMailException;
+import com.google.inject.Singleton;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Optional;
 
 
 /**
  * @author ifeify
  */
-@Singleton
+//@Singleton
 public class UserService {
     @Inject
     private Bookstore bookstore;
