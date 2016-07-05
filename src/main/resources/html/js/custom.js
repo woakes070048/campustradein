@@ -137,7 +137,8 @@ $('#player1Close').on('click', function(){
 });
 
 $('.modalSeeVideoButton').on('click', function(){
-	$('#player1').attr('src','http://player.vimeo.com/video/27855315?api=1&player_id=player1&autoplay=1');
+	// $('#player1').attr('src','http://player.vimeo.com/video/27855315?api=1&player_id=player1&autoplay=1');
+	$('#player1').attr('src','video/cti.mp4');
 });
 
 $('#myModalVideo').on('click', function(){

@@ -136,7 +136,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="videoVimeo">
-					<iframe id="player1" src="" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen autoplay></iframe>
+					<iframe id="player1" src="" type="mp4" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen autoplay></iframe>
 				</div>
 			</div>
 		</div>
