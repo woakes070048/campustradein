@@ -12,10 +12,7 @@ import com.cti.repository.TokenRepository;
 import com.cti.service.UserService;
 import com.cti.smtp.Email;
 import com.cti.smtp.SMTPMailException;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -27,6 +24,7 @@ import spark.Spark;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.validation.ConstraintViolation;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -50,7 +48,8 @@ public class RegistrationController extends AbstractController {
     public void validateUsernameAndEmail() {
         Spark.post("/signupok", (request, response) -> {
             // TODO: parse query string in request body
-            List<NameValuePair> nameValuePairs = URLEncodedUtils.parse(request.body().trim(), Charset.forName("UTF-8"));
+            String body = request.body().trim();
+            List<NameValuePair> nameValuePairs = URLEncodedUtils.parse(body, Charset.forName("UTF-8"));
 
             Map<String, String> queryParams = new HashMap<>();
             for(NameValuePair pair : nameValuePairs) {

@@ -7,14 +7,11 @@ import com.cti.exception.AuthenticationException;
 import com.cti.repository.SessionRepository;
 import com.cti.service.AuthenticationService;
 import com.google.gson.JsonObject;
-import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
 import java.nio.charset.Charset;
 import java.util.Base64;
 
