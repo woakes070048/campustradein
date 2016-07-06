@@ -1,6 +1,6 @@
 package com.cti.repository;
 
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.model.Book;
 
 import java.util.List;

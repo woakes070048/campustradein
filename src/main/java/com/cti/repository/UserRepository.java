@@ -1,8 +1,8 @@
 package com.cti.repository;
 
-import com.cti.auth.Credential;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.auth.Credential;
+import com.cti.common.exception.UserAlreadyExistsException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
 

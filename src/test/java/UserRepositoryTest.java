@@ -1,5 +1,5 @@
 import com.cti.config.AppConfig;
-import com.cti.exception.UserAlreadyExistsException;
+import com.cti.common.exception.UserAlreadyExistsException;
 import com.cti.model.UserAccount;
 import com.cti.repository.UserRepository;
 import com.google.inject.Guice;

@@ -1,11 +1,11 @@
 package com.cti.service;
 
-import com.cti.auth.EncrypterFactory;
-import com.cti.auth.Password;
-import com.cti.auth.TokenGenerator;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.auth.EncrypterFactory;
+import com.cti.common.auth.Password;
+import com.cti.common.auth.TokenGenerator;
+import com.cti.common.exception.EncryptionException;
+import com.cti.common.exception.UserAlreadyExistsException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
 import com.cti.repository.Bookstore;
@@ -13,7 +13,6 @@ import com.cti.repository.UserRepository;
 import com.cti.smtp.Email;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.SMTPMailException;
-import com.google.inject.Singleton;
 
 import javax.inject.Inject;
 import java.util.Optional;

@@ -3,8 +3,8 @@ package com.cti.dto;
 /**
  * Created by ifeify on 5/25/16.
  */
-import com.cti.annotation.PasswordMatches;
-import com.cti.annotation.ValidEmail;
+import com.cti.common.annotation.PasswordMatches;
+import com.cti.common.annotation.ValidEmail;
 import com.google.common.base.MoreObjects;
 import org.hibernate.validator.constraints.NotBlank;
 

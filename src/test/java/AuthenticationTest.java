@@ -1,10 +1,10 @@
-import com.cti.auth.Encrypter;
-import com.cti.auth.Password;
-import com.cti.auth.Password.Builder;
-import com.cti.auth.Password.PasswordParser;
+import com.cti.common.auth.Encrypter;
+import com.cti.common.auth.Password;
+import com.cti.common.auth.Password.Builder;
+import com.cti.common.auth.Password.PasswordParser;
 import com.cti.config.AppConfig;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.PasswordParseException;
+import com.cti.common.exception.EncryptionException;
+import com.cti.common.exception.PasswordParseException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;

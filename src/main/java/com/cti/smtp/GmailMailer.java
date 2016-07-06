@@ -1,6 +1,6 @@
 package com.cti.smtp;
 
-import com.cti.annotation.Gmail;
+import com.cti.common.annotation.Gmail;
 import com.google.inject.name.Named;
 
 import javax.inject.Inject;

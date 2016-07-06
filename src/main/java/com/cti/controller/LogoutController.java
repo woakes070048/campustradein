@@ -1,7 +1,7 @@
 package com.cti.controller;
 
-import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
+import com.cti.common.annotation.Controller;
+import com.cti.common.annotation.Route;
 import com.cti.service.AuthenticationService;
 import spark.Spark;
 
@@ -18,7 +18,7 @@ public class LogoutController extends AbstractController {
 
     @Route
     public void handleLogout() {
-        Spark.before("/logout", new RequiresLoginFilter());
+        Spark.before("/logout", new RequiresAuthenticationFilter());
 
         Spark.post("/logout", (request, response) -> {
             Optional<String> result = Optional.ofNullable(request.cookie(Cookies.USER_NAME));

@@ -1,8 +1,7 @@
 package com.cti.controller;
 
-import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
-import com.cti.config.FreemarkerTemplateEngine;
+import com.cti.common.annotation.Controller;
+import com.cti.common.annotation.Route;
 import spark.ModelAndView;
 import spark.Spark;
 

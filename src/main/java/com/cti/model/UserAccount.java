@@ -1,6 +1,6 @@
 package com.cti.model;
 
-import com.cti.annotation.ValidEmail;
+import com.cti.common.annotation.ValidEmail;
 import com.google.common.base.MoreObjects;
 import org.hibernate.validator.constraints.NotBlank;
 

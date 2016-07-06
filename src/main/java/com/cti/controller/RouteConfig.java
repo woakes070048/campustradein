@@ -1,8 +1,6 @@
 package com.cti.controller;
 
-import com.cti.annotation.Controller;
-import com.cti.config.Routes;
-import spark.Spark;
+import com.cti.common.annotation.Controller;
 
 /**
  * @author ifeify
@@ -10,7 +8,7 @@ import spark.Spark;
 @Controller
 public class RouteConfig {
     public RouteConfig() {
-//        Spark.before("/users/:username/*", new RequiresLoginFilter());
+//        Spark.before("/users/:username/*", new RequiresAuthenticationFilter());
 //        Spark.before("/users/:username/books", new RequiresJsonFilter());
     }
 }

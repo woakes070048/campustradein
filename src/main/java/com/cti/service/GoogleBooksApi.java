@@ -1,6 +1,6 @@
 package com.cti.service;
 
-import com.cti.exception.BooksApiException;
+import com.cti.common.exception.BooksApiException;
 import com.cti.model.BookInfo;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;

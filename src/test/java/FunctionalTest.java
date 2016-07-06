@@ -1,7 +1,7 @@
 import com.cti.config.AppConfig;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.UserAlreadyExistsException;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.exception.EncryptionException;
+import com.cti.common.exception.UserAlreadyExistsException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.model.UserAccount;
 import com.cti.service.UserService;

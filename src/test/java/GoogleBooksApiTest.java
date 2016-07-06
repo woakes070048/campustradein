@@ -1,5 +1,5 @@
 import com.cti.config.AppConfig;
-import com.cti.exception.BooksApiException;
+import com.cti.common.exception.BooksApiException;
 import com.cti.model.BookInfo;
 import com.cti.service.BooksApi;
 import com.google.inject.Guice;

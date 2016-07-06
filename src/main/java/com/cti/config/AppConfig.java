@@ -1,10 +1,10 @@
 package com.cti.config;
 
-import com.cti.annotation.Gmail;
-import com.cti.annotation.billing.PayPal;
-import com.cti.annotation.encrypter.PBKDF2;
-import com.cti.auth.Encrypter;
-import com.cti.auth.PBKDF2Encrypter;
+import com.cti.common.annotation.Gmail;
+import com.cti.common.annotation.billing.PayPal;
+import com.cti.common.annotation.encrypter.PBKDF2;
+import com.cti.common.auth.Encrypter;
+import com.cti.common.auth.PBKDF2Encrypter;
 import com.cti.billing.CreditCardProcessor;
 import com.cti.billing.PaypalCreditCardProcessor;
 import com.cti.repository.Bookstore;
@@ -17,7 +17,6 @@ import com.cti.repository.impl.TokenRepositoryImpl;
 import com.cti.repository.impl.UserRepositoryImpl;
 import com.cti.service.BooksApi;
 import com.cti.service.GoogleBooksApi;
-import com.cti.service.UserService;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.MailgunMailer;
 import com.google.inject.AbstractModule;

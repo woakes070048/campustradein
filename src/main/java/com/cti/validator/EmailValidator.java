@@ -1,6 +1,6 @@
 package com.cti.validator;
 
-import com.cti.annotation.ValidEmail;
+import com.cti.common.annotation.ValidEmail;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

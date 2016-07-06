@@ -5,9 +5,9 @@
 		<link rel="icon" href="img/ico.png" type="image/png" sizes="16x16">
 		<!-- meta tags/keywords for search engines -->
 		<meta charset="UTF-8">
-		<meta name="description" content="college online marketpalce">
-		<meta name="keywords" content="books,college books,top rated college textbook marketplace">
-		<meta name="author" content="campustradein">
+		<meta name="description" body="college online marketpalce">
+		<meta name="keywords" body="books,college books,top rated college textbook marketplace">
+		<meta name="author" body="campustradein">
 		<!-- style sheets -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -32,7 +32,7 @@
 		      <a class="navbar-brand" href="/">campustradein</a>
 		    </div>
 
-		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <!-- Collect the nav links, forms, and other body for toggling -->
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <ul class="nav navbar-nav navbar-right">
 		        <li><a href="/">Home</a></li>

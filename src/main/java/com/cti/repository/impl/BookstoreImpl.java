@@ -1,10 +1,8 @@
 package com.cti.repository.impl;
 
-import com.cti.auth.TokenGenerator;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.model.Book;
 import com.cti.repository.Bookstore;
-import com.cti.util.Base64;
 import com.google.inject.Inject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -13,7 +11,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;

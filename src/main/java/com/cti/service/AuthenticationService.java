@@ -1,12 +1,12 @@
 package com.cti.service;
 
-import com.cti.auth.Credential;
-import com.cti.auth.Password;
-import com.cti.auth.Password.PasswordParser;
-import com.cti.exception.AuthenticationException;
-import com.cti.exception.EncryptionException;
-import com.cti.exception.PasswordParseException;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.auth.Credential;
+import com.cti.common.auth.Password;
+import com.cti.common.auth.Password.PasswordParser;
+import com.cti.common.exception.AuthenticationException;
+import com.cti.common.exception.EncryptionException;
+import com.cti.common.exception.PasswordParseException;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.UserRepository;
 import org.slf4j.Logger;

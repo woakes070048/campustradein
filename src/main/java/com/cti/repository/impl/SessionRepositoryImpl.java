@@ -1,7 +1,7 @@
 package com.cti.repository.impl;
 
-import com.cti.auth.TokenGenerator;
-import com.cti.exception.UserNotFoundException;
+import com.cti.common.auth.TokenGenerator;
+import com.cti.common.exception.UserNotFoundException;
 import com.cti.repository.SessionRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

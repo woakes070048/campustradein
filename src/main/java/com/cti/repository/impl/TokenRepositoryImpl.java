@@ -1,7 +1,7 @@
 package com.cti.repository.impl;
 
-import com.cti.auth.VerificationToken;
-import com.cti.exception.DuplicateTokenException;
+import com.cti.common.auth.VerificationToken;
+import com.cti.common.exception.DuplicateTokenException;
 import com.cti.repository.TokenRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

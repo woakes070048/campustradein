@@ -1,6 +1,6 @@
 package com.cti.validator;
 
-import com.cti.annotation.PasswordMatches;
+import com.cti.common.annotation.PasswordMatches;
 import com.cti.dto.UserDTO;
 
 import javax.validation.ConstraintValidator;

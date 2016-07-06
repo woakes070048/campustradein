@@ -1,6 +1,6 @@
 package com.cti.model;
 
-import com.cti.exception.InvalidISBNException;
+import com.cti.common.exception.InvalidISBNException;
 import com.google.common.base.MoreObjects;
 
 import java.text.MessageFormat;

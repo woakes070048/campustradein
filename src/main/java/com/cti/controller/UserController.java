@@ -1,7 +1,7 @@
 package com.cti.controller;
 
-import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
+import com.cti.common.annotation.Controller;
+import com.cti.common.annotation.Route;
 import com.cti.model.Book;
 import com.cti.service.UserService;
 import org.apache.commons.lang3.StringEscapeUtils;

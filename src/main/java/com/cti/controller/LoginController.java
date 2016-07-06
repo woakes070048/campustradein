@@ -1,9 +1,9 @@
 package com.cti.controller;
 
-import com.cti.annotation.Controller;
-import com.cti.annotation.Route;
-import com.cti.auth.Credential;
-import com.cti.exception.AuthenticationException;
+import com.cti.common.annotation.Controller;
+import com.cti.common.annotation.Route;
+import com.cti.common.auth.Credential;
+import com.cti.common.exception.AuthenticationException;
 import com.cti.repository.SessionRepository;
 import com.cti.service.AuthenticationService;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-import com.cti.exception.InvalidISBNException;
+import com.cti.common.exception.InvalidISBNException;
 import com.cti.model.Isbn;
 import org.junit.Test;
 
