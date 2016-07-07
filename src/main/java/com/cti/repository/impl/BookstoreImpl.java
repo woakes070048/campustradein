@@ -44,7 +44,7 @@ public class BookstoreImpl implements Bookstore {
     @Override
     public List<Book> findByTitle(String title, int start, int size) {
         List<Document> documents = new ArrayList<>();
-        books.find(eq("title", title)).sort(descending("dateListedOn"))
+        books.find(Filters.text(title)).sort(descending("dateListedOn"))
                                         .skip(start)
                                         .limit(size)
                                         .into(documents);
@@ -124,8 +124,8 @@ public class BookstoreImpl implements Bookstore {
     }
 
     @Override
-    public long count(String title) {
-        return books.count(Filters.eq("title", title));
+    public long count(String searchQuery) {
+        return books.count(Filters.text(searchQuery));
     }
 
     @Override
