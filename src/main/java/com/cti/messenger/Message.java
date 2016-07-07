@@ -1,5 +1,9 @@
 package com.cti.messenger;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -10,9 +14,9 @@ public class Message {
     private String sender;
     private String receipient;
     private String subject;
-    private Date sent;
     private boolean read = false;
     private boolean replied = false;
+    private long timestamp = System.currentTimeMillis();
     private String body;
 
     public String getConversationId() {
@@ -47,28 +51,20 @@ public class Message {
         this.subject = subject;
     }
 
-    public Date getSent() {
-        return sent;
-    }
-
-    public void setSent(Date sent) {
-        this.sent = sent;
-    }
-
     public boolean isRead() {
         return read;
     }
 
-    public void markRead() {
-        this.read = true;
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public void setReplied(boolean replied) {
+        this.replied = replied;
     }
 
     public boolean replied() {
         return replied;
-    }
-
-    public void markReplied() {
-        this.replied = true;
     }
 
     public String getBody() {
@@ -77,5 +73,27 @@ public class Message {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("sender", sender)
+                .add("conversationId", conversationId)
+                .add("receipient", receipient)
+                .add("subject", subject)
+                .add("read", read)
+                .add("replied", replied)
+                .add("timestamp", timestamp)
+                .add("body", body)
+                .toString();
     }
 }

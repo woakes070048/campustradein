@@ -63,7 +63,7 @@ public class UserService {
     }
 
     public void createNewUser(UserAccount userAccount) throws UserAlreadyExistsException, EncryptionException {
-        // TODO: validate user
+        // TODO: validate fields
         Password hashedPassword = new Password.Builder()
                                             .plainTextPassword(userAccount.getPassword())
                                             .useEncrypter(EncrypterFactory.getEncrypter("PBKDF2WithHmacSHA1"))

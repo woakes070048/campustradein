@@ -6,11 +6,12 @@ import java.util.Optional;
  * @author ifeify
  */
 public interface ConversationRepository {
-    boolean hasConversationBetween(String sender, String receipient);
 
     Optional<Conversation> getConversation(String conversationId);
 
+    Optional<Conversation> getConversationBetween(String buyer, String seller);
+
     void addConversation(Conversation conversation);
 
-    Optional<Conversation> getConversationBetween(String sender, String receipient);
+
 }

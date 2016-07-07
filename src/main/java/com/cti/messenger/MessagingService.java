@@ -23,6 +23,12 @@ public class MessagingService {
     @Inject
     private Mailer mailer;
 
+    /**
+     * Sends a message from one user to another. If a conversation already exists, then the message
+     * is saved in the same conversation thread. If not, a new conversation thread is created
+     * @param message message to send to another user
+     * @throws UserNotFoundException
+     */
     public void send(Message message) throws UserNotFoundException {
         if(userService.isUsernameRegistered(message.getSender()) &&
                 userService.isUsernameRegistered(message.getReceipient())) {

@@ -7,6 +7,10 @@ import com.cti.common.auth.Encrypter;
 import com.cti.common.auth.PBKDF2Encrypter;
 import com.cti.billing.CreditCardProcessor;
 import com.cti.billing.PaypalCreditCardProcessor;
+import com.cti.messenger.ConversationRepository;
+import com.cti.messenger.ConversationRepositoryImpl;
+import com.cti.messenger.MessageRepository;
+import com.cti.messenger.MessageRepositoryImpl;
 import com.cti.repository.Bookstore;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
@@ -20,12 +24,16 @@ import com.cti.service.GoogleBooksApi;
 import com.cti.smtp.Mailer;
 import com.cti.smtp.MailgunMailer;
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.mongodb.MongoClient;
 
 import java.util.Properties;
 
 public class AppConfig extends AbstractModule {
+	public static final String DATABASE = "campustradein";
+	public static final String DOMAIN_NAME = "www.campustradein.com";
+
 	private static final String mailgunAPIKey = "key-1fff5fb17694e006fb79a4f6dc19a4e5";
     private static final String googleBooksAPIKey = "AIzaSyCHc2kEbWt_n0VHQd-voq4gIt9sPAo2YBs";
 	private static final String payPalAPIKey = "";
@@ -82,6 +90,9 @@ public class AppConfig extends AbstractModule {
 
 		bind(TokenRepository.class).to(TokenRepositoryImpl.class);
         bind(SessionRepository.class).to(SessionRepositoryImpl.class);
+        bind(ConversationRepository.class).to(ConversationRepositoryImpl.class);
+        bind(MessageRepository.class).to(MessageRepositoryImpl.class);
+
 		bind(Encrypter.class).annotatedWith(PBKDF2.class).to(PBKDF2Encrypter.class);
 		bind(Encrypter.class).to(PBKDF2Encrypter.class);
 

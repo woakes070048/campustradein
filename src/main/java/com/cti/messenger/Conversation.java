@@ -15,6 +15,10 @@ public class Conversation {
         conversationId = UUID.randomUUID().toString().replace("-", "");
     }
 
+    public Conversation(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
     public String getConversationId() {
         return conversationId;
     }
@@ -33,5 +37,9 @@ public class Conversation {
 
     public void removeAll() {
         participants.clear();
+    }
+
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
     }
 }
