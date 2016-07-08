@@ -12,6 +12,7 @@ import org.bson.Document;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ifeify
@@ -51,7 +52,18 @@ public class MessageRepositoryImpl implements MessageRepository {
         return messages;
     }
 
-    public void mapToDomain(List<Document> documents, List<Message> messages) {
+    @Override
+    public Optional<Message> getMessage(String messageId) {
+        Document document = messageCollection.find(Filters.eq("messageId", messageId)).first();
+        if(document == null) {
+            return Optional.empty();
+        }
+        Message message = new Message();
+        mapToDomain(document, message);
+        return Optional.of(message);
+    }
+
+    private void mapToDomain(List<Document> documents, List<Message> messages) {
         for(Document document : documents) {
             if(document != null) {
                 Message message = new Message();
@@ -66,5 +78,19 @@ public class MessageRepositoryImpl implements MessageRepository {
                 messages.add(message);
             }
         }
+    }
+
+    private void mapToDomain(Document document, Message message) {
+        if(document != null) {
+            message.setTimestamp(document.getLong("timestamp"));
+            message.setSender(document.getString("sender"));
+            message.setReceipient(document.getString("receipient"));
+            message.setSubject(document.getString("subject"));
+            message.setBody(document.getString("body"));
+            message.setConversationId(document.getString("conversationId"));
+            message.setRead(document.getBoolean("read"));
+            message.setReplied(document.getBoolean("replied"));
+        }
+
     }
 }

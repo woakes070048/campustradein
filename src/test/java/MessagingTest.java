@@ -1,21 +1,16 @@
-import com.cti.App;
-import com.cti.config.AppConfig;
 import com.cti.common.exception.EncryptionException;
 import com.cti.common.exception.UserAlreadyExistsException;
 import com.cti.common.exception.UserNotFoundException;
+import com.cti.config.AppConfig;
 import com.cti.messenger.Message;
 import com.cti.messenger.MessagingService;
 import com.cti.model.Book;
-import com.cti.model.UserAccount;
 import com.cti.service.UserService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.mongodb.MongoClient;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -24,30 +19,31 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author ifeify
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MessagingTest {
     private static final Logger logger = LoggerFactory.getLogger(MessagingTest.class);
-    private UserService userService;
-    private MessagingService messagingService;
-    private MongoClient mongoClient;
-
     private static final String buyer = "james";
     private static final String seller = "michelle";
+    private static UserService userService;
+    private static MessagingService messagingService;
+    private static MongoClient mongoClient;
 
-    public MessagingTest() {
+    static {
         Injector injector = Guice.createInjector(new AppConfig());
         userService = injector.getInstance(UserService.class);
         messagingService = injector.getInstance(MessagingService.class);
         mongoClient = injector.getInstance(MongoClient.class);
-        mongoClient.dropDatabase(AppConfig.DATABASE);
     }
 
-    @Before
-    public void registerUsersAndListABook() throws UserAlreadyExistsException, EncryptionException, UserNotFoundException {
+    @BeforeClass
+    public static void setup() throws UserAlreadyExistsException, EncryptionException, UserNotFoundException {
+        // register some users
         userService.createNewUser(TestUtil.mockUser(buyer));
         userService.createNewUser(TestUtil.mockUser(seller));
 
@@ -77,8 +73,28 @@ public class MessagingTest {
         assertTrue(receivedMessage.getConversationId().equals(sentMessage.getConversationId()));
     }
 
-    @After
-    public void deleteUser() throws UserNotFoundException {
-        //mongoClient.dropDatabase(AppConfig.DATABASE);
+    @Test
+    public void replyInquiry() throws UserNotFoundException {
+        List<Message> messages = messagingService.getInbox(seller);
+        assertTrue(messages.size() == 1);
+        Message receivedMessage = messages.get(0);
+
+        System.out.println("Message received: " + receivedMessage);
+
+        Message message = new Message();
+        message.setSender(seller);
+        message.setReceipient(receivedMessage.getSender());
+        message.setSubject("RE: " + receivedMessage.getSubject());
+        message.setBody("Sure. I accept");
+
+        messagingService.send(message);
+        System.out.println("Message sent: " + message);
+
+        assertTrue(message.getConversationId().equals(receivedMessage.getConversationId()));
+    }
+
+    @AfterClass
+    public static void deleteUser() throws UserNotFoundException {
+        mongoClient.dropDatabase(AppConfig.DATABASE);
     }
 }

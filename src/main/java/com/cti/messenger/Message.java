@@ -5,19 +5,39 @@ import com.google.common.base.Objects;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author ifeify
  */
 public class Message {
+    private String messageId;
     private String conversationId;
     private String sender;
     private String receipient;
     private String subject;
     private boolean read = false;
     private boolean replied = false;
-    private long timestamp = System.currentTimeMillis();
+    private long timestamp;
     private String body;
+
+    public Message() {
+        messageId = UUID.randomUUID().toString().replace("-", "");
+        timestamp = System.currentTimeMillis();
+    }
+
+    public Message(String messageId) {
+        this.messageId = messageId;
+        timestamp = System.currentTimeMillis();
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 
     public String getConversationId() {
         return conversationId;

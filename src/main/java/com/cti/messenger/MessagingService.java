@@ -3,6 +3,7 @@ package com.cti.messenger;
 import com.cti.common.exception.UserNotFoundException;
 import com.cti.service.UserService;
 import com.cti.smtp.Mailer;
+import org.glassfish.jersey.message.internal.MessageBodyProviderNotFoundException;
 
 import javax.inject.Inject;
 import java.text.MessageFormat;
