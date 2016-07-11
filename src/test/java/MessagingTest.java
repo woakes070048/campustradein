@@ -47,7 +47,7 @@ public class MessagingTest {
         userService.createNewUser(TestUtil.mockUser(buyer));
         userService.createNewUser(TestUtil.mockUser(seller));
 
-        Book book = TestUtil.newBookListedBy(seller);
+        Book book = TestUtil.newCppBookListedBy(seller);
         userService.createNewListing(book);
     }
 

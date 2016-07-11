@@ -22,7 +22,7 @@ public class TestUtil {
         return userAccount;
     }
 
-    static Book newBookListedBy(String username) {
+    static Book newCppBookListedBy(String username) {
         Book book = new Book();
         book.setTitle("Absolute C++");
         book.addAuthor("Walter J. Savitch");
@@ -30,8 +30,24 @@ public class TestUtil {
         book.setIsbn10("0321468937");
         book.addCategory("Computer Science");
         book.addCategory("C++");
+        book.addCategory("Programming");
         book.setCondition("Fairly new");
         book.setPrice(99.25);
+        book.setListedBy(username);
+        return book;
+    }
+
+    static Book newJavaBookListedBy(String username) {
+        Book book = new Book();
+        book.setTitle("Absolute Java");
+        book.addAuthor("Walter J. Savitch");
+        book.setIsbn13("9780136083825");
+        book.setIsbn10("013608382X");
+        book.addCategory("Computer Science");
+        book.addCategory("Java");
+        book.addCategory("Programming");
+        book.setCondition("Had it for 3 years");
+        book.setPrice(40);
         book.setListedBy(username);
         return book;
     }

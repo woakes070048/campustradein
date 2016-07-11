@@ -8,6 +8,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.IndexOptionDefaults;
+import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
@@ -36,9 +38,13 @@ public class BookstoreImpl implements Bookstore {
         books.createIndex(Indexes.compoundIndex(Indexes.descending("dateListedOn"),
                                                 Indexes.descending("price")));
 
-        books.createIndex(Indexes.compoundIndex(Indexes.descending("dateListedOn"),
-                                                Indexes.descending("price"),
-                                                Indexes.text("title")));
+        Document weights = new Document("title", 10);
+
+        IndexOptions indexOptions = new IndexOptions()
+                                        .weights(weights);
+        books.createIndex(Indexes.compoundIndex(Indexes.text("title"),
+                                                Indexes.descending("dateListedOn"),
+                                                Indexes.descending("price")), indexOptions);
     }
 
     @Override
