@@ -1,5 +1,6 @@
 package com.cti.controller;
 
+import org.apache.http.HttpStatus;
 import spark.Filter;
 import spark.Request;
 import spark.Response;
@@ -27,7 +28,7 @@ public class RequiresAuthenticationFilter implements Filter {
                 response.removeCookie("user_session");
                 response.removeCookie("logged_in");
                 response.removeCookie("dotcom_user");
-                halt();
+                halt(HttpStatus.SC_UNAUTHORIZED);
             }
 
         } catch(NullPointerException e) {
@@ -36,7 +37,7 @@ public class RequiresAuthenticationFilter implements Filter {
             response.removeCookie("dotcom_user");
             response.body("You better log in");
             response.redirect("/");
-            halt();
+            halt(HttpStatus.SC_UNAUTHORIZED);
         }
     }
 }

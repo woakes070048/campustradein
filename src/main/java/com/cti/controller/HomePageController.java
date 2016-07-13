@@ -16,6 +16,7 @@ public class HomePageController extends AbstractController {
     @Route
     public void getHomepage() {
         Spark.get("/", (request, response) -> {
+            System.out.println("HERRREEE");
             String loggedIn = request.cookie(Cookies.LOGGED_IN);
             String username = request.cookie(Cookies.USER_NAME);
             String signupWasSuccessful = request.cookie(Cookies.SIGNUP_SUCCESS);

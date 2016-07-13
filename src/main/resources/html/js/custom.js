@@ -48,43 +48,6 @@ $('#activator li').on('click', function(){
 	$(this).addClass('itemActive').siblings().removeClass('itemActive');
 });
 
-
-var owl = $("#owl-demo");
-// Custom Navigation Events
-$(".next").click(function(){
-	owl.trigger('owl.next');
-})
-$(".prev").click(function(){
-	owl.trigger('owl.prev');
-})
-
-/* 4. owl carousel */
-
-owl.owlCarousel({
-
-	// Most important owl features
-	items : 4,
-
-	//Autoplay
-	autoPlay : true,
-	stopOnHover : false,
-
-	// Navigation
-	navigation : false,
-	rewindNav : true,
-	scrollPerPage : false,
-
-	// Responsive
-	responsive: true,
-	responsiveRefreshRate : 200,
-	responsiveBaseWidth: window,
-
-	//Pagination
-	pagination : false,
-	paginationNumbers: false,
-
-});
-
 // 5. navigation scroll/swing code you can customize it . see documentation for furhter details
 
 $(".scroll").on('click',function(event){
@@ -101,7 +64,6 @@ $(".scroll").on('click',function(event){
 });
 
 // 6. Auto clicked
-
 $('#registerUser').on('click', function(){
 	$('#targetRegisterUser').trigger('click');
 });
@@ -112,7 +74,6 @@ $('#loginUser').on('click', function(){
 
 
 // 8. login/signup tooltip
-
 $('#targetLogInUser').on('click',function(){
 	$('#tooltip').css({
 		'margin-left':'120px'
@@ -124,11 +85,6 @@ $('#targetRegisterUser').on('click',function(){
 		'margin-left':'250px'
 	});
 });
-
-// 9. wow js plugin
-
-new WOW().init();
-
 
 // 10. vimeo video player control
 

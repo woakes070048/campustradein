@@ -721,6 +721,63 @@ footer p {
     left: 50%;
     padding: 20px;*/
 }
+
+#poweredByGoogle {
+    vertical-align: middle;
+}
+.bootstrap-tagsinput {
+    width: 100%;
+}
+.label {
+    line-height: 2 !important;
+}
+#dropZone {
+    cursor: pointer;
+    border: 2px dashed #0087F7;
+    min-height: 150px;
+}
+/*#addBookModal {
+    z-index:99999 !important;
+}
+.dragdropBuilder {
+    height:140px;
+    width:569px;
+    margin:17px auto;
+    float:none;
+    display:table;
+    background-color:#fff;
+    border:1px solid #f1f1f1;
+    border-radius:4px;
+    cursor:pointer
+}
+.dragdropBuilder i {
+    font-size:28px;
+    text-align:center;
+    display:table;
+    margin:0 auto;
+    float:none;
+    padding-top:35px;
+    color:#717171;
+}
+.dragdropBuilder h6 {
+    text-align:center;
+    color:#717171;
+    font-size:17px;
+    float:left;
+    padding-left:117px
+}
+.dragdropBuilder #file {
+    height:140px;
+    width:569px;
+    position:absolute;
+    background-color:rgba(0,0,0,.1);
+    padding-top:71px;
+    padding-left:296px;
+    border-radius:4px
+}
+#basics, .easy-autocomplete-container {
+    min-width:567px!important;
+}*/
 /* ====================================================
 
 		Media Quries for mobile and tablet devices
