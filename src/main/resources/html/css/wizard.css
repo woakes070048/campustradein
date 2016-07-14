@@ -1,0 +1,23 @@
+body {
+    padding-top: 70px;
+}
+/*.bootstrap-tagsinput {
+    width: 100%;
+}
+.label {
+    line-height: 2 !important;
+}*/
+#bookImages {
+    cursor: pointer;
+    border: 2px dashed #0087F7;
+    min-height: 350px;
+}
+
+.dz-message {
+    text-align: center;
+    font-family: Roboto;
+    font-size: 15px;
+    vertical-align: middle;
+    padding-top: 50px;
+    color: #555;
+}
