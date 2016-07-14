@@ -10,6 +10,8 @@ body {
 #bookImages {
     cursor: pointer;
     border: 2px dashed #0087F7;
+    border-color: #ccc;
+    color: #ccc;
     min-height: 350px;
 }
 
@@ -19,5 +21,5 @@ body {
     font-size: 15px;
     vertical-align: middle;
     padding-top: 50px;
-    color: #555;
+    color: #aaa;
 }

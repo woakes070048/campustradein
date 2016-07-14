@@ -64,57 +64,57 @@
                             <!-- book details list panel -->
                             <div class="step-pane active" data-step="1">
                                 <form id="bookDetailsForm" class="form-horizontal" action="" method="post">
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="isbnSearch" class="col-md-2 control-label">Search</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control" name="isbnSearch" placeholder="Enter ISBN (no dashes)">
+                                            <input type="text" class="form-control" id="isbnSearch" name="isbnSearch" placeholder="Enter ISBN">
                                         </div>
                                         <div class="col-md-3" id="poweredByGoogle">
                                             <img class="img-responsive control-label" src="img/powered_by_google_on_white.png" alt="" />
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="title" class="col-md-2 control-label">Title</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="bookTitle" class="form-control" name="title">
+                                            <input type="text" id="bookTitle" class="form-control" name="title" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="authors" class="col-md-2 control-label">Authors</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="authors" class="form-control" name="authors" readonly>
+                                            <input type="text" id="authors" class="form-control" name="authors" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="isbn13" class="col-md-2 control-label">ISBN 13</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="isbn13" class="form-control" name="isbn13" readonly>
+                                            <input type="text" id="isbn13" class="form-control" name="isbn13" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="isbn10" class="col-md-2 control-label">ISBN 10</label>
                                         <div class="col-md-3">
-                                            <input type="text" id="isbn10" class="form-control" name="isbn10" readonly>
+                                            <input type="text" id="isbn10" class="form-control" name="isbn10" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="category" class="col-md-2 control-label">Categories</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="tags" class="form-control" name="tags">
+                                            <input type="text" id="tags" class="form-control" name="tags" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-group-lg">
                                         <label for="price" class="col-md-2 control-label">Price</label>
                                         <div class="col-md-2">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">$</div>
-                                                <input type="text" id="price" class="form-control input-sm" name="price">
+                                            <div class="input-group input-group-lg">
+                                                <div class="input-group-addon"><strong>$</strong></div>
+                                                <input type="text" id="price" class="form-control" name="price">
                                             </div>
                                         </div>
                                     </div>
@@ -123,11 +123,7 @@
 
                             <!-- upload image -->
                             <div class="step-pane" data-step="2">
-                                <form class="dropzone" id="bookImages" method="post">
-                                    <div class="fallback">
-                                        <input type="file" name="file" multiple>
-                                    </div>
-                                </form>
+                                <form class="dropzone" id="bookImages" method="post"></form>
                             </div> <!-- end step pane and upload image -->
                         </div>
                     </div>
@@ -155,7 +151,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/0.11.1/bloodhound.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
     <script src="https://www.fuelcdn.com/fuelux/3.13.0/js/fuelux.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.6.2/jquery.mockjax.min.js"></script>
     <script type="text/javascript" src="js/wizard.js"></script>
 </body>
 </html>

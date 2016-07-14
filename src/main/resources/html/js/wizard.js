@@ -1,42 +1,14 @@
 $(document).ready(function() {
-    /** mock rest ful service */
-    // $.mockjax([
-    //     {
-    //         url: /^\/suggestions\/isbn\/([\d]+)$/,
-    //         urlParams: ["isbnNumber"],
-    //         dataType: 'json',
-    //         contentType: 'text/json',
-    //         responseTime: [350, 750], // simulate network laterncy of 750ms
-    //         status: 200,
-    //         responseText: {
-    //             "result" : "ok",
-    //             "data" : [
-    //                 {
-    //                     "previewLink": "https://www.googleapis.com/books/v1/volumes/XXdyQgAACAAJ",
-    //                     "title": "The C Book, Featuring the ANSI C Standard",
-    //                     "authors": ["Mike Banahan", "Declan Brady", "Mark Doran"],
-    //                     "publisher": "Addison-Wesley Longman",
-    //                     "publishedDate": "1991-01"
-    //                 }
-    //             ]
-    //         }
-    //     }, {
-    //         url: '/upload',
-    //         responseTime: 350, // simulate network laterncy of 750ms
-    //         status: 200
-    //     }
-    // ]);
-
-    /** fuel ux wizard */
-    $('#listBookWizard').wizard();
-
     /** drop zone image upload */
     Dropzone.autoDiscover = false;
     var dropzoneOptions = {
         url : '/upload',
         paramName : 'file',
         maxFileSize : 2, // MB
-        maxFiles : 2,
+        filesizeBase: 1024,
+        parallelUploads: 5,
+        maxFiles : 1,
+        addRemoveLinks: true,
         dictDefaultMessage: 'Drag images here or click to select one',
         acceptedFiles : 'image/*',
         headers: {
@@ -49,7 +21,7 @@ $(document).ready(function() {
             }
         }
     };
-    var imageDropzone = new Dropzone("#bookImages", dropzoneOptions);
+    var imageDropzone = new Dropzone("form#bookImages", dropzoneOptions);
     // make sure the file is 1024 x 764 pixels
     imageDropzone.on('thumbnail', function(file) {
         if(file.width < 640 || file.height < 480) {
@@ -60,6 +32,7 @@ $(document).ready(function() {
     });
 
     imageDropzone.on('addedFile', function(file) {
+        console.log('file was added');
         console.log(file);
     });
 
@@ -85,37 +58,49 @@ $(document).ready(function() {
                         'x-csrf-token' : $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
                         return asyncResults(response.data);
                     },
                     error: function(response) {
-                        console.log(response);
+                        $('#bookTitle').prop('disabled', false);
+                        $('#authors').prop('disabled', false);
+                        $('#isbn13').prop('disabled', false);
+                        $('#isbn10').prop('disabled', false);
+                        $('#tags').prop('disabled', false);
+                        return asyncResults();
                     }
                 });
             },
             templates: {
+                notFound: '<div><strong>No results found. Fill out form</strong></div>',
+                pending: '<div>Searching...</div>',
                 suggestion: function(book) {
                     return '<div>' + book.title + ' <em>by ' + book.authors + '</em></div>';
-                },
-                pending: '<div>Please wait...</div>',
-                notFound: '<div>Book not found. Enter details manually</div>'
+                }
             }
         })
         .on('typeahead:selected', function(e, suggestion, dataSetName) {
-            // revalidate form
-            $('#bookDetailsForm').formValidation('revalidateField', 'isbnSearch');
-            // populate the other fields
+            // populate the fields
+            $('#isbnSearch').typeahead('val', '');
             $('#bookTitle').val(suggestion.title);
             $('#authors').val(suggestion.authors);
             $('#isbn13').val(suggestion.isbn13);
             $('#isbn10').val(suggestion.isbn10);
             $('#tags').val(suggestion.tags);
+
+            $('#bookTitle').prop('disabled', true);
+            $('#authors').prop('disabled', true);
+            $('#isbn13').prop('disabled', true);
+            $('#isbn10').prop('disabled', true);
+            $('#tags').prop('disabled', true);
+            // revalidate form
+            $('#bookDetailsForm').formValidation('revalidateField', 'isbnSearch');
         })
         .on('typeahead:closed', function(e) {
             // Revalidate the state field
             $('#bookDetailsForm').formValidation('revalidateField', 'isbnSearch');
         });
 
+    /* form validation */
     $('#bookDetailsForm').formValidation({
         framework: 'bootstrap',
         icon: {
@@ -130,6 +115,13 @@ $(document).ready(function() {
                     notEmpty: {
                         message: 'ISBN is required'
                     },
+                    numeric: {
+                        transformer: function($field, validatorName, validator) {
+                            var value = $field.val();
+                            console.log(value.replace('-', ''));
+                            return value.replace('-', '');
+                        }
+                    },
                     isbn: {
                         message: 'The ISBN is not valid'
                     },
@@ -140,8 +132,61 @@ $(document).ready(function() {
                     }
                 }
             },
+            bookTitle: {
+                validators: {
+                    verbose: false,
+                    notEmpty: {
+                        message: 'Please enter book title'
+                    }
+                }
+            },
+            authors: {
+                validators: {
+                    verbose: false,
+                    notEmpty: {
+                        message: 'Please provide a comma separated string of authors '
+                    }
+                }
+            },
+            isbn13: {
+                validators: {
+                    verbose: false,
+                    notEmpty: {
+                        message: 'Please enter the ISBN13 number'
+                    },
+                    numeric: {
+                        message: 'No dashes allowed'
+                    },
+                    isbn: {
+                        message: 'ISBN13 is not valid'
+                    }
+                }
+            },
+            isbn10: {
+                validators: {
+                    verbose: false,
+                    notEmpty: {
+                        message: 'Please enter the ISBN10 number'
+                    },
+                    numeric: {
+                        message: 'No dashes allowed'
+                    },
+                    isbn: {
+                        message: 'ISBN10 is not valid'
+                    }
+                }
+            },
+            tags: {
+                validators: {
+                    verbose: false,
+                    notEmpty: {
+                        message: 'Please enter the ISBN13 number'
+                    }
+                }
+            },
             price: {
                 validators: {
+                    verbose: false,
                     notEmpty: {
                         message: 'Please name your price'
                     },
@@ -151,7 +196,29 @@ $(document).ready(function() {
                 }
             }
         }
-    }).on('click', '', function() {
-
     });
+
+    /** fuel ux wizard */
+    $('#listBookWizard')
+        .wizard()
+        .on('actionclicked.fu.wizard', function(e, data) {
+            var fv = $('#bookDetailsForm').data('formValidation'), // FormValidation instance
+            step = data.step,                              // Current step
+            // The current step container
+            $container = $('#bookDetailsForm').find('.step-pane[data-step="' + step +'"]');
+
+            // Validate the container
+            fv.validate();
+
+            var isValidStep = fv.isValid();
+            console.log('valid or nah..' + isValidStep);
+            if (isValidStep === false || isValidStep === null) {
+                // Do not jump to the target panel
+                e.preventDefault();
+            }
+            console.log('valid form');
+        })
+        .on('finished.fu.wizard', function(e) {
+            console.log('thanks');
+        });
 });
