@@ -16,7 +16,13 @@ repositories {
 
 run {
 	mainClassName = "com.cti.App"
-	applicationDefaultJvmArgs = ["-Dport=8080", "-DdomainName=http://www.campustradein.com"]
+    // for test purposes only. DO NOT use in production
+	applicationDefaultJvmArgs = ["-Dport=8080",
+                                    "-DdomainName=http://www.campustradein.com",
+                                    "-DKEYSTORE_ALIAS=campustradein",
+                                    "-DKEYSTORE_PASS=MahFi3ph",
+                                    "-DKEYSTORE_PATH=keystore.jks"
+                                ]
 }
 
 test {
@@ -34,6 +40,7 @@ dependencies {
     compile 'commons-codec:commons-codec:1.10'
     compile 'com.sparkjava:spark-core:2.3'
     compile 'org.freemarker:freemarker:2.3.23'
+    compile 'io.jsonwebtoken:jjwt:0.6.0'
     compile 'com.google.inject:guice:4.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.google.guava:guava:19.0'

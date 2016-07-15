@@ -1,5 +1,6 @@
 package com.cti.service;
 
+import com.cti.App;
 import com.cti.common.auth.Credential;
 import com.cti.common.auth.Password;
 import com.cti.common.auth.Password.PasswordParser;
@@ -9,14 +10,20 @@ import com.cti.common.exception.PasswordParseException;
 import com.cti.common.exception.UserNotFoundException;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.compression.CompressionCodecs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class AuthenticationService {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+
 	@Inject
     private UserRepository userRepository;
     @Inject
@@ -54,6 +61,23 @@ public class AuthenticationService {
         } catch (EncryptionException e) {
             throw new AuthenticationException(e);
         }
+    }
+
+    /**
+     * Generates a JSON Web Token (JWTs) for the user
+     * @param username name of registered user
+     * @return base64 encoded JWT
+     */
+    public static String generateAuthToken(String username) {
+        String jws = Jwts.builder()
+                .setIssuer(App.ISSUER)
+                .setSubject(username)
+                .setExpiration(Timestamp.valueOf(LocalDateTime.now().plusDays(30)))
+                .compressWith(CompressionCodecs.DEFLATE)
+                .signWith(SignatureAlgorithm.HS512, App.KEY)
+                .compact();
+
+        return jws;
     }
 
     /**

@@ -13,23 +13,14 @@ import java.util.List;
 public class Book {
     @SerializedName("id")
     private String bookId;
-
     private String title;
-
     private List<String> authors;
-
     private String isbn10;
-
     private String isbn13;
-
     private String listedBy;
-
     private Date dateListed = new Date();
-
     private List<String> categories;
-
     private String condition;
-
     private double price;
 
     public String getBookId() {

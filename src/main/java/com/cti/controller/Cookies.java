@@ -10,5 +10,6 @@ public final class Cookies {
     public static final String EMAIL = "user_email";
 
     public static final String SIGNUP_SUCCESS = "signup_success";
-    public static final String ACCOUNT_ACTIVATED = "account_activated";
+    public static final String XCSRF_TOKEN = "csrf-token";
+    public static final String ACCESS_TOKEN = "session";
 }

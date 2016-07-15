@@ -9,7 +9,7 @@
 	<meta name="keywords" body="books,college books,top rated college textbook marketplace">
 	<meta name="author" body="campustradein">
 	<meta name="viewport" body="width=device-width, initial-scale=1">
-	
+
 	<!-- style sheets -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/animate.css">
@@ -49,7 +49,7 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> List a book</a></li>
+							<li><a href="/listbook"><i class="fa fa-plus" aria-hidden="true"></i> List a book</a></li>
 							<li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> Bookshelf</a></li>
 							<li><a href="#"><i class="fa fa-inbox" aria-hidden="true"></i> Inbox</a></li>
 							<li role="separator" class="divider"></li>

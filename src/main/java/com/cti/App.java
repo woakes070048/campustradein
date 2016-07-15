@@ -13,19 +13,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
 
+import javax.crypto.SecretKey;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.util.Set;
 
 public class App {
+    public static Key KEY;
+
+    public static final String ISSUER = System.getProperty("domainName");
+
+    private static final String KEYSTORE_ALIAS = System.getProperty("KEYSTORE_ALIAS");
+    private static final String KEYSTORE_PATH = System.getProperty("KEYSTORE_PATH");
+    private static final String KEYSTORE_PASSWORD = System.getProperty("KEYSTORE_PASS");
+
+
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 	
 	public static void main(String[] args) {
 		try {
-			if(System.getProperty("port") == null && System.getProperty("domainName") == null) {
-				logger.error("Please specify a port and domain name");
+			if(System.getProperty("port") == null &&
+                        System.getProperty("domainName") == null &&
+                                KEYSTORE_PATH == null &&
+                                 KEYSTORE_PASSWORD == null && KEYSTORE_ALIAS == null) {
+				logger.error("port or domainName or keystore path or keystore password not set");
 				System.exit(-1);
 			}
+
     		new App(Integer.valueOf(System.getProperty("port")));
     	} catch(Exception e) {
     		logger.error("Failed to launch application", e);
@@ -33,11 +51,19 @@ public class App {
 	}
 	
 	public App(int port) throws Exception {
+        getSigningKey();
 		Spark.port(port);
 		Spark.staticFileLocation("/html");
 		initializeControllers();
-//        Spark.awaitInitialization();
+        Spark.awaitInitialization();
 	}
+
+    private void getSigningKey() throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableKeyException {
+        FileInputStream inputStream = new FileInputStream(KEYSTORE_PATH);
+        KeyStore keyStore = KeyStore.getInstance("JCEKS");
+        keyStore.load(inputStream, KEYSTORE_PASSWORD.toCharArray());
+        KEY = keyStore.getKey(KEYSTORE_ALIAS, KEYSTORE_PASSWORD.toCharArray());
+    }
 
 	/**
 	 * Find all controller classes annotated with the {@code Controller} annotation

@@ -23,12 +23,10 @@ public class LoginController extends AbstractController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Inject
     private AuthenticationService authenticationService;
-    @Inject
-    private SessionRepository sessionRepository;
 
     @Route
     public void handleLogin() {
-        Spark.post("/login", (request, response) -> {
+        Spark.post("/login", "application/json", (request, response) -> {
             try {
                 JsonObject jsonResponse = new JsonObject();
                 final String authorization = request.headers("Authorization");
@@ -41,10 +39,12 @@ public class LoginController extends AbstractController {
                     String username = values[0];
                     String password = values[1];
                     Credential credential = authenticationService.authenticate(username, password);
-                    String sessionID = sessionRepository.newSession(credential.getUsername());
-                    response.cookie(Cookies.USER_SESSION, sessionID, 604800); // expires in a week
-                    response.cookie(Cookies.USER_NAME, credential.getUsername(), 604800);
-                    response.cookie(Cookies.LOGGED_IN, "yes", 604800);
+                    String accessToken = AuthenticationService.generateAuthToken(username);
+
+                    response.cookie(Cookies.ACCESS_TOKEN, accessToken);
+                    response.cookie(Cookies.USER_NAME, credential.getUsername());
+                    response.cookie(Cookies.EMAIL, credential.getEmail());
+                    response.header("Authorization", "Bearer " + accessToken);
 
                     jsonResponse.addProperty("result", "ok");
                     jsonResponse.addProperty("redirect", "/");

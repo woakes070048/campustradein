@@ -30,9 +30,7 @@ public class AutocompleteBookController extends AbstractController {
 
     @Route
     public void handleISBNSearch() {
-        Spark.before("/suggestions/*", new RequiresJsonFilter());
-
-        Spark.get("/suggestions/isbn/:isbn", (request, response) -> {
+        Spark.get("/suggestions/isbn/:isbn", "application/json", (request, response) -> {
             String isbnNumber = request.params(":isbn");
             Isbn isbn = new Isbn(isbnNumber);
             Optional<BookInfo> result = bookService.getBookDetails(isbn);

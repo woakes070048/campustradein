@@ -4,8 +4,6 @@ import com.cti.common.annotation.Controller;
 import com.cti.common.annotation.Route;
 import com.cti.controller.AbstractController;
 import com.cti.controller.RequiresAuthenticationFilter;
-import com.cti.controller.RequiresBodyFilter;
-import com.cti.controller.RequiresJsonFilter;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
@@ -26,8 +24,7 @@ public class MessagingController extends AbstractController {
     @Route
     public void handleSendMessage() {
         Spark.before(new RequiresAuthenticationFilter());
-        Spark.before(new RequiresBodyFilter());
-        Spark.before(new RequiresJsonFilter());
+//        Spark.before(new RequiresBodyFilter());
 
         Spark.post("/message", (request, response) -> {
             try {

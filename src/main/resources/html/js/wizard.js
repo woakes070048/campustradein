@@ -61,6 +61,7 @@ $(document).ready(function() {
                         'Content-Type' : 'application/json',
                         'Accept' : 'application/json',
                         'x-csrf-token' : $('meta[name="csrf-token"]').attr('content')
+                        // send jwt access token also
                     },
                     success: function(response) {
                         return asyncResults(response.data);
@@ -226,6 +227,16 @@ $(document).ready(function() {
             dataType: 'json'
         }).success(function(response) {
             if(response.result == 'ok') {
+              bootbox.dialog({
+                  message: 'We got your book',
+                  title: 'success',
+                  buttons: {
+                      success: {
+                          label: 'Close',
+                          className: 'btn-success'
+                      }
+                  }
+              });
                 window.location.href = response.redirect;
             } else { // just in case
                 $('#submitButton').prop('disabled', false);

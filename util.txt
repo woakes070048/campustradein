@@ -1,0 +1,2 @@
+# generate secret for signing JWTs
+keytool -genseckey -alias campustradein -keyalg AES -keysize 128 -storetype JCEKS -keystore keystore.jks

@@ -1,5 +1,6 @@
 package com.cti.controller;
 
+import com.cti.App;
 import com.cti.common.annotation.Controller;
 import com.cti.common.annotation.Route;
 import com.cti.common.auth.VerificationToken;
@@ -9,6 +10,7 @@ import com.cti.common.exception.UserAlreadyExistsException;
 import com.cti.model.UserAccount;
 import com.cti.repository.SessionRepository;
 import com.cti.repository.TokenRepository;
+import com.cti.service.AuthenticationService;
 import com.cti.service.UserService;
 import com.cti.smtp.Email;
 import com.cti.smtp.SMTPMailException;
@@ -35,10 +37,6 @@ public class RegistrationController extends AbstractController {
 
     @Inject
     private UserService userService;
-
-    @Inject
-    private SessionRepository sessionRepository;
-
     @Inject
     private TokenRepository tokenRepository;
 
@@ -81,25 +79,22 @@ public class RegistrationController extends AbstractController {
 
     @Route
     public void handleSignup() {
-        Spark.before(Routes.SIGNUP, new RequiresJsonFilter());
-        Spark.before(Routes.SIGNUP, new RequiresBodyFilter());
-
-        Spark.post(Routes.SIGNUP, (request, response) -> {
+        Spark.post(Routes.SIGNUP, "application/json", (request, response) -> {
             try {
                 System.out.println(request.body());
                 UserAccount userAccount = gson.fromJson(request.body(), UserAccount.class);
                 JsonObject jsonResponse = new JsonObject();
-                Set<ConstraintViolation<UserAccount>> violations = validator.validate(userAccount);
-                if(violations.size() > 0) { // errors with input
-                    Map<String, String> errors = new HashMap<>();
-                    for(ConstraintViolation v : violations) {
-                        logger.error("Field {} has error {}", v.getPropertyPath(), v.getMessage());
-                        errors.put(v.getPropertyPath().toString(), v.getMessage());
-                    }
-                    jsonResponse.addProperty("result", "error");
-//                    jsonResponse.addProperty("errors", errors);
-                    return jsonResponse;
-                }
+//                Set<ConstraintViolation<UserAccount>> violations = validator.validate(userAccount);
+//                if(violations.size() > 0) { // errors with input
+//                    Map<String, String> errors = new HashMap<>();
+//                    for(ConstraintViolation v : violations) {
+//                        logger.error("Field {} has error {}", v.getPropertyPath(), v.getMessage());
+//                        errors.put(v.getPropertyPath().toString(), v.getMessage());
+//                    }
+//                    jsonResponse.addProperty("result", "error");
+////                    jsonResponse.addProperty("errors", errors);
+//                    return jsonResponse;
+//                }
                 userService.createNewUser(userAccount);
 
                 // send activation notification email to the user
@@ -111,7 +106,7 @@ public class RegistrationController extends AbstractController {
                 VerificationToken verificationToken = new VerificationToken(userAccount.getUsername());
                 tokenRepository.addToken(verificationToken);
                 StringBuilder sb = new StringBuilder();
-				sb.append(System.getProperty("domainName"));
+				sb.append(App.ISSUER);
 				sb.append(Routes.ACTIVATE_ACCOUNT);
 				sb.append("?q=");
 				sb.append(verificationToken.getToken());
@@ -124,11 +119,12 @@ public class RegistrationController extends AbstractController {
 
                 // start user session
                 // TODO: load balancer will have to set HttpOnly and secure flags for cookies
-                String sessionID = sessionRepository.newSession(userAccount.getUsername());
-                response.cookie(Cookies.USER_SESSION, sessionID, 604800); // expires in a week
-                response.cookie(Cookies.USER_NAME, userAccount.getUsername(), 604800);
+                String accessToken = AuthenticationService.generateAuthToken(userAccount.getUsername());
+                response.cookie(Cookies.ACCESS_TOKEN, accessToken);
+                response.cookie(Cookies.USER_NAME, userAccount.getUsername());
                 response.cookie(Cookies.EMAIL, userAccount.getEmail());
-                response.cookie(Cookies.LOGGED_IN, "yes", 604800);
+                response.header("Authorization", "Bearer " + accessToken);
+
                 response.cookie(Cookies.SIGNUP_SUCCESS, "true");
                 response.status(HttpStatus.SC_CREATED);
                 response.header("Content-Type", "application/json");

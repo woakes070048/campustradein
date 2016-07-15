@@ -26,7 +26,7 @@ public class UserController extends AbstractController {
 
     @Route
     public void addBook() {
-        Spark.post("users/:user/books", (request, response) -> {
+        Spark.post("/books", (request, response) -> {
             Book book = gson.fromJson(request.body(), Book.class);
             userService.createNewListing(book);
             return book;
@@ -35,7 +35,7 @@ public class UserController extends AbstractController {
 
     @Route
     public void deleteBook() {
-        Spark.delete("users/:user/books/:id", (request, response) -> {
+        Spark.delete("/books/:id", (request, response) -> {
             String bookId = StringEscapeUtils.escapeHtml4(request.params(":id"));
             String username = StringEscapeUtils.escapeHtml4(request.params(":user"));
             userService.deleteListing(username, bookId);
@@ -45,7 +45,7 @@ public class UserController extends AbstractController {
 
     @Route
     public void updateBook() {
-        Spark.put("users/:user/books/:id", (request, response) -> {
+        Spark.put("/books/:id", (request, response) -> {
 
             return null;
         });
@@ -53,7 +53,7 @@ public class UserController extends AbstractController {
 
     @Route
     public void getBook() {
-        Spark.get("users/:user/books/:id", (request, response) -> {
+        Spark.get("/books/:id", (request, response) -> {
             String bookId = StringEscapeUtils.escapeHtml4(request.params(":id"));
             String username = StringEscapeUtils.escapeHtml4(request.params(":user"));
             Optional<Book> result = userService.getListing(bookId);

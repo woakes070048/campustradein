@@ -16,16 +16,16 @@ public class HomePageController extends AbstractController {
     @Route
     public void getHomepage() {
         Spark.get("/", (request, response) -> {
-            System.out.println("HERRREEE");
-            String loggedIn = request.cookie(Cookies.LOGGED_IN);
             String username = request.cookie(Cookies.USER_NAME);
             String signupWasSuccessful = request.cookie(Cookies.SIGNUP_SUCCESS);
             String email = request.cookie(Cookies.EMAIL);
 
             Map<String, String> model = new HashMap<>();
-            if(loggedIn != null && username != null) {
+            if(username != null && !username.isEmpty()) {
                 model.put("username", username);
             }
+            // TODO: not a clean approach but works for now
+            // technical debt
             if(signupWasSuccessful != null && email != null) {
                 // this cookie is set by the registration controller to indicate a successful signup
                 model.put("signupWasSuccessful", "true");
