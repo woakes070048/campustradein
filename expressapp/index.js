@@ -34,6 +34,13 @@ app.get('/suggestions/isbn/:isbn', function(req, res) {
     res.send(JSON.stringify(responseText));
 });
 
+app.post('/books', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200);
+    // res.send(req.params);
+    res.send(JSON.stringify(responseText));
+});
+
 app.post( '/upload', upload.single( 'file' ), function( req, res, next ) {
   if ( !req.file.mimetype.startsWith( 'image/' ) ) {
     return res.status( 422 ).json( {

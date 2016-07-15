@@ -154,7 +154,7 @@ $(document).ready(function() {
 			contentType: 'application/json',
 			dataType: 'json',
 		}).success(function(response) {
-			$form.attr('disabled', true);
+			$form.attr('disabled', false);
 			if(response.result === 'error') {
 				// let them know what fields are invalid
 				// but it should not be though?? Hmm??

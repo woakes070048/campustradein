@@ -1,47 +1,52 @@
 $(document).ready(function() {
     /** drop zone image upload */
-    Dropzone.autoDiscover = false;
-    var dropzoneOptions = {
-        url : '/upload',
-        paramName : 'file',
-        maxFileSize : 2, // MB
-        filesizeBase: 1024,
-        parallelUploads: 5,
-        maxFiles : 1,
-        addRemoveLinks: true,
-        dictDefaultMessage: 'Drag images here or click to select one',
-        acceptedFiles : 'image/*',
-        headers: {
-            'x-csrf-token' : $('meta[name="csrf-token"]').attr('content')
-        },
-        accept: function(file, done) {
-            file.acceptDimensions = done;
-            file.rejectDimensions = function() {
-                done('File is too small. Image must be at least 640 by 480 pixels in size');
-            }
-        }
-    };
-    var imageDropzone = new Dropzone("form#bookImages", dropzoneOptions);
-    // make sure the file is 1024 x 764 pixels
-    imageDropzone.on('thumbnail', function(file) {
-        if(file.width < 640 || file.height < 480) {
-            file.rejectDimensions;
-        } else {
-            file.acceptDimensions;
-        }
-    });
-
-    imageDropzone.on('addedFile', function(file) {
-        console.log('file was added');
-        console.log(file);
-    });
-
-    imageDropzone.on('sending', function(file, xhr, formData) {
-        console.log('sending file');
-        console.log(formData);
-    });
+    // Dropzone.autoDiscover = false;
+    // var dropzoneOptions = {
+    //     url : '/upload',
+    //     paramName : 'file',
+    //     maxFileSize : 2, // MB
+    //     filesizeBase: 1024,
+    //     parallelUploads: 5,
+    //     maxFiles : 1,
+    //     addRemoveLinks: true,
+    //     dictDefaultMessage: 'Drag images here or click to select one',
+    //     acceptedFiles : 'image/*',
+    //     headers: {
+    //         'x-csrf-token' : $('meta[name="csrf-token"]').attr('content')
+    //     },
+    //     accept: function(file, done) {
+    //         file.acceptDimensions = done;
+    //         file.rejectDimensions = function() {
+    //             done('File is too small. Image must be at least 640 by 480 pixels in size');
+    //         }
+    //     }
+    // };
+    // var imageDropzone = new Dropzone("form#bookImages", dropzoneOptions);
+    // // make sure the file is 1024 x 764 pixels
+    // imageDropzone.on('thumbnail', function(file) {
+    //     if(file.width < 640 || file.height < 480) {
+    //         file.rejectDimensions;
+    //     } else {
+    //         file.acceptDimensions;
+    //     }
+    // });
+    //
+    // imageDropzone.on('addedFile', function(file) {
+    //     console.log('file was added');
+    //     console.log(file);
+    // });
+    //
+    // imageDropzone.on('sending', function(file, xhr, formData) {
+    //     console.log('sending file');
+    //     console.log(formData);
+    // });
 
     /** Typeahead book suggestions **/
+    var userInput = null;
+    $('#isbnSearch').on('change paste keyup', function() {
+        userInput = $(this).val();
+    });
+
     $('#bookDetailsForm')
         .find('input[name="isbnSearch"]')
         .typeahead({
@@ -79,8 +84,7 @@ $(document).ready(function() {
             }
         })
         .on('typeahead:selected', function(e, suggestion, dataSetName) {
-            // populate the fields
-            $('#isbnSearch').typeahead('val', '');
+            $('#isbnSearch').typeahead('val', userInput);
             $('#bookTitle').val(suggestion.title);
             $('#authors').val(suggestion.authors);
             $('#isbn13').val(suggestion.isbn13);
@@ -116,9 +120,9 @@ $(document).ready(function() {
                         message: 'ISBN is required'
                     },
                     numeric: {
+                        message: 'ISBN should be a number',
                         transformer: function($field, validatorName, validator) {
                             var value = $field.val();
-                            console.log(value.replace('-', ''));
                             return value.replace('-', '');
                         }
                     },
@@ -196,6 +200,59 @@ $(document).ready(function() {
                 }
             }
         }
+    }).on('success.form.fv', function(e) {
+        e.preventDefault();
+    });
+
+    $('#bookDetailsForm').submit(function(e) {
+        var authors = $("#authors").val().split(',');
+        var tags = $('#tags').val().split(',');
+        var bookDetails = {
+            'title' : $('#bookTitle').val(),
+            'authors' : authors,
+            'isbn13' : $('#isbn13').val(),
+            'isbn10' : $('#isbn10').val(),
+            'tags' : tags,
+            'condition' : $('#condition').val(),
+            'price' : $('#price').val()
+        };
+        console.log(bookDetails);
+        var $form = $(e.target);
+        $.ajax({
+            url: '/books',
+            type: 'POST',
+            data: JSON.stringify(bookDetails),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).success(function(response) {
+            if(response.result == 'ok') {
+                window.location.href = response.redirect;
+            } else { // just in case
+                $('#submitButton').prop('disabled', false);
+                bootbox.dialog({
+                    message: 'An error occurred listing your book',
+                    title: 'Error',
+                    buttons: {
+                        danger: {
+                            label: 'Close',
+                            className: 'btn-danger'
+                        }
+                    }
+                });
+            }
+        }).error(function(response) {
+            $('#submitButton').prop('disabled', false);
+            bootbox.dialog({
+                message: 'An error occurred listing your book',
+                title: 'Error. Please try again',
+                buttons: {
+                    danger: {
+                        label: 'Close',
+                        className: 'btn-danger'
+                    }
+                }
+            });
+        });
     });
 
     /** fuel ux wizard */
@@ -207,16 +264,13 @@ $(document).ready(function() {
             // The current step container
             $container = $('#bookDetailsForm').find('.step-pane[data-step="' + step +'"]');
 
-            // Validate the container
+            // Validate the book details form
             fv.validate();
-
             var isValidStep = fv.isValid();
-            console.log('valid or nah..' + isValidStep);
             if (isValidStep === false || isValidStep === null) {
-                // Do not jump to the target panel
+                // force user to fix errors
                 e.preventDefault();
             }
-            console.log('valid form');
         })
         .on('finished.fu.wizard', function(e) {
             console.log('thanks');
